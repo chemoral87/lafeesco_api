@@ -1,5 +1,9 @@
 <?php
 
+Route::get('test', function () {
+  return "ok test - " . date('d  Y h:i:s A');
+});
+
 Route::group(['middleware' => ['api'], 'prefix' => 'auth'], function ($router) {
   Route::post('login', 'AuthController@login');
   Route::post('logout', 'AuthController@logout');
