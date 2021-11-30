@@ -19,7 +19,7 @@ return [
   'paths' => ['api/*'],
   'allowed_methods' => ['*'],
 
-  'allowed_origins' => ['http://localhost:*', 'http://localhost:3000', '*'],
+  'allowed_origins' => ['http://localhost:*', 'http://localhost:3000', 'https://rcdesarrolladora.cloudns.ph', '*'],
 
   'allowed_origins_patterns' => [],
 
