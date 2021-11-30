@@ -19,7 +19,7 @@ return [
   'paths' => ['api/*'],
   'allowed_methods' => ['*'],
 
-  'allowed_origins' => ['http://localhost:*', 'http://localhost:3000', '*.amplifyapp.com'],
+  'allowed_origins' => ['*'],
 
   'allowed_origins_patterns' => [],
 
