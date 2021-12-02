@@ -1,13 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Resources\RoleShowResource;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller {
   // https://codingdriver.com/laravel-user-roles-and-permissions-tutorial-with-example.html
   public function index(Request $request) {
-
     $query = Role::query();
     $itemsPerPage = $request->itemsPerPage;
     $sortBy = $request->get('sortBy');
@@ -18,6 +18,11 @@ class RoleController extends Controller {
     }
     $roles = $query->with("permissions")->paginate($itemsPerPage);
     return $roles;
+  }
+
+  public function show(Request $request, $id) {
+    $userResource = new RoleShowResource(Role::find($id));
+    return response()->json($userResource);
   }
 
   public function filter(Request $request) {
@@ -59,8 +64,18 @@ class RoleController extends Controller {
     return ['success' => __('messa.role_update')];
   }
 
+  public function children(Request $request, $id) {
+    $role = Role::find($id);
+    if ($role) {
+      $permissions_ids = $request->permissions_ids;
+      $role->permissions()->sync($permissions_ids);
+    }
+    return ['success' => __('messa.role_permission_update')];
+  }
+
   public function delete($id) {
     Role::find($id)->delete();
     return ['success' => __('messa.role_delete')];
   }
+  
 }

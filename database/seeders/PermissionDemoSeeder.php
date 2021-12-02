@@ -67,8 +67,7 @@ class PermissionDemoSeeder extends Seeder {
     Role::create(['name' => 'cashier']);
     Role::create(['name' => 'leader']);
     Role::create(['name' => 'worker']);
-    Role::create(['name' => 'auditor
-    ', ]);
+    Role::create(['name' => 'auditor']);
 
     // create demo users
     $user = \App\Models\User::factory()->create([

@@ -63,4 +63,9 @@ class PermissionController extends Controller {
     ];
   }
 
+  public function delete($id) {
+    Permission::find($id)->delete();
+    return ['success' => __('messa.permission_delete')];
+  }
+
 }

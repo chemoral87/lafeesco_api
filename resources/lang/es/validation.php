@@ -148,6 +148,8 @@ return [
 
   'attributes' => [
     'name' => "Nombre",
+    'last_name' => "Apellido Paterno",
+    'second_last_name' => "Apellido Materno",
   ],
 
 ];
