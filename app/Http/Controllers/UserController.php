@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\UserShowResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller {
@@ -13,9 +14,14 @@ class UserController extends Controller {
     $itemsPerPage = $request->itemsPerPage;
     $sortBy = $request->get('sortBy');
     $sortDesc = $request->get('sortDesc');
+    $filter = $request->get("filter");
+
     foreach ($request->get('sortBy') as $index => $column) {
       $sortDirection = ($sortDesc[$index] == 'true') ? 'DESC' : 'ASC';
       $query = $query->orderBy($column, $sortDirection);
+    }
+    if ($filter) { // filter
+      $query->where(DB::raw("CONCAT_WS(' ',name, last_name, second_last_name)"), "like", "%" . $filter . "%");
     }
     $users = $query->with("roles")->with("permissions")->paginate($itemsPerPage);
     return $users;

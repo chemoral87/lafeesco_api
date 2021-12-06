@@ -12,10 +12,16 @@ class RoleController extends Controller {
     $itemsPerPage = $request->itemsPerPage;
     $sortBy = $request->get('sortBy');
     $sortDesc = $request->get('sortDesc');
+    $filter = $request->get("filter");
+
     foreach ($request->get('sortBy') as $index => $column) {
       $sortDirection = ($sortDesc[$index] == 'true') ? 'DESC' : 'ASC';
       $query = $query->orderBy($column, $sortDirection);
     }
+    if ($filter) {
+      $query->where("name", "like", "%" . $filter . "%");
+    }
+
     $roles = $query->with("permissions")->paginate($itemsPerPage);
     return $roles;
   }
@@ -28,6 +34,7 @@ class RoleController extends Controller {
   public function filter(Request $request) {
     $filter = $request->queryText;
     $ids = isset($request->ids) ? $request->ids : [];
+
     $roles = Role::select("name", "id")
       ->whereNotIn("id", $ids)
       ->where("name", "like", "%" . $filter . "%")
@@ -44,23 +51,15 @@ class RoleController extends Controller {
     $role = Role::create(['name' => $request->input('name')]);
     $role->syncPermissions($request->permissions);
 
-    return [
-      'success' => __('messa.role_create'),
-    ];
+    return ['success' => __('messa.role_create')];
   }
 
   public function update(Request $request, $id) {
-    $this->validate($request, [
-      'name' => 'required',
-      // 'permissions' => 'required',
-    ]);
-
+    $this->validate($request, ['name' => 'required']);
     $role = Role::find($id);
     $role->name = $request->input('name');
     $role->save();
-
-    $role->syncPermissions($request->input('permissions'));
-
+    // $role->syncPermissions($request->input('permissions'));
     return ['success' => __('messa.role_update')];
   }
 
@@ -77,5 +76,5 @@ class RoleController extends Controller {
     Role::find($id)->delete();
     return ['success' => __('messa.role_delete')];
   }
-  
+
 }
