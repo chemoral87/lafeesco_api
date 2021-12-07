@@ -6,17 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject {
+class User extends Authenticatable implements JWTSubject, AuditableContract {
   use HasApiTokens, HasFactory, Notifiable, HasRoles;
+  use Auditable;
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var string[]
-   */
   protected $fillable = [
     'name',
     'last_name',

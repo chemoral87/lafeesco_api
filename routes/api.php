@@ -12,7 +12,7 @@ Route::group(["middleware" => ["api"], "prefix" => "auth"], function ($router) {
   Route::post("user", "{$controller}@me");
 });
 
-Route::group(["prefix" => "users"], function () {
+Route::group(["prefix" => "users", "middleware" => ['jwt.verify']], function () {
   $controller = "UserController";
   Route::get("/", "{$controller}@index");
   Route::get("/{id}", "{$controller}@show");
@@ -23,7 +23,7 @@ Route::group(["prefix" => "users"], function () {
   Route::delete("/{id}", "UserController@delete");
 });
 
-Route::group(["prefix" => "roles"], function () {
+Route::group(["prefix" => "roles", "middleware" => ['jwt.verify']], function () {
   $controller = "RoleController";
   Route::get("/", "{$controller}@index");
   Route::get("/{id}", "{$controller}@show");
@@ -34,7 +34,7 @@ Route::group(["prefix" => "roles"], function () {
   Route::put("/{id}/children", "{$controller}@children");
 });
 
-Route::group(["prefix" => "permissions"], function () {
+Route::group(["prefix" => "permissions", "middleware" => ['jwt.verify']], function () {
   $controller = "PermissionController";
   Route::get("/", "{$controller}@index");
   Route::get("/filter", "{$controller}@filter");

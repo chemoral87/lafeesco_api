@@ -32,6 +32,13 @@ class PermissionDemoSeeder extends Seeder {
     Permission::create(['name' => 'permission-update']);
     Permission::create(['name' => 'permission-delete']);
 
+    Permission::create(['name' => 'investmentcontract-index']);
+    Permission::create(['name' => 'investmentcontract-authorize']);
+    Permission::create(['name' => 'investmentcontract-reject']);
+
+    Permission::create(['name' => 'contract-index']);
+    Permission::create(['name' => 'contract-update']);
+    Permission::create(['name' => 'contract-authorize']);
     Permission::create(['name' => 'contract-my-index']);
     Permission::create(['name' => 'contract-my-new']);
 
@@ -55,13 +62,19 @@ class PermissionDemoSeeder extends Seeder {
     $role1->givePermissionTo('permission-create');
     $role1->givePermissionTo('permission-update');
     $role1->givePermissionTo('permission-delete');
+
     // gets all permissions via Gate::before rule; see AuthServiceProvider
 
     $role2 = Role::create(['name' => 'admin']);
 
-    $role3 = Role::create(['name' => 'investor']);
-    $role3->givePermissionTo('contract-my-index');
-    $role3->givePermissionTo('contract-my-new');
+    $role_inversor = Role::create(['name' => 'investor']);
+    $role_inversor->givePermissionTo('contract-my-index');
+    $role_inversor->givePermissionTo('contract-my-new');
+
+    $role_contract_manager = Role::create(['name' => 'contract-manager']);
+    $role_contract_manager->givePermissionTo('contract-index');
+    $role_contract_manager->givePermissionTo('contract-update');
+    $role_contract_manager->givePermissionTo('contract-authorize');
 
     Role::create(['name' => 'publisher']);
     Role::create(['name' => 'cashier']);
@@ -82,10 +95,26 @@ class PermissionDemoSeeder extends Seeder {
     $user = \App\Models\User::factory()->create([
       'name' => 'Arturo',
       'last_name' => 'Peniche',
-      'email' => 'chemoral87@gamil.com',
+      'email' => 'chemoral87@gmail.com',
       'password' => Hash::make('admin'),
     ]);
     $user->assignRole($role2);
+
+    $user_valeria = \App\Models\User::factory()->create([
+      'name' => 'Valeria',
+      'last_name' => 'Dominguez',
+      'email' => 'valeria@gmail.com',
+      'password' => Hash::make('admin'),
+    ]);
+    $user_valeria->assignRole($role_contract_manager);
+
+    $user_juan = \App\Models\User::factory()->create([
+      'name' => 'Juan',
+      'last_name' => 'Perez',
+      'email' => 'inversor@gmail.com',
+      'password' => Hash::make('admin'),
+    ]);
+    $user_juan->assignRole($role_inversor);
 
     // $user = \App\Models\User::factory()->create([
     //   'name' => 'Sergio',
