@@ -114,13 +114,5 @@ class PermissionDemoSeeder extends Seeder {
     ]);
     $user_juan->assignRole($role_inversor);
 
-    // $user = \App\Models\User::factory()->create([
-    //   'name' => 'Sergio',
-    //   'last_name' => 'Morales',
-    //   'second_last_name' => 'Parra',
-    //   'email' => 'superadmin@example.com',
-    //   'password' => Hash::make('admin'),
-    // ]);
-    // $user->assignRole($role3);
   }
 }
