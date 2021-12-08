@@ -32,15 +32,13 @@ class PermissionDemoSeeder extends Seeder {
     Permission::create(['name' => 'permission-update']);
     Permission::create(['name' => 'permission-delete']);
 
-    Permission::create(['name' => 'investmentcontract-index']);
-    Permission::create(['name' => 'investmentcontract-authorize']);
-    Permission::create(['name' => 'investmentcontract-reject']);
+    Permission::create(['name' => 'investment-authorize']);
+    Permission::create(['name' => 'investment-reject']);
 
-    Permission::create(['name' => 'contract-index']);
-    Permission::create(['name' => 'contract-update']);
-    Permission::create(['name' => 'contract-authorize']);
-    Permission::create(['name' => 'contract-my-index']);
-    Permission::create(['name' => 'contract-my-new']);
+    Permission::create(['name' => 'investment-index']);
+    Permission::create(['name' => 'investment-update']);
+    Permission::create(['name' => 'investment-my-index']);
+    Permission::create(['name' => 'investment-my-create']);
 
     // create roles and assign existing permissions
     // $role1 = Role::create(['name' => 'writer']);
@@ -68,13 +66,13 @@ class PermissionDemoSeeder extends Seeder {
     $role2 = Role::create(['name' => 'admin']);
 
     $role_inversor = Role::create(['name' => 'investor']);
-    $role_inversor->givePermissionTo('contract-my-index');
-    $role_inversor->givePermissionTo('contract-my-new');
+    $role_inversor->givePermissionTo('investment-my-index');
+    $role_inversor->givePermissionTo('investment-my-create');
 
     $role_contract_manager = Role::create(['name' => 'contract-manager']);
-    $role_contract_manager->givePermissionTo('contract-index');
-    $role_contract_manager->givePermissionTo('contract-update');
-    $role_contract_manager->givePermissionTo('contract-authorize');
+    $role_contract_manager->givePermissionTo('investment-index');
+    $role_contract_manager->givePermissionTo('investment-update');
+    $role_contract_manager->givePermissionTo('investment-authorize');
 
     Role::create(['name' => 'publisher']);
     Role::create(['name' => 'cashier']);

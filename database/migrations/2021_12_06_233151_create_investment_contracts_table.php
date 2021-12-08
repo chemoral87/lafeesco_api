@@ -11,7 +11,7 @@ class CreateInvestmentContractsTable extends Migration {
    * @return void
    */
   public function up() {
-    Schema::create('investment_contracts', function (Blueprint $table) {
+    Schema::create('investments', function (Blueprint $table) {
       $table->id();
       $table->date('contract_date');
       $table->dateTime('status_date');
@@ -31,6 +31,6 @@ class CreateInvestmentContractsTable extends Migration {
    * @return void
    */
   public function down() {
-    Schema::dropIfExists('investment_contracts');
+    Schema::dropIfExists('investments');
   }
 }
