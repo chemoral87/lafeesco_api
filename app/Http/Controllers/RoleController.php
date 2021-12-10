@@ -34,11 +34,10 @@ class RoleController extends Controller {
   public function filter(Request $request) {
     $filter = $request->queryText;
     $ids = isset($request->ids) ? $request->ids : [];
-
     $roles = Role::select("name", "id")
       ->whereNotIn("id", $ids)
       ->where("name", "like", "%" . $filter . "%")
-      ->orderBy("name")->paginate(2);
+      ->orderBy("name")->paginate(7);
     return $roles->items();
   }
 
