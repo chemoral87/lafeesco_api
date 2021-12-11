@@ -14,4 +14,6 @@ return [
   'permission_create' => 'Permiso creado',
   'permission_update' => 'Permiso editado',
   'permission_delete' => 'Permiso eliminado',
+
+  'investor_create' => 'Cuenta creada',
 ];

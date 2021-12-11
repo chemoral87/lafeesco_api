@@ -1,8 +1,10 @@
 <?php
 
-Route::get("test", function () {
-  return "ok test - " . date("d  Y h:i:s A");
-});
+// Route::get("test", function () {
+//   return "ok test - " . date("d  Y h:i:s A");
+// });
+
+Route::get("test", "TestController@test");
 
 Route::group(["middleware" => ["api"], "prefix" => "auth"], function ($router) {
   $controller = "AuthController";
@@ -46,3 +48,23 @@ Route::group(["prefix" => "investment"], function () {
   $controller = "InvestmentController";
   Route::get("/contract-returns", "{$controller}@contractReturns");;
 });
+
+Route::group(["prefix" => "investor"], function () {
+  $controller = "InvestorController";
+  Route::post("/newinvest", "{$controller}@newinvest");
+});
+
+// // Verify email
+// Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+//   ->middleware(['signed', 'throttle:6,1'])
+//   ->name('verification.verify');
+
+// // Resend link to verify email
+// Route::post('/email/verify/resend', function (Request $request) {
+//   $request->user()->sendEmailVerificationNotification();
+//   return back()->with('message', 'Verification link sent!');
+// })->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
+
+Route::get('email/verify/{id}', 'VerificationController@verify')->name('verification.verify'); // Make sure to keep this as your route name
+
+Route::get('email/resend', 'VerificationController@resend')->name('verification.resend');

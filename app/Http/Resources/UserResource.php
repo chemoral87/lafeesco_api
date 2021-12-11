@@ -13,6 +13,7 @@ class UserResource extends JsonResource {
       'last_name' => $this->last_name,
       'second_last_name' => $this->second_last_name,
       'email' => $this->email,
+      'email_verified' => isset($this->email_verified_at) ? 1 : 0,
       // 'created_at' => $this->created_at,
       'permissions' => $this->getAllPermissions()->pluck('name'),
     ];
