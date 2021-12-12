@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\InvestorProfile;
+use App\Models\InvestorVerification;
 use App\Models\User;
+use App\Notifications\InvestorVerificationNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Notification;
 
 class InvestorController extends Controller {
 
@@ -38,10 +41,36 @@ class InvestorController extends Controller {
 
   public function sendVerificationCode(Request $request) {
 
+    $email = $request->email;
+
+    $verification = InvestorVerification::where("email", $email)->first();
+
+    if ($verification == null) {
+
+      $code = createVerificationCode(6);
+      $verification = InvestorVerification::create([
+        'email' => $email,
+        'verification_code' => $code,
+      ]);
+
+    }
+    $data = [
+      'code' => $verification->verification_code,
+    ];
+    Notification::route("mail", $email)
+      ->notify(new InvestorVerificationNotification($data));
+
+    return ['success' => __('messa.investor_verification_code_send')];
   }
 
-  public function index() {
-    //
+  public function verifyCode(Request $request) {
+    Log::info($request);
+    $email = $request->email;
+    $verification_code = $request->verification_code;
+    $verification = InvestorVerification::where("email", $email)->where("verification_code", $verification_code)->first();
+    if (!($verification == null)) {
+      return ['success' => __('messa.investor_verified')];
+    }
   }
 
   public function create() {

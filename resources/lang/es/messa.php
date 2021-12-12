@@ -16,4 +16,6 @@ return [
   'permission_delete' => 'Permiso eliminado',
 
   'investor_create' => 'Cuenta creada',
+  'investor_verification_code_send' => 'Código de verificación enviado',
+  'investor_verified' => 'Cuenta verificada',
 ];

@@ -52,6 +52,8 @@ Route::group(["prefix" => "investment"], function () {
 Route::group(["prefix" => "investor"], function () {
   $controller = "InvestorController";
   Route::post("/newinvest", "{$controller}@newinvest");
+  Route::post("/sendVerificationCode", "{$controller}@sendVerificationCode");
+  Route::post("/verifyCode", "{$controller}@verifyCode");
 });
 
 // // Verify email

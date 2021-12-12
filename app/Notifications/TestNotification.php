@@ -20,6 +20,7 @@ class TestNotification extends Notification {
 
   public function toMail($notifiable) {
     return (new MailMessage)
+      ->subject("Código de Verificación")
       ->greeting("tomasin")
       ->line('The introduction to the notification.')
       ->action('Notification Action', url('/login'))

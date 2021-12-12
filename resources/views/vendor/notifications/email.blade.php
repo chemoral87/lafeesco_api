@@ -36,9 +36,8 @@
 {{-- Outro Lines --}}
 @foreach ($outroLines as $line)
 {{ $line }}
-
 @endforeach
-
+<br><br>
 {{-- Salutation --}}
 @if (! empty($salutation))
 {{ $salutation }}
