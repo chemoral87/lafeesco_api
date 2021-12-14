@@ -5,7 +5,6 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\HtmlString;
 
 class InvestorVerificationNotification extends Notification {
@@ -20,7 +19,7 @@ class InvestorVerificationNotification extends Notification {
   }
 
   public function toMail($notifiable) {
-    Log::info($this->data);
+
     return (new MailMessage)
       ->subject("Código de Verificación")
       ->line(new HtmlString('Su codigo de validación es: <strong>' . $this->data['code'] . '</strong>'))

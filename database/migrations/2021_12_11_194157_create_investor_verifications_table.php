@@ -15,6 +15,7 @@ class CreateInvestorVerificationsTable extends Migration {
       $table->id();
       $table->string("email")->unique();
       $table->string("verification_code", 8);
+      $table->datetime('verification_date')->nullable();
       $table->timestamps();
     });
   }
