@@ -3,11 +3,13 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
 
-class InvestorVerifiedNotification extends Notification {
+class InvestorVerifiedNotification extends Notification implements ShouldQueue {
   use Queueable;
+
   private $data;
   public function __construct() {
   }

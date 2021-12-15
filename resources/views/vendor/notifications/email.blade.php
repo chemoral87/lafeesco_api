@@ -16,6 +16,7 @@
 
 @endforeach
 
+
 {{-- Action Button --}}
 @isset($actionText)
 <?php
@@ -36,8 +37,9 @@
 {{-- Outro Lines --}}
 @foreach ($outroLines as $line)
 {{ $line }}
+
 @endforeach
-<br><br>
+
 {{-- Salutation --}}
 @if (! empty($salutation))
 {{ $salutation }}
