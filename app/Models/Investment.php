@@ -12,6 +12,7 @@ class Investment extends Model {
     'contract_date',
     'status_date',
     'status_id',
+    'capital',
     'yield',
     'months',
     'investor_id',

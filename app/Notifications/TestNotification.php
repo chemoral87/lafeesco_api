@@ -29,6 +29,7 @@ class TestNotification extends Notification {
 
   public function toArray($notifiable) {
     // https://www.positronx.io/laravel-notification-example-create-notification-in-laravel/
+    // https://stackoverflow.com/questions/28623001/how-to-keep-laravel-queue-system-running-on-server
     return [
       'test' => $this->testData['test'],
     ];

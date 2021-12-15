@@ -102,6 +102,7 @@ class InvestorController extends Controller {
           'contract_date' => Carbon::now(),
           'status_date' => Carbon::now(),
           'status_id' => 1,
+          'capital' => $capital,
           'yield' => $yield,
           'months' => 12, // anual
           'investor_id' => $user->id,

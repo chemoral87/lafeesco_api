@@ -16,7 +16,8 @@ class CreateInvestmentContractsTable extends Migration {
       $table->date('contract_date');
       $table->dateTime('status_date');
       $table->tinyInteger('status_id');
-      $table->decimal('yield');
+      $table->decimal('capital', 16, 2);
+      $table->decimal('yield', 4, 2);
       $table->tinyInteger('months');
       $table->bigInteger('investor_id');
       $table->text("comments")->nullable();
