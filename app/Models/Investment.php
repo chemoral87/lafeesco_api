@@ -19,4 +19,15 @@ class Investment extends Model {
     'comments',
     'created_by',
   ];
+
+  // https://medium.com/@kiasaty/how-to-avoid-enum-data-type-in-laravel-eloquent-1c37ec908773
+  public const STATUS = [
+    1 => 'incomplete',
+    2 => 'complete',
+    3 => 'authorize',
+  ];
+
+  public function getStatusAttribute() {
+    return self::STATUS[$this->attributes['status_id']];
+  }
 }
