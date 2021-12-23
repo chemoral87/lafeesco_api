@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Notifications\TestNotification;
-use Notification;
 
 class TestController extends Controller {
   public function test() {
@@ -21,7 +19,7 @@ class TestController extends Controller {
       'offer_id' => 007,
     ];
 
-    Notification::send($userSchema, new TestNotification($offerData));
+    // Notification::send($userSchema, new TestNotification($offerData));
 
     return "ok test - " . date("d  Y h:i:s A");
   }
