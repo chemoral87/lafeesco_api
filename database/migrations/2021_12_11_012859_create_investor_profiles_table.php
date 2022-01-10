@@ -14,7 +14,7 @@ class CreateInvestorProfilesTable extends Migration {
     Schema::create('investor_profiles', function (Blueprint $table) {
       $table->id();
       $table->bigInteger('investor_id');
-
+      $table->string("identification_type")->nullable();
       $table->string("front_identification")->nullable();
       $table->string("back_identification")->nullable();
       $table->tinyInteger("status_id");

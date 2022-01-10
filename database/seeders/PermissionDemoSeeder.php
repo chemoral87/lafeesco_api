@@ -39,6 +39,7 @@ class PermissionDemoSeeder extends Seeder {
     Permission::create(['name' => 'investment-update']);
     Permission::create(['name' => 'investment-my-index']);
     Permission::create(['name' => 'investment-my-create']);
+    Permission::create(['name' => 'investment-my-profile']);
 
     // create roles and assign existing permissions
     // $role1 = Role::create(['name' => 'writer']);
@@ -68,6 +69,7 @@ class PermissionDemoSeeder extends Seeder {
     $role_inversor = Role::create(['name' => 'investor']);
     $role_inversor->givePermissionTo('investment-my-index');
     $role_inversor->givePermissionTo('investment-my-create');
+    $role_inversor->givePermissionTo('investment-my-profile');
 
     $role_contract_manager = Role::create(['name' => 'contract-manager']);
     $role_contract_manager->givePermissionTo('investment-index');

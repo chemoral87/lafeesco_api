@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Resources\DataSetResource;
 use App\Http\Resources\RoleShowResource;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -23,7 +24,7 @@ class RoleController extends Controller {
     }
 
     $roles = $query->with("permissions")->paginate($itemsPerPage);
-    return $roles;
+    return new DataSetResource($roles);
   }
 
   public function show(Request $request, $id) {

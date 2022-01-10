@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
+use Database\Seeders\StatusSeeder;
+use Database\Seeders\InvestmentSeeder;
 use Database\Seeders\ContractReturnSeeder;
 use Database\Seeders\PermissionDemoSeeder;
-use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder {
   /**
@@ -16,5 +18,7 @@ class DatabaseSeeder extends Seeder {
     // \App\Models\User::factory(1
     $this->call(PermissionDemoSeeder::class);
     $this->call(ContractReturnSeeder::class);
+    $this->call(InvestmentSeeder::class);
+    $this->call(StatusSeeder::class);
   }
 }

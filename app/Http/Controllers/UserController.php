@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DataSetResource;
 use App\Http\Resources\UserShowResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class UserController extends Controller {
       $query->where(DB::raw("CONCAT_WS(' ',name, last_name, second_last_name)"), "like", "%" . $filter . "%");
     }
     $users = $query->with("roles")->with("permissions")->paginate($itemsPerPage);
-    return $users;
+    return new DataSetResource($users);
   }
 
   public function show(Request $request, $id) {

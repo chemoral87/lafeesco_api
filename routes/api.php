@@ -6,7 +6,7 @@
 
 Route::get("test", "TestController@test");
 
-Route::group(["middleware" => ["api"], "prefix" => "auth"], function ($router) {
+Route::group(["prefix" => "auth", "middleware" => ["api"]], function ($router) {
   $controller = "AuthController";
   Route::post("login", "{$controller}@login");
   Route::post("logout", "{$controller}@logout");
@@ -46,7 +46,15 @@ Route::group(["prefix" => "permissions", "middleware" => ['jwt.verify']], functi
 
 Route::group(["prefix" => "investment"], function () {
   $controller = "InvestmentController";
-  Route::get("/contract-returns", "{$controller}@contractReturns");;
+  Route::get("/contract-returns", "{$controller}@contractReturns");
+  Route::get("/my-index", "{$controller}@myIndex");
+
+});
+
+Route::group(["prefix" => "investment-status"], function () {
+  $controller = "InvestmentStatusController";
+  Route::get("/", "{$controller}@index");
+
 });
 
 Route::group(["prefix" => "investor"], function () {
@@ -54,6 +62,14 @@ Route::group(["prefix" => "investor"], function () {
   Route::post("/newinvest", "{$controller}@newinvest");
   Route::post("/sendVerificationCode", "{$controller}@sendVerificationCode");
   Route::post("/verifyCode", "{$controller}@verifyCode");
+
+  Route::post("/my-profile", "{$controller}@myUpdate");
+});
+
+Route::group(["prefix" => "investor-profile"], function () {
+  $controller = "InvestorProfileController";
+  Route::get("/my", "{$controller}@myIndex");
+  Route::post("/my", "{$controller}@myUpdate");
 });
 
 // // Verify email

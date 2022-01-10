@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Resources\DataSetResource;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 
@@ -21,7 +22,7 @@ class PermissionController extends Controller {
     }
 
     $roles = $query->paginate($itemsPerPage);
-    return $roles;
+    return new DataSetResource($roles);
   }
 
   public function filter(Request $request) {

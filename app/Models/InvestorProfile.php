@@ -10,6 +10,7 @@ class InvestorProfile extends Model {
   protected $fillable = [
     'investor_id',
     'status_id',
+    'identification_type',
     'front_identification',
     'back_identification',
   ];
