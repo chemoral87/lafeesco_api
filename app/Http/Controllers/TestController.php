@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-class TestController extends Controller {
-  public function test() {
+use App\Models\User;
+use Illuminate\Http\Request;
 
+class TestController extends Controller {
+  public function test(Request $request, User $user) {
+    $request->validate([
+      'stock_name' => 'required',
+    ]);
     // $userSchema = User::first();
 
     // $offerData = [

@@ -4,7 +4,7 @@
 //   return "ok test - " . date("d  Y h:i:s A");
 // });
 
-Route::get("test", "TestController@test");
+Route::get("test/{user}", "TestController@test");
 
 Route::group(["prefix" => "auth", "middleware" => ["api"]], function ($router) {
   $controller = "AuthController";

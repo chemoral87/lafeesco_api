@@ -21,8 +21,8 @@ class PermissionController extends Controller {
       $query->where("name", "like", "%" . $filter . "%");
     }
 
-    $roles = $query->paginate($itemsPerPage);
-    return new DataSetResource($roles);
+    $permissions = $query->paginate($itemsPerPage);
+    return new DataSetResource($permissions);
   }
 
   public function filter(Request $request) {
