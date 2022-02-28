@@ -41,6 +41,7 @@ class PermissionDemoSeeder extends Seeder {
     Permission::create(['name' => 'investment-my-create']);
     Permission::create(['name' => 'investment-my-profile']);
 
+    Permission::create(['name' => 'credit-index']);
     // create roles and assign existing permissions
     // $role1 = Role::create(['name' => 'writer']);
     // $role1->givePermissionTo('edit articles');
@@ -61,6 +62,8 @@ class PermissionDemoSeeder extends Seeder {
     $role1->givePermissionTo('permission-create');
     $role1->givePermissionTo('permission-update');
     $role1->givePermissionTo('permission-delete');
+
+    $role1->givePermissionTo('credit-index');
 
     // gets all permissions via Gate::before rule; see AuthServiceProvider
 

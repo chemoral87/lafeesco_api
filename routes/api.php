@@ -14,41 +14,43 @@ Route::group(["prefix" => "auth", "middleware" => ["api"]], function ($router) {
   Route::post("user", "{$controller}@me");
 });
 
-Route::group(["prefix" => "users", "middleware" => ['jwt.verify']], function () {
-  $controller = "UserController";
-  Route::get("/", "{$controller}@index");
-  Route::get("/{id}", "{$controller}@show");
-  Route::post("/", "{$controller}@create");
-  Route::put("/{id}", "{$controller}@update");
-  Route::put("/{id}/children", "{$controller}@children");
-  Route::delete("/{id}", "{$controller}@delete");
-});
+Route::group(["middleware" => ['jwt.verify']], function () {
+  Route::group(["prefix" => "users"], function () {
+    $controller = "UserController";
+    Route::get("/", "{$controller}@index");
+    Route::get("/{id}", "{$controller}@show");
+    Route::post("/", "{$controller}@create");
+    Route::put("/{id}", "{$controller}@update");
+    Route::put("/{id}/children", "{$controller}@children");
+    Route::delete("/{id}", "{$controller}@delete");
+  });
 
-Route::group(["prefix" => "roles", "middleware" => ['jwt.verify']], function () {
-  $controller = "RoleController";
-  Route::get("/", "{$controller}@index");
-  Route::get("/filter", "{$controller}@filter");
-  Route::get("/{id}", "{$controller}@show");
-  Route::post("/", "{$controller}@create");
-  Route::put("/{id}", "{$controller}@update");
-  Route::delete("/{id}", "{$controller}@delete");
-  Route::put("/{id}/children", "{$controller}@children");
-});
+  Route::group(["prefix" => "roles"], function () {
+    $controller = "RoleController";
+    Route::get("/", "{$controller}@index");
+    Route::get("/filter", "{$controller}@filter");
+    Route::get("/{id}", "{$controller}@show");
+    Route::post("/", "{$controller}@create");
+    Route::put("/{id}", "{$controller}@update");
+    Route::delete("/{id}", "{$controller}@delete");
+    Route::put("/{id}/children", "{$controller}@children");
+  });
 
-Route::group(["prefix" => "permissions", "middleware" => ['jwt.verify']], function () {
-  $controller = "PermissionController";
-  Route::get("/", "{$controller}@index");
-  Route::get("/filter", "{$controller}@filter");
-  Route::post("/", "{$controller}@create");
-  Route::put("/{id}", "{$controller}@update");
-  Route::delete("/{id}", "{$controller}@delete");
-});
+  Route::group(["prefix" => "permissions"], function () {
+    $controller = "PermissionController";
+    Route::get("/", "{$controller}@index");
+    Route::get("/filter", "{$controller}@filter");
+    Route::post("/", "{$controller}@create");
+    Route::put("/{id}", "{$controller}@update");
+    Route::delete("/{id}", "{$controller}@delete");
+  });
+
+}); // ["middleware" => ['jwt.verify']
 
 Route::group(["prefix" => "investment"], function () {
   $controller = "InvestmentController";
   Route::get("/contract-returns", "{$controller}@contractReturns");
   Route::get("/my-index", "{$controller}@myIndex");
-
 });
 
 Route::group(["prefix" => "investment-status"], function () {
