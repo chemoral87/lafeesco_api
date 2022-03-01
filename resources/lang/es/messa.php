@@ -20,4 +20,6 @@ return [
   'investor_verified' => 'Cuenta verificada',
 
   'investor_profile_update' => 'Perfil editado',
+
+  'credit_amortization_table' => 'Tabla de Amortización',
 ];

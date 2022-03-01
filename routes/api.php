@@ -68,10 +68,15 @@ Route::group(["prefix" => "investor"], function () {
   Route::post("/my-profile", "{$controller}@myUpdate");
 });
 
-Route::group(["prefix" => "investor-profile"], function () {
-  $controller = "InvestorProfileController";
-  Route::get("/my", "{$controller}@myIndex");
-  Route::post("/my", "{$controller}@myUpdate");
+// Route::group(["prefix" => "investor-profile"], function () {
+Route::controller(InvestorProfileController::class)->prefix('investor-profile')->group(function () {
+  // $controller = "InvestorProfileController";
+  Route::get("/my", "myIndex");
+  Route::post("/my", "myUpdate");
+});
+
+Route::controller(CreditController::class)->prefix('credit')->group(function () {
+  Route::get('/amortization-table', 'amortizationTable');
 });
 
 // // Verify email
