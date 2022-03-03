@@ -1,8 +1,8 @@
 <?php
 
-// Route::get("test", function () {
-//   return "ok test - " . date("d  Y h:i:s A");
-// });
+Route::get("test", function () {
+  return "ok test - " . date("d  Y h:i:s A");
+});
 
 Route::get("test/{user}", "TestController@test");
 
