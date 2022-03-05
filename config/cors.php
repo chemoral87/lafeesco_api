@@ -7,7 +7,7 @@ return [
   //'allowed_origins' => ['http://localhost:*', 'http://localhost:3000', '*'],
   'allowed_origins' => [
     'http://localhost:*',
-    'http://localhost:8080',
+    'http://18.190.152.66', // test aws
     'http://localhost:3000',
     'http://192.168.56.44',
     'http://192.168.56.44:*',
