@@ -1,23 +1,13 @@
 <?php
 
+$allowed_origins = explode("|", env('ALLOWED_ORIGINS'));
+
 return [
   'paths' => ['api/*'],
   'allowed_methods' => ['*'],
 
   //'allowed_origins' => ['http://localhost:*', 'http://localhost:3000', '*'],
-  'allowed_origins' => [
-    'http://localhost:*',
-    'http://18.190.152.66',
-    'http://granddata.com.mx',
-    'https://granddata.com.mx',
-    'http://localhost:3000',
-    'http://192.168.56.44',
-    'http://192.168.56.44:*',
-    'http://172.21.176.1:3000',
-    'http://192.168.0.5:3000',
-    'http://192.168.0.5:*',
-    'https://dev.d2ax9tya2rkwv4.amplifyapp.com',
-  ],
+  'allowed_origins' => $allowed_origins,
   'allowed_origins_patterns' => [],
 
   'allowed_headers' => ['*'],
