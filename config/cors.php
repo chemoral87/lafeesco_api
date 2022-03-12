@@ -5,17 +5,12 @@ $allowed_origins = explode("|", env('ALLOWED_ORIGINS'));
 return [
   'paths' => ['api/*'],
   'allowed_methods' => ['*'],
-
   //'allowed_origins' => ['http://localhost:*', 'http://localhost:3000', '*'],
   'allowed_origins' => $allowed_origins,
   'allowed_origins_patterns' => [],
-
   'allowed_headers' => ['*'],
-
   'exposed_headers' => false,
-
   'max_age' => 0,
-
   'supports_credentials' => false,
   /*
   |--------------------------------------------------------------------------
