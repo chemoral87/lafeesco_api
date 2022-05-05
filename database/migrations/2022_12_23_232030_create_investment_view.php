@@ -45,7 +45,7 @@ FROM
    * @return void
    */
   public function down() {
-    DB::statement('DROP VIEW IF EXISTS investments_v;');
+    DB::statement('DROP VIEW investments_v;');
     // Schema::dropIfExists('investment_v');
   }
 }

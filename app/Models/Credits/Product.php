@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CreditProduct extends Model
-{
-    use HasFactory;
+class Product extends Model {
+  use HasFactory;
+  protected $table = 'cr_products';
 }
