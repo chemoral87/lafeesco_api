@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
-class CreateInvestmentView extends Migration {
+class CreateInvestmentTable extends Migration {
   /**
    * Run the migrations.
    *

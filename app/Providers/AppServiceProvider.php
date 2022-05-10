@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,8 +33,9 @@ class AppServiceProvider extends ServiceProvider {
 
     // https: //stackoverflow.com/questions/21641606/laravel-running-migrations-on-app-database-migrations-folder-recursively
     $mainPath = database_path('migrations');
-    $directories = glob($mainPath . '/*', GLOB_ONLYDIR);
+    $directories =  glob($mainPath . '/*', GLOB_ONLYDIR);
     $paths = array_merge([$mainPath], $directories);
+    // $paths = array_merge([$mainPath], ["C:\\Users\\chemo\\source\\laravel\\rc_desarrolladora_backend\\database\\migrations\\credits"]);
 
     $this->loadMigrationsFrom($paths);
   }
