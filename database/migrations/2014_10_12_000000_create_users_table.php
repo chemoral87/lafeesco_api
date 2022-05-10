@@ -11,7 +11,12 @@ class CreateUsersTable extends Migration {
    * @return void
    */
   public function up() {
-    // \Illuminate\Support\Facades\DB::statement('SET SESSION sql_require_primary_key=0');
+    try {
+      // Require for cloud-databases
+      \Illuminate\Support\Facades\DB::statement('SET SESSION sql_require_primary_key=0');
+    } catch (Throwable $e) {
+
+    }
     Schema::create('users', function (Blueprint $table) {
       $table->id();
       $table->string('name');
