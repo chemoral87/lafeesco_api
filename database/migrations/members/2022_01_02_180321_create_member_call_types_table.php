@@ -4,15 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReceiptTable extends Migration {
+class CreateMemberCallTypesTable extends Migration {
   /**
    * Run the migrations.
    *
    * @return void
    */
   public function up() {
-    Schema::create('cr_receipts', function (Blueprint $table) {
+    Schema::create('member_call_types', function (Blueprint $table) {
       $table->id();
+      $table->boolean("was_contacted");
+      $table->string("name");
+      $table->string("description")->nullable();
+      $table->string("color")->nullable();
       $table->timestamps();
     });
   }
@@ -23,6 +27,6 @@ class CreateReceiptTable extends Migration {
    * @return void
    */
   public function down() {
-    Schema::dropIfExists('cr_receipts');
+    Schema::dropIfExists('member_call_types');
   }
 }

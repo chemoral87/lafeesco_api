@@ -52,6 +52,11 @@ class UserController extends Controller {
     $user->name = $request->name;
     $user->last_name = $request->last_name;
     $user->second_last_name = $request->second_last_name;
+
+    if ($request->password != '') {
+      $user->password = bcrypt($request->get('password'));
+    }
+
     $user->save();
     return ['success' => __('messa.user_update')];
   }

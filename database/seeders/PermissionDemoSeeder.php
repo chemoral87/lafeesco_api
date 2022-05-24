@@ -42,6 +42,14 @@ class PermissionDemoSeeder extends Seeder {
     Permission::create(['name' => 'investment-my-profile']);
 
     Permission::create(['name' => 'credit-index']);
+
+    Permission::create(['name' => 'consolidador-index']);
+    Permission::create(['name' => 'consolidador-insert']);
+    Permission::create(['name' => 'consolidador-update']);
+    Permission::create(['name' => 'consolidador-call-insert']);
+    Permission::create(['name' => 'consolidador-call-update']);
+    Permission::create(['name' => 'consolidador-call-delete']);
+
     // create roles and assign existing permissions
     // $role1 = Role::create(['name' => 'writer']);
     // $role1->givePermissionTo('edit articles');
@@ -79,6 +87,14 @@ class PermissionDemoSeeder extends Seeder {
     $role_contract_manager->givePermissionTo('investment-update');
     $role_contract_manager->givePermissionTo('investment-authorize');
 
+    $role_consolidador = Role::create(['name' => 'consolidador']);
+    $role_consolidador->givePermissionTo('consolidador-index');
+    $role_consolidador->givePermissionTo('consolidador-insert');
+    $role_consolidador->givePermissionTo('consolidador-update');
+    $role_consolidador->givePermissionTo('consolidador-call-insert');
+    $role_consolidador->givePermissionTo('consolidador-call-update');
+    $role_consolidador->givePermissionTo('consolidador-call-delete');
+
     Role::create(['name' => 'publisher']);
     Role::create(['name' => 'cashier']);
     Role::create(['name' => 'leader']);
@@ -94,6 +110,7 @@ class PermissionDemoSeeder extends Seeder {
       'password' => Hash::make('admin'),
     ]);
     $user->assignRole($role1);
+    $user->assignRole($role_consolidador);
 
     $user = \App\Models\User::factory()->create([
       'name' => 'Arturo',

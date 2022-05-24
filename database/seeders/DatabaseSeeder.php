@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Database\Seeders\StatusSeeder;
-use Database\Seeders\InvestmentSeeder;
 use Database\Seeders\ContractReturnSeeder;
+use Database\Seeders\InvestmentSeeder;
 use Database\Seeders\PermissionDemoSeeder;
+use Database\Seeders\StatusSeeder;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder {
   /**
@@ -20,5 +20,9 @@ class DatabaseSeeder extends Seeder {
     $this->call(ContractReturnSeeder::class);
     $this->call(InvestmentSeeder::class);
     $this->call(StatusSeeder::class);
+    $this->call(MaritalStatusSeeder::class);
+    $this->call(MemberCallTypesSeeder::class);
+    $this->call(MemberCategorySeeder::class);
+
   }
 }
