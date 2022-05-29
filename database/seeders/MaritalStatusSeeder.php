@@ -12,6 +12,7 @@ class MaritalStatusSeeder extends Seeder {
    * @return void
    */
   public function run() {
+    // MaritalStatus::create(['name' => "(Vacío)"]);
     MaritalStatus::create(['name' => "Soltero"]);
     MaritalStatus::create(['name' => "Casado"]);
     MaritalStatus::create(['name' => "Divorciado"]);

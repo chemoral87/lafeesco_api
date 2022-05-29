@@ -12,6 +12,7 @@ class MemberCategorySeeder extends Seeder {
    * @return void
    */
   public function run() {
+    // MaritalStatus::create(['name' => "(Vacío)"]);
     MemberCategory::create(['name' => 'Matrimonios']);
     MemberCategory::create(['name' => 'Jovenes']);
     MemberCategory::create(['name' => 'Adolescentes']);

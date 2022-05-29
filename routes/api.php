@@ -45,6 +45,11 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::delete("/{id}", "{$controller}@delete");
   });
 
+  Route::group(["prefix" => "consolidation"], function () {
+    $controller = "ConsolidationController";
+    Route::get("/initialCatalog", "{$controller}@initialCatalog");
+  });
+
 }); // ["middleware" => ['jwt.verify']
 
 Route::group(["prefix" => "investment"], function () {

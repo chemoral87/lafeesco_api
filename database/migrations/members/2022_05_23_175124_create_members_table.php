@@ -15,13 +15,17 @@ class CreateMembersTable extends Migration {
       $table->id();
       $table->string("name");
       $table->string("paternal_surame");
-      $table->string("maternal_surname");
-      $table->date("birthday");
-      $table->tinyInteger("matiral_status");
-      $table->tinyInteger("category_id");
-      $table->unsignedBigInteger("address_id")->unsigned();
-      $table->string("prayer_request", 250);
+      $table->string("maternal_surname")->nullable();
+      $table->string("cellphone", 13)->nullable();
+      $table->date("birthday")->nullable();
+      $table->tinyInteger("matiral_status_id")->nullable();
+      $table->tinyInteger("category_id")->nullable();
+      $table->unsignedBigInteger("address_id")->nullable();
+      $table->string("prayer_request", 250)->nullable();
+      $table->unsignedBigInteger("created_by");
+
       $table->foreign('address_id')->references('id')->on('member_addresses');
+      $table->foreign('created_by')->references('id')->on('users');
       $table->timestamps();
     });
   }
