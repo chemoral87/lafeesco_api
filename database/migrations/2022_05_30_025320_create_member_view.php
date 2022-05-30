@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\Schema;
 
 class CreateMemberView extends Migration {
   /**
@@ -26,6 +25,7 @@ class CreateMemberView extends Migration {
    * @return void
    */
   public function down() {
-    Schema::dropIfExists('members_v');
+    DB::statement('DROP VIEW members_v;');
+
   }
 }
