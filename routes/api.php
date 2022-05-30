@@ -50,6 +50,13 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::get("/initialCatalog", "{$controller}@initialCatalog");
   });
 
+  Route::group(["prefix" => "members"], function () {
+    $controller = "MemberController";
+    Route::get("/my-members-no-address", "{$controller}@myMembersNoAddress");
+    Route::post("/", "{$controller}@create");
+    Route::delete("/{id}", "{$controller}@delete");
+  });
+
 }); // ["middleware" => ['jwt.verify']
 
 Route::group(["prefix" => "investment"], function () {

@@ -20,6 +20,7 @@ class CreateMemberAddressesTable extends Migration {
       $table->string("suburn")->nullable(); // colonia
       $table->string("postal_code")->nullable();
       $table->string("telephone")->nullable();
+      $table->point("position")->nullable();
       $table->timestamps();
     });
   }

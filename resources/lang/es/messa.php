@@ -19,6 +19,10 @@ return [
   'investor_verification_code_send' => 'Código de verificación enviado',
   'investor_verified' => 'Cuenta verificada',
 
+  'member_create' => 'Miembro creado',
+  'member_update' => 'Miembro editado',
+  'member_delete' => 'Miembro eliminado',
+
   'investor_profile_update' => 'Perfil editado',
 
   'credit_amortization_table' => 'Tabla de Amortización',

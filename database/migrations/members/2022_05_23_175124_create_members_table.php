@@ -14,11 +14,11 @@ class CreateMembersTable extends Migration {
     Schema::create('members', function (Blueprint $table) {
       $table->id();
       $table->string("name");
-      $table->string("paternal_surame");
+      $table->string("paternal_surname");
       $table->string("maternal_surname")->nullable();
       $table->string("cellphone", 13)->nullable();
       $table->date("birthday")->nullable();
-      $table->tinyInteger("matiral_status_id")->nullable();
+      $table->tinyInteger("marital_status_id")->nullable();
       $table->tinyInteger("category_id")->nullable();
       $table->unsignedBigInteger("address_id")->nullable();
       $table->string("prayer_request", 250)->nullable();

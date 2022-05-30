@@ -10,10 +10,7 @@ class CreateInvestmentTable extends Migration {
    * @return void
    */
   public function up() {
-    // Schema::create('investment_view', function (Blueprint $table) {
-    //     $table->id();
-    //     $table->timestamps();
-    // });
+
     DB::statement("
       CREATE VIEW investments_v AS
       SELECT
