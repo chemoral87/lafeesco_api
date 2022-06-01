@@ -14,6 +14,7 @@ class Member extends Model implements AuditableContract {
     'name',
     'paternal_surname',
     'maternal_surname',
+    'birthday',
     'cellphone',
     'marital_status_id',
     'category_id',

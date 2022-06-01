@@ -53,7 +53,9 @@ Route::group(["middleware" => ['jwt.verify']], function () {
   Route::group(["prefix" => "members"], function () {
     $controller = "MemberController";
     Route::get("/my-members-no-address", "{$controller}@myMembersNoAddress");
+    Route::get("/{id}", "{$controller}@show");
     Route::post("/", "{$controller}@create");
+    Route::put("/{id}", "{$controller}@update");
     Route::delete("/{id}", "{$controller}@delete");
   });
 
