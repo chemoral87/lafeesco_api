@@ -23,6 +23,8 @@ return [
   'member_update' => 'Miembro editado',
   'member_delete' => 'Miembro eliminado',
 
+  'member_address_create' => 'Dirección de Miembro(s) creada',
+
   'investor_profile_update' => 'Perfil editado',
 
   'credit_amortization_table' => 'Tabla de Amortización',
