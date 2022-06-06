@@ -128,7 +128,7 @@ class PermissionDemoSeeder extends Seeder {
       'email' => 'felipe.djnicanor@gmail.com',
       'password' => Hash::make('admin'),
     ]);
-    $user->assignRole($role2);
+    $user->assignRole($role_leader_consolidador);
 
     $user_valeria = \App\Models\User::factory()->create([
       'name' => 'Marlene',
@@ -136,7 +136,7 @@ class PermissionDemoSeeder extends Seeder {
       'email' => 'mar.morales@hotmail.com',
       'password' => Hash::make('admin'),
     ]);
-    $user_valeria->assignRole($role_contract_manager);
+    $user_valeria->assignRole($role_leader_consolidador);
 
     $user_juan = \App\Models\User::factory()->create([
       'name' => 'Juan',
