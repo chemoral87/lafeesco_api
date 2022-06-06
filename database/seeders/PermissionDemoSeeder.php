@@ -43,6 +43,7 @@ class PermissionDemoSeeder extends Seeder {
 
     Permission::create(['name' => 'credit-index']);
 
+    Permission::create(['name' => 'consolidador-lead']);
     Permission::create(['name' => 'consolidador-index']);
     Permission::create(['name' => 'consolidador-insert']);
     Permission::create(['name' => 'consolidador-update']);
@@ -95,6 +96,15 @@ class PermissionDemoSeeder extends Seeder {
     $role_consolidador->givePermissionTo('consolidador-call-update');
     $role_consolidador->givePermissionTo('consolidador-call-delete');
 
+    $role_leader_consolidador = Role::create(['name' => 'lider_consolidador']);
+    $role_leader_consolidador->givePermissionTo('consolidador-lead');
+    $role_leader_consolidador->givePermissionTo('consolidador-index');
+    $role_leader_consolidador->givePermissionTo('consolidador-insert');
+    $role_leader_consolidador->givePermissionTo('consolidador-update');
+    $role_leader_consolidador->givePermissionTo('consolidador-call-insert');
+    $role_leader_consolidador->givePermissionTo('consolidador-call-update');
+    $role_leader_consolidador->givePermissionTo('consolidador-call-delete');
+
     Role::create(['name' => 'publisher']);
     Role::create(['name' => 'cashier']);
     Role::create(['name' => 'leader']);
@@ -113,17 +123,17 @@ class PermissionDemoSeeder extends Seeder {
     $user->assignRole($role_consolidador);
 
     $user = \App\Models\User::factory()->create([
-      'name' => 'Arturo',
-      'last_name' => 'Peniche',
-      'email' => 'chemoral87@gmail.com',
+      'name' => 'Felipe',
+      'last_name' => 'Nicanor',
+      'email' => 'felipe.djnicanor@gmail.com',
       'password' => Hash::make('admin'),
     ]);
     $user->assignRole($role2);
 
     $user_valeria = \App\Models\User::factory()->create([
-      'name' => 'Valeria',
-      'last_name' => 'Dominguez',
-      'email' => 'valeria@gmail.com',
+      'name' => 'Marlene',
+      'last_name' => 'Morales',
+      'email' => 'mar.morales@hotmail.com',
       'password' => Hash::make('admin'),
     ]);
     $user_valeria->assignRole($role_contract_manager);

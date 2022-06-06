@@ -22,6 +22,11 @@ class CreateMembersTable extends Migration {
       $table->tinyInteger("category_id")->nullable();
       $table->unsignedBigInteger("address_id")->nullable();
       $table->string("prayer_request", 250)->nullable();
+
+      $table->unsignedBigInteger("last_call_id")->nullable();
+      $table->unsignedBigInteger("next_call_type_id")->nullable();
+      $table->date("next_call_date")->nullable();
+
       $table->unsignedBigInteger("created_by");
 
       $table->foreign('address_id')->references('id')->on('member_addresses');

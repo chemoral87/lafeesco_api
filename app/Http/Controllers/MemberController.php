@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\DataSetResource;
 use App\Models\Member;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -12,6 +15,10 @@ class MemberController extends Controller {
   public function create(Request $request) {
     $userId = JWTAuth::user()->id;
     $birthday = $request->get('birthday') ? \Carbon\Carbon::parse($request->get('birthday')) : null;
+
+    $call_type_id = 1; // Bienvenida
+    $next_call_date = Carbon::now()->timezone("America/Monterrey")->addDay(1);
+
     $member = Member::create([
       'name' => Str::title($request->get('name')),
       'paternal_surname' => Str::title($request->get('paternal_surname')),
@@ -21,6 +28,8 @@ class MemberController extends Controller {
       'marital_status_id' => $request->get('marital_status_id'),
       'category_id' => $request->get('category_id'),
       'prayer_request' => $request->get('prayer_request'),
+      'next_call_type_id' => $call_type_id,
+      'next_call_date' => $next_call_date,
       'created_by' => $userId,
     ]);
 
@@ -59,7 +68,7 @@ class MemberController extends Controller {
       $query = $query->orderBy($column, $sortDirection);
     }
     if ($filter) {
-      $query->where("name", "like", "%" . $filter . "%");
+      $query->where(DB::raw("CONCAT(name,' ',paternal_surname, ' ',maternal_surname )"), "like", "%" . $filter . "%");
     }
 
     $members = $query->paginate($itemsPerPage);
@@ -88,6 +97,35 @@ class MemberController extends Controller {
     return [
       'success' => __('messa.member_update'),
     ];
+  }
+
+  public function toCall(Request $request) {
+    Log::info("toCall");
+    $now = Carbon::now()->timezone("America/Monterrey")->format("Y-m-d");
+    Log::info($now);
+
+    $query = Member::query()->from("members_v")
+      ->whereNotNull("next_call_date")
+      ->whereNotNull("address_id")
+      ->where(DB::raw("6"), "<=", DB::raw("LENGTH(REPLACE(cellphone,'-',''))"))
+      ->where("next_call_date", "<=", $now)
+    ;
+
+    $itemsPerPage = $request->itemsPerPage;
+    $sortBy = $request->get('sortBy');
+    $sortDesc = $request->get('sortDesc');
+    $filter = $request->get("filter");
+
+    foreach ($request->get('sortBy') as $index => $column) {
+      $sortDirection = ($sortDesc[$index] == 'true') ? 'DESC' : 'ASC';
+      $query = $query->orderBy($column, $sortDirection);
+    }
+    if ($filter) {
+      $query->where(DB::raw("CONCAT(name,' ',paternal_surname, ' ',maternal_surname )"), "like", "%" . $filter . "%");
+    }
+
+    $members = $query->paginate($itemsPerPage);
+    return new DataSetResource($members);
   }
 
   public function delete($id) {
