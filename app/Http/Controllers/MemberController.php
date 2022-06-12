@@ -77,7 +77,13 @@ class MemberController extends Controller {
   }
 
   public function show($id) {
+    // Member::findOrFail($id);
+
     $member = Member::from("members_v")->where("id", $id)->first();
+    if ($member == null) {
+      abort(405, 'Page not found');
+    }
+
     return response()->json($member);
   }
 
@@ -100,9 +106,7 @@ class MemberController extends Controller {
   }
 
   public function toCall(Request $request) {
-    Log::info("toCall");
     $now = Carbon::now()->timezone("America/Monterrey")->format("Y-m-d");
-    Log::info($now);
 
     $query = Member::query()->from("members_v")
       ->whereNotNull("next_call_date")

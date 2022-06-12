@@ -41,7 +41,6 @@ class CreditService {
       $id++;
     }
 
-    // Log::info("payment " . $payment);
     return $content;
   }
 

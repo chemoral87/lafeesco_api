@@ -24,6 +24,7 @@ return [
   'member_delete' => 'Miembro eliminado',
 
   'member_address_create' => 'Dirección de Miembro(s) creada',
+  'member_call_create' => 'LLamada seguimiento creada',
 
   'investor_profile_update' => 'Perfil editado',
 

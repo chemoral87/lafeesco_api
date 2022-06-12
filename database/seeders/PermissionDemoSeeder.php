@@ -130,6 +130,14 @@ class PermissionDemoSeeder extends Seeder {
     ]);
     $user->assignRole($role_leader_consolidador);
 
+    $user = \App\Models\User::factory()->create([
+      'name' => 'Salvador',
+      'last_name' => 'Castillo',
+      'email' => 'salvador.castillo.g@gmail.com',
+      'password' => Hash::make('admin'),
+    ]);
+    $user->assignRole($role_leader_consolidador);
+
     $user_valeria = \App\Models\User::factory()->create([
       'name' => 'Marlene',
       'last_name' => 'Morales',

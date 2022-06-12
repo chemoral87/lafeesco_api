@@ -16,7 +16,6 @@ class InvestmentController extends Controller {
     $query = InvestmentView::query();
     $id = JWTAuth::user()->id;
 
-    // Log::info("userid " . $id);
     $itemsPerPage = $request->itemsPerPage;
     $sortBy = $request->get('sortBy');
     $sortDesc = $request->get('sortDesc');

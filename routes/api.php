@@ -66,6 +66,14 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::post("/", "{$controller}@create");
   });
 
+  Route::group(["prefix" => "member-calls"], function () {
+    $controller = "MemberCallController";
+    Route::get("/by-member/{id}", "{$controller}@indexByMember");
+    Route::get("/call-types", "{$controller}@callTypes");
+    Route::post("/", "{$controller}@create");
+
+  });
+
 }); // ["middleware" => ['jwt.verify']
 
 Route::group(["prefix" => "investment"], function () {
