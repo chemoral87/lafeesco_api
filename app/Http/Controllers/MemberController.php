@@ -7,7 +7,6 @@ use App\Models\Member;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -98,6 +97,7 @@ class MemberController extends Controller {
       'marital_status_id' => $request->get('marital_status_id'),
       'category_id' => $request->get('category_id'),
       'prayer_request' => $request->get('prayer_request'),
+      'next_call_date' => $request->get('next_call_date'),
     ]);
 
     return [

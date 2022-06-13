@@ -21,7 +21,7 @@ class MemberCallController extends Controller {
   //
   public function indexByMember($id, Request $request) {
 
-    $query = MemberCall::query()->where("id", $id);
+    $query = MemberCall::query()->from("member_calls_v")->where("member_id", $id);
 
     $itemsPerPage = $request->itemsPerPage;
     $sortBy = $request->get('sortBy');
