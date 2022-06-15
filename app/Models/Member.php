@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Auditable;
@@ -23,4 +24,24 @@ class Member extends Model implements AuditableContract {
     'next_call_date',
     'created_by',
   ];
+
+  public function getBirthdayAttribute() {
+    if ($this->attributes['birthday'] == null) {
+      return "";
+    }
+    return Carbon::parse($this->attributes['birthday'])->format('d-m-Y');
+  }
+
+  public function getLastCallDateAttribute() {
+    return Carbon::parse($this->attributes['last_call_date'])->timezone("America/Monterrey");
+  }
+
+  public function getCreatedAtAttribute() {
+    return Carbon::parse($this->attributes['created_at'])->timezone("America/Monterrey");
+  }
+
+//   public function getNextCallDateAttribute() {
+//     return Carbon::parse($this->attributes['last_call_date'])->timezone("America/Monterrey");
+//   }
+
 }

@@ -8,7 +8,6 @@ use App\Models\MemberCall;
 use App\Models\MemberCallType;
 use App\Services\MemberCallService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class MemberCallController extends Controller {
@@ -48,9 +47,11 @@ class MemberCallController extends Controller {
       'created_by' => $user_id,
     ]);
 
+    Member::where("id", $member_id)->update(["last_call_id" => $address->id]);
+
     // update next call
     $next_call = $this->callService->getNextCall($member_id, $call_type_id);
-    Log::info($next_call);
+
     if ($next_call) {
       $member = Member::where("id", $member_id)->first();
       $member->next_call_type_id = $next_call["type_id"];
