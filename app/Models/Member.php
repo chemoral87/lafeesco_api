@@ -33,6 +33,10 @@ class Member extends Model implements AuditableContract {
   }
 
   public function getLastCallDateAttribute() {
+    if ($this->attributes['last_call_date'] == null) {
+      return null;
+    }
+
     return Carbon::parse($this->attributes['last_call_date'])->timezone("America/Monterrey");
   }
 
