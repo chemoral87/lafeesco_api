@@ -1,6 +1,5 @@
 <?php
 
-use Exception;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateMemberView extends Migration {
@@ -31,7 +30,7 @@ class CreateMemberView extends Migration {
     try {
       DB::statement('DROP VIEW members_v;');
       DB::statement('DROP VIEW member_calls_v;');
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
     }
 
   }
