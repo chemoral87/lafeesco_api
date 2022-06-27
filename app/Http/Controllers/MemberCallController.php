@@ -40,14 +40,14 @@ class MemberCallController extends Controller {
     $user_id = JWTAuth::user()->id;
     $member_id = $request->input('member_id');
     $call_type_id = $request->input('call_type_id');
-    $address = MemberCall::create([
+    $memberCall = MemberCall::create([
       'member_id' => $member_id,
       'call_type_id' => $request->input('call_type_id'),
       'comments' => $request->input('comments'),
       'created_by' => $user_id,
     ]);
 
-    Member::where("id", $member_id)->update(["last_call_id" => $address->id]);
+    Member::where("id", $member_id)->update(["last_call_id" => $memberCall->id]);
 
     // update next call
     $next_call = $this->callService->getNextCall($member_id, $call_type_id);
@@ -60,6 +60,29 @@ class MemberCallController extends Controller {
     }
 
     return ['success' => __('messa.member_call_create')];
+  }
+
+  public function update(Request $request, $id) {
+    // $user_id = JWTAuth::user()->id;
+    $member_id = $request->input('member_id');
+    $call_type_id = $request->input('call_type_id');
+
+    MemberCall::where("id", $id)->update([
+      'call_type_id' => $request->input('call_type_id'),
+      'comments' => $request->input('comments'),
+    ]);
+
+    // update next call
+    $next_call = $this->callService->getNextCall($member_id, null);
+
+    if ($next_call) {
+      $member = Member::where("id", $member_id)->first();
+      $member->next_call_type_id = $next_call["type_id"];
+      $member->next_call_date = $next_call["date"];
+      $member->save();
+    }
+
+    return ['success' => __('messa.member_call_update')];
   }
 
   public function callTypes() {

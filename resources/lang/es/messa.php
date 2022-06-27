@@ -25,6 +25,7 @@ return [
 
   'member_address_create' => 'Dirección de Miembro(s) creada',
   'member_call_create' => 'LLamada seguimiento creada',
+  'member_call_update' => 'LLamada seguimiento editada',
 
   'investor_profile_update' => 'Perfil editado',
 

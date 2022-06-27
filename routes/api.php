@@ -71,7 +71,7 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::get("/by-member/{id}", "{$controller}@indexByMember");
     Route::get("/call-types", "{$controller}@callTypes");
     Route::post("/", "{$controller}@create");
-
+    Route::put("/{id}", "{$controller}@update");
   });
 
 }); // ["middleware" => ['jwt.verify']

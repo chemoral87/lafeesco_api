@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\MemberCall;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class MemberCallService {
 
@@ -16,10 +17,20 @@ class MemberCallService {
 
     if ($call_type_id == 6 || $call_type_id == 7) {return null;}
 
-    $now = Carbon::now()->timezone("America/Monterrey");
     $calls_contacted = MemberCall::from("member_calls_v")
       ->where("was_contacted", 1)
-      ->where("member_id", $member_id)->get();
+      ->where("member_id", $member_id)
+      ->orderBy("created_at", "DESC")
+      ->get();
+
+    $first = $calls_contacted->first();
+    if ($first) {
+      Log::info($first->created_at);
+      Log::info($calls_contacted);
+      $now = Carbon::parse($first->created_at)->timezone("America/Monterrey");
+    } else {
+      $now = Carbon::now()->timezone("America/Monterrey");
+    }
 
     $call_welcome = $calls_contacted->first(function ($item) {return $item->call_type_id == 1;});
     if ($call_welcome == null) {
