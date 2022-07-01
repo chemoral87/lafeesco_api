@@ -25,8 +25,7 @@ class MemberCallService {
 
     $first = $calls_contacted->first();
     if ($first) {
-      Log::info($first->created_at);
-      Log::info($calls_contacted);
+
       $now = Carbon::parse($first->created_at)->timezone("America/Monterrey");
     } else {
       $now = Carbon::now()->timezone("America/Monterrey");

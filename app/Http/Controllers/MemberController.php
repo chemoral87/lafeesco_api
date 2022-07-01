@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\DataSetResource;
+use App\Models\MaritalStatus;
 use App\Models\Member;
+use App\Models\MemberCategory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -109,8 +110,6 @@ class MemberController extends Controller {
   public function toCall(Request $request) {
     $now = Carbon::now()->timezone("America/Monterrey")->format("Y-m-d");
 
-    Log::info($now);
-
     $query = Member::query()->from("members_v")
       ->whereNotNull("next_call_date")
       ->whereNotNull("address_id")
@@ -138,6 +137,18 @@ class MemberController extends Controller {
   public function delete($id) {
     Member::find($id)->delete();
     return ['success' => __('messa.member_delete')];
+  }
+
+  public function getMaritalStatuses() {
+    $marital_statuses = MaritalStatus::select("id", "name")->orderBy("name")->get();
+
+    return $marital_statuses;
+  }
+
+  public function getMemberCategories() {
+    $member_categories = MemberCategory::select("id", "name")->orderBy("name")->get();
+
+    return $member_categories;
   }
 
 }
