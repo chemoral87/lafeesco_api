@@ -15,7 +15,7 @@ class CreateMemberCallsTable extends Migration {
       $table->id();
       $table->unsignedBigInteger("member_id");
       $table->unsignedBigInteger("call_type_id");
-      $table->string("comments", 250);
+      $table->string("comments", 250)->nullable();
       $table->unsignedBigInteger("created_by")->unsigned();
       $table->timestamps();
 

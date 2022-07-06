@@ -140,15 +140,11 @@ class MemberController extends Controller {
   }
 
   public function getMaritalStatuses() {
-    $marital_statuses = MaritalStatus::select("id", "name")->orderBy("name")->get();
-
-    return $marital_statuses;
+    return MaritalStatus::select("id", "name")->orderBy("name")->get();
   }
 
   public function getMemberCategories() {
-    $member_categories = MemberCategory::select("id", "name")->orderBy("name")->get();
-
-    return $member_categories;
+    return MemberCategory::select("id", "name")->orderBy("name")->get();
   }
 
 }
