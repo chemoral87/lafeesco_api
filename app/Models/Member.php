@@ -19,6 +19,7 @@ class Member extends Model implements AuditableContract {
     'cellphone',
     'marital_status_id',
     'category_id',
+    'source_id',
     'prayer_request',
     'next_call_type_id',
     'next_call_date',

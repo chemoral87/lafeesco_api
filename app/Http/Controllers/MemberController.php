@@ -6,6 +6,7 @@ use App\Http\Resources\DataSetResource;
 use App\Models\MaritalStatus;
 use App\Models\Member;
 use App\Models\MemberCategory;
+use App\Models\MemberSource;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +29,7 @@ class MemberController extends Controller {
       'cellphone' => $request->get('cellphone'),
       'marital_status_id' => $request->get('marital_status_id'),
       'category_id' => $request->get('category_id'),
+      'source_id' => $request->get('source_id'),
       'prayer_request' => $request->get('prayer_request'),
       'next_call_type_id' => $call_type_id,
       'next_call_date' => $next_call_date,
@@ -98,6 +100,7 @@ class MemberController extends Controller {
       'cellphone' => $request->get('cellphone'),
       'marital_status_id' => $request->get('marital_status_id'),
       'category_id' => $request->get('category_id'),
+      'source_id' => $request->get('source_id'),
       'prayer_request' => $request->get('prayer_request'),
       'next_call_date' => $request->get('next_call_date'),
     ]);
@@ -145,6 +148,10 @@ class MemberController extends Controller {
 
   public function getMemberCategories() {
     return MemberCategory::select("id", "name")->orderBy("name")->get();
+  }
+
+  public function getMemberSources() {
+    return MemberSource::select("id", "name")->orderBy("order")->get();
   }
 
 }

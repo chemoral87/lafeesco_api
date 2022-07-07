@@ -20,6 +20,7 @@ class CreateMembersTable extends Migration {
       $table->date("birthday")->nullable();
       $table->tinyInteger("marital_status_id")->nullable();
       $table->tinyInteger("category_id")->nullable();
+      $table->tinyInteger("source_id")->nullable();
       $table->unsignedBigInteger("address_id")->nullable();
       $table->string("prayer_request", 250)->nullable();
 

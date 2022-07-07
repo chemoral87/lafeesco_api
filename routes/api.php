@@ -54,6 +54,7 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     $controller = "MemberController";
     Route::get("/marital-statuses", "{$controller}@getMaritalStatuses");
     Route::get("/member-categories", "{$controller}@getMemberCategories");
+    Route::get("/member-sources", "{$controller}@getMemberSources");
 
     Route::get("/to-call", "{$controller}@toCall");
     Route::get("/my-no-address", "{$controller}@myNoAddress");
