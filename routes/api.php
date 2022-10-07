@@ -78,6 +78,14 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::put("/{id}", "{$controller}@update");
   });
 
+  Route::group(["prefix" => "house-faith"], function () {
+    $controller = "HouseFaithController";
+    Route::get("/", "{$controller}@index");
+    Route::post("/", "{$controller}@create");
+    Route::put("/{id}", "{$controller}@update");
+    Route::delete("/{id}", "{$controller}@delete");
+  });
+
 }); // ["middleware" => ['jwt.verify']
 
 Route::group(["prefix" => "investment"], function () {

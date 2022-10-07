@@ -51,6 +51,11 @@ class PermissionDemoSeeder extends Seeder {
     Permission::create(['name' => 'consolidador-call-update']);
     Permission::create(['name' => 'consolidador-call-delete']);
 
+    Permission::create(['name' => 'casas-fe-index' ]);
+    Permission::create(['name' => 'casas-fe-insert']);
+    Permission::create(['name' => 'casas-fe-update']);
+    Permission::create(['name' => 'casas-fe-delete']);
+
     // create roles and assign existing permissions
     // $role1 = Role::create(['name' => 'writer']);
     // $role1->givePermissionTo('edit articles');
@@ -105,11 +110,18 @@ class PermissionDemoSeeder extends Seeder {
     $role_leader_consolidador->givePermissionTo('consolidador-call-update');
     $role_leader_consolidador->givePermissionTo('consolidador-call-delete');
 
+    $role_admin_casa_fe = Role::create(['name' => 'casas-fe-admin']);
+    $role_admin_casa_fe->givePermissionTo('casas-fe-index');
+    $role_admin_casa_fe->givePermissionTo('casas-fe-insert');
+    $role_admin_casa_fe->givePermissionTo('casas-fe-update');
+    $role_admin_casa_fe->givePermissionTo('casas-fe-delete');
+
     Role::create(['name' => 'publisher']);
     Role::create(['name' => 'cashier']);
     Role::create(['name' => 'leader']);
     Role::create(['name' => 'worker']);
     Role::create(['name' => 'auditor']);
+
 
     // create demo users
     $user = \App\Models\User::factory()->create([
@@ -121,6 +133,7 @@ class PermissionDemoSeeder extends Seeder {
     ]);
     $user->assignRole($role1);
     $user->assignRole($role_consolidador);
+    $user->assignRole($role_admin_casa_fe);
 
     $user = \App\Models\User::factory()->create([
       'name' => 'Felipe',
