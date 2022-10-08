@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 function createVerificationCode($length = 10) {
   $characters = '0123456789';
@@ -45,3 +46,18 @@ function saveAmazonFile($file, $path, $old_file = null) {
   }
   return $full_name;
 }
+
+
+ function queryServerSide($request, $query) {
+    if ($request->has('sortBy')) {
+      $sortBy = $request->get('sortBy');
+      $sortDesc = $request->get('sortDesc');
+      foreach ($sortBy as $key => $value) {
+        $sortBy_ = $sortBy[$key];
+        $sortDesc_ = $sortDesc[$key] == 'true' ? 'desc' : 'asc';
+        $query->orderBy($sortBy_, $sortDesc_);
+      }
+    }
+
+    return $query;
+  }
