@@ -33,5 +33,7 @@ return [
 
   'house_faith_create' => 'Casa de Fe creada',
   'house_faith_update' => 'Casa de Fe guardada',
-  'house_faith_delete' => 'Casa de Fe eliminada'
+  'house_faith_delete' => 'Casa de Fe eliminada',
+
+  'agro_event_create' => 'Agro Evento Creado'
 ];
