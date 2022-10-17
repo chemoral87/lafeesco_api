@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
@@ -22,6 +24,24 @@ function generateFileName($file, $path) {
   return $full_name;
 }
 
+function saveS3Blob($blob, $path, $file_to_delete = null) {
+    $folder  = Carbon::now()->format("Ymd")."/";
+    $name =  $path.$folder.Str::uuid()->toString(). '.jpg';
+    $intervention = Image::make($blob)->encode('jpg');
+    $result = Storage::disk('s3')->put($name, $intervention);
+    // https://www.positronx.io/laravel-image-resize-upload-with-intervention-image-package/
+    // https://laracasts.com/discuss/channels/laravel/resize-an-image-before-upload-to-s3
+
+
+    if ($file_to_delete != null) {
+      try {
+        Storage::disk('s3')->delete($old_file);
+      } catch (Exception $e) {
+      }
+    }
+    return $$name;
+  }
+
 function saveAmazonFile($file, $path, $old_file = null) {
   $d = app()->environment();
   $extension = $file->extension();
@@ -29,9 +49,9 @@ function saveAmazonFile($file, $path, $old_file = null) {
   // https://www.positronx.io/laravel-image-resize-upload-with-intervention-image-package/
   // https://laracasts.com/discuss/channels/laravel/resize-an-image-before-upload-to-s3
   $img = Image::make($file);
-  $img->resize(null, 800, function ($constraint) {
-    $constraint->aspectRatio();
-  });
+//   $img->resize(null, 800, function ($constraint) {
+//     $constraint->aspectRatio();
+//   });
 
   //detach method is the key! Hours to find it... :/
   $resource = $img->stream()->detach();
