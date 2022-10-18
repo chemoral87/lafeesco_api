@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('agro_event_images', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger("agro_event_id");
+            $table->mediumText("path");
             $table->timestamps();
         });
     }

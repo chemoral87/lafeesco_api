@@ -39,7 +39,7 @@ function saveS3Blob($blob, $path, $file_to_delete = null) {
       } catch (Exception $e) {
       }
     }
-    return $$name;
+    return $name;
   }
 
 function saveAmazonFile($file, $path, $old_file = null) {

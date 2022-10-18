@@ -11,5 +11,10 @@ class AgroEventImage extends Model
     protected $fillable = [
         'agro_event_id',
         'path',
-      ];
+    ];
+
+//     public function agroEvent()
+//     {
+//         return $this->belongsTo(AgroEvent::class);
+//     }
 }
