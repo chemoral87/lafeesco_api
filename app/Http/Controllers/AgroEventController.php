@@ -35,4 +35,15 @@ class AgroEventController extends Controller
         $agro_events = AgroEvent::with("images")->get();
         return $agro_events;
     }
+
+    public function show(Request $request, $id)
+    {
+        $agro_event = AgroEvent::with('images')->where("id", $id)->first();
+
+        if ($agro_event == null) {
+            abort(405, 'Agro Event not found');
+        }
+
+        return response()->json($agro_event);
+    }
 }
