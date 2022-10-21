@@ -55,7 +55,7 @@ class AgroEventController extends Controller {
     }
 
     $agro_event->images()->saveMany($new_images);
-
+    return ['success' => __('messa.agro_event_update')];
   }
 
   public function index(Request $request) {
