@@ -38,7 +38,8 @@ class AgroEventController extends Controller {
 
     $agro_event->fill($request->all())->save();
     // $a->images()->where("id",2)->get()
-    $images = $agro_event->images()->whereNotIn("id", $request->image_ids)->get();
+    $ids = $request->has("image_ids") ? $request->image_ids : [];
+    $images = $agro_event->images()->whereNotIn("id", $ids)->get();
     foreach ($images as $img) {
       deleteS3($img->real_path);
       $img->delete();

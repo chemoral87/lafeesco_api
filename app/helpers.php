@@ -26,7 +26,7 @@ function generateFileName($file, $path) {
 function saveS3Blob($blob, $path, $file_to_delete = null) {
   $d = app()->environment();
   $folder = Carbon::now()->format("Ymd") . "/";
-  $name = $d . "/" . $path . $folder . Str::uuid()->toString() . '.jpg';
+  $name = $d . "/" . $path . $folder . Str::uuid()->getHex()->toString() . '.jpg';
   $intervention = Image::make($blob)->encode('jpg');
   $result = Storage::disk('s3')->put($name, $intervention);
   // https://www.positronx.io/laravel-image-resize-upload-with-intervention-image-package/
