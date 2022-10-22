@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class CreditController extends Controller {
 
-  protected $creditService;
+  public $creditService;
 
   public function __construct(CreditService $creditService) {
     $this->creditService = $creditService;
@@ -30,4 +30,3 @@ class CreditController extends Controller {
     ];
   }
 }
-

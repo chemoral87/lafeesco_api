@@ -15,14 +15,6 @@ function createVerificationCode($length = 10) {
   return $randomString;
 }
 
-function generateFileName($file, $path) {
-  $d = app()->environment();
-  $extension = $file->extension();
-  $full_name = $d . $path . "/" . uniqid() . "." . $extension;
-  // $full_name = $d . $path;
-  return $full_name;
-}
-
 function saveS3Blob($blob, $path, $file_to_delete = null) {
   $d = app()->environment();
   $folder = Carbon::now()->format("Ymd") . "/";
@@ -57,11 +49,7 @@ function saveAmazonFile($file, $path, $old_file = null) {
   // https://www.positronx.io/laravel-image-resize-upload-with-intervention-image-package/
   // https://laracasts.com/discuss/channels/laravel/resize-an-image-before-upload-to-s3
   $img = Image::make($file);
-//   $img->resize(null, 800, function ($constraint) {
-//     $constraint->aspectRatio();
-//   });
 
-  //detach method is the key! Hours to find it... :/
   $resource = $img->stream()->detach();
 
   $path = Storage::disk('s3')->put($full_name, $resource);
