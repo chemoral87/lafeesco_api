@@ -46,9 +46,9 @@ class MemberController extends Controller {
 
     // Use the client to do fun stuff like send text messages!
     $cellphone = $request->get('cellphone');
-    $name = Str::title($request->get('name'));
+    $name = Str::title($request->get('name')) . " " . Str::title($request->get('paternal_surname'));
 
-    $this->messagingService->sendSMS($cellphone, ['type' => MessagingService::WELCOME, 'full_name' => $name]);
+    $this->messagingService->sendSMS($cellphone, ['type' => MessagingService::WELCOME, 'name' => $name]);
     // https://console.twilio.com/us1/develop/sms/try-it-out/send-an-sms?frameUrl=%2Fconsole%2Fsms%2Fget-setup%3Fx-target-region%3Dus1&currentFrameUrl=%2Fconsole%2Fsms%2Fgetting-started%2Fbuild%3F__override_layout__%3Dembed%26bifrost%3Dtrue%26x-target-region%3Dus1
     // https://www.twilio.com/docs/libraries/php
     // send sms

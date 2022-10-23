@@ -24,6 +24,8 @@ class MessagingService {
     $client = new Client($this->sid, $this->token);
     $validation = $this->validatePhoneNumber($cellphone);
 
+    $message = $this->getMessage($params);
+
     if ($validation->valid) {
 
       try {
@@ -32,11 +34,19 @@ class MessagingService {
           $validation->cellphone,
           array(
             "messagingServiceSid" => $this->messaging_service_sid,
-            "body" => "hola tomasin",
+            "body" => $message,
           )
         );
       } catch (Exception $e) {}
     }
+  }
+
+  private function getMessage($params) {
+    if ($params['type'] == self::WELCOME) {
+      $template = "{{name}}, bienvenido a la Fe Escobedo. Dios te bendiga y te haga prosperar en todo.";
+      $message = replace_tags($template, $params);
+    }
+    return $message;
   }
 
   private function validatePhoneNumber($cellphone) {
