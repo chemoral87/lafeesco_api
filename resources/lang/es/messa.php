@@ -39,4 +39,8 @@ return [
   'agro_event_update' => 'Agro Evento guardado',
   'agro_event_delete' => 'Agro Evento eliminado',
 
+  'attendant_create' => 'Servidor creado',
+  'attendant_update' => 'Servidor guardado',
+  'attendant_delete' => 'Servidor eliminado',
+
 ];
