@@ -10,15 +10,15 @@ class AttendantController extends Controller {
   const PATH_S3 = "attendant/";
 
   public function index(Request $request) {
-    $query = queryServerSide($request, Attendant);
+    $query = queryServerSide($request, new Attendant());
     $attendants = $query->paginate($request->get('itemsPerPage'));
     return new DataSetResource($attendants);
   }
 
   public function create(Request $request) {
     $photo = "";
-    if ($request->has('photo')) {
-      $photo = saveS3Blob($blob, self::PATH_S3);
+    if ($request->has('image')) {
+      $photo = saveS3Blob($request->file('image'), self::PATH_S3);
     }
 
     $attendant = Attendant::create([
