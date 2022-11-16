@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Resources\DataSetResource;
 use App\Http\Resources\RoleShowResource;
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ use Spatie\Permission\Models\Role;
 class RoleController extends Controller {
   // https://codingdriver.com/laravel-user-roles-and-permissions-tutorial-with-example.html
   public function index(Request $request) {
-    $query = Role::query();
+    $query = new Role;
     $itemsPerPage = $request->itemsPerPage;
     $sortBy = $request->get('sortBy');
     $sortDesc = $request->get('sortDesc');

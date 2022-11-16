@@ -5,18 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DataSetResource;
 use App\Models\FaithHouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class FaithHouseController extends Controller {
   public function index(Request $request) {
-    $query = queryServerSide($request, FaithHouse::from("faith_houses"));
-
+    DB::enableQueryLog();
+    $query = queryServerSide($request, FaithHouse::query());
     $faith_houses = $query->paginate($request->get('itemsPerPage'));
-
-    // return response()->json([
-    //   'faith_houses' => $faith_houses->items(),
-    //   'total' => $faith_houses->total(),
-    // ], 200, [], JSON_NUMERIC_CHECK);
-
+    Log::info(DB::getQueryLog());
     return new DataSetResource($faith_houses);
   }
 
@@ -38,11 +35,13 @@ class FaithHouseController extends Controller {
   public function update(Request $request, $id) {
     $house_faith = FaithHouse::where("id", $id)->update([
       'name' => $request->get('name'),
+
       'host' => $request->get('host'),
       'host_phone' => $request->get('host_phone'),
       'exhibitor' => $request->get('exhibitor'),
       'exhibitor_phone' => $request->get('exhibitor_phone'),
       'address' => $request->get('address'),
+      'schedule' => $request->get('schedule'),
       'lat' => $request->get('lat'),
       'lng' => $request->get('lng'),
     ]);

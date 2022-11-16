@@ -10,7 +10,7 @@ class AttendantController extends Controller {
   const PATH_S3 = "attendant/";
 
   public function index(Request $request) {
-    $query = queryServerSide($request, new Attendant());
+    $query = queryServerSide($request,  Attendant::query());
     $attendants = $query->paginate($request->get('itemsPerPage'));
     return new DataSetResource($attendants);
   }
