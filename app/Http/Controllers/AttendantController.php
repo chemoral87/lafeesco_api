@@ -10,7 +10,7 @@ class AttendantController extends Controller {
   const PATH_S3 = "attendant/";
 
   public function index(Request $request) {
-    $query = queryServerSide($request,  Attendant::query());
+    $query = queryServerSide($request, Attendant::query());
     $attendants = $query->paginate($request->get('itemsPerPage'));
     return new DataSetResource($attendants);
   }
@@ -50,7 +50,12 @@ class AttendantController extends Controller {
   }
 
   public function delete($id) {
-    Attendant::find($id)->delete();
+    $attendant = Attendant::find($id);
+    if ($attendant->real_photo) {
+      deleteS3($attendant->real_photo);
+    }
+    $attendant->delete();
+
     return ['success' => __('messa.attendant_delete')];
   }
 }

@@ -105,6 +105,12 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::delete("/{id}", "{$controller}@delete");
   });
 
+  Route::group(["prefix" => "template-generator"], function () {
+    $controller = "TemplateGeneratorController";
+    Route::get("/tables", "{$controller}@getTables");
+
+  });
+
 }); // ["middleware" => ['jwt.verify']
 
 // public

@@ -29,7 +29,7 @@ class Attendant extends Model {
     return "https://source.unsplash.com/96x96/daily";
   }
 
-  public function getRealPathAttribute() {
-    return $this->attributes['path'];
+  public function getRealPhotoAttribute() {
+    return $this->attributes['photo'];
   }
 }

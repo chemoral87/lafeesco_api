@@ -35,7 +35,6 @@ class FaithHouseController extends Controller {
   public function update(Request $request, $id) {
     $house_faith = FaithHouse::where("id", $id)->update([
       'name' => $request->get('name'),
-
       'host' => $request->get('host'),
       'host_phone' => $request->get('host_phone'),
       'exhibitor' => $request->get('exhibitor'),
