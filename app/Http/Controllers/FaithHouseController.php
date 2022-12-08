@@ -6,14 +6,13 @@ use App\Http\Resources\DataSetResource;
 use App\Models\FaithHouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class FaithHouseController extends Controller {
   public function index(Request $request) {
     DB::enableQueryLog();
     $query = queryServerSide($request, FaithHouse::query());
     $faith_houses = $query->paginate($request->get('itemsPerPage'));
-    Log::info(DB::getQueryLog());
+
     return new DataSetResource($faith_houses);
   }
 

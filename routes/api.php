@@ -108,6 +108,7 @@ Route::group(["middleware" => ['jwt.verify']], function () {
   Route::group(["prefix" => "template-generator"], function () {
     $controller = "TemplateGeneratorController";
     Route::get("/tables", "{$controller}@getTables");
+    Route::get("/definitions", "{$controller}@getDefinitions");
 
   });
 
