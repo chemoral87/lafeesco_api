@@ -10,6 +10,7 @@ return [
   'user_update' => 'Usuario guardado',
   'user_roles_update' => 'Roles y permisos de Usuario guardados',
   'user_delete' => 'Usuario eliminado',
+  'user_change' => 'Contraseña actualizada. Favor de volver a iniciar Sesión.',
 
   'permission_create' => 'Permiso creado',
   'permission_update' => 'Permiso guardado',

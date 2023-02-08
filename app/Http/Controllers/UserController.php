@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller {
   public function index(Request $request) {
@@ -37,7 +38,7 @@ class UserController extends Controller {
     $req = $this->validate($request, [
       'name' => 'required',
       'last_name' => 'required',
-      'email' => 'required',
+      'email' => 'required|unique:users,email',
     ]);
     User::create($req + ['password' => Hash::make('admin')]);
     return ['success' => __('messa.user_create')];
@@ -52,6 +53,7 @@ class UserController extends Controller {
     $user->name = $request->name;
     $user->last_name = $request->last_name;
     $user->second_last_name = $request->second_last_name;
+    $user->cellphone = $request->cellphone;
 
     if ($request->password != '') {
       $user->password = bcrypt($request->get('password'));
@@ -79,6 +81,21 @@ class UserController extends Controller {
       User::find($id)->delete();
     }
     return ['success' => __('messa.user_delete')];
+  }
+
+  public function changePassword(Request $request) {
+
+    $user_id = JWTAuth::user()->id;
+    $user = User::find($user_id);
+
+    $password = trim($request->get("password"));
+    $confirm_password = trim($request->get("confirm_password"));
+    if ($password == $confirm_password) {
+      $user->password = bcrypt($password);
+      $user->save();
+      return ['success' => __('messa.user_change')];
+    }
+
   }
 
 }

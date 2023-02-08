@@ -12,6 +12,7 @@ Route::group(["prefix" => "auth", "middleware" => ["api"]], function ($router) {
   Route::post("logout", "{$controller}@logout");
   Route::post("refresh", "{$controller}@refresh");
   Route::post("user", "{$controller}@me");
+
 });
 
 Route::group(["middleware" => ['jwt.verify']], function () {
@@ -23,6 +24,7 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::put("/{id}", "{$controller}@update");
     Route::put("/{id}/children", "{$controller}@children");
     Route::delete("/{id}", "{$controller}@delete");
+    Route::post("/change", "{$controller}@changePassword");
   });
 
   Route::group(["prefix" => "roles"], function () {
