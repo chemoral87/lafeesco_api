@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Twilio\Rest\Client;
 
@@ -20,14 +21,14 @@ class MessagingService {
   }
 
   public function sendSMS($cellphone, $params) {
-
+    Log::info("sendSMS");
     $client = new Client($this->sid, $this->token);
     $validation = $this->validatePhoneNumber($cellphone);
 
     $message = $this->getMessage($params);
 
     if ($validation->valid) {
-
+      Log::info("validation PHONE");
       try {
         $client->messages->create(
           // the number you'd like to send the message to
@@ -38,6 +39,8 @@ class MessagingService {
           )
         );
       } catch (Exception $e) {}
+    } else {
+      Log::info("invalidation PHONE");
     }
   }
 

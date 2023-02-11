@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DataSetResource;
 use App\Http\Resources\UserShowResource;
 use App\Models\User;
+use App\Notifications\UserPasswordNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Notification;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller {
@@ -40,7 +43,17 @@ class UserController extends Controller {
       'last_name' => 'required',
       'email' => 'required|unique:users,email',
     ]);
-    User::create($req + ['password' => Hash::make('admin')]);
+
+    $random_password = strtoupper(Str::random(5));
+    $hashed_random_password = Hash::make($random_password);
+    // add password
+    //User::create($req + ['password' => Hash::make('admin')]);
+    User::create($req + ['password' => $hashed_random_password]);
+
+    // notify password
+    Notification::route("mail", $request->get("email"))
+      ->notify(new UserPasswordNotification($req + ['password' => $random_password, 'cellphone' => $request->get("cellphone")]));
+
     return ['success' => __('messa.user_create')];
   }
 
