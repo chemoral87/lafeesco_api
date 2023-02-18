@@ -32,4 +32,5 @@ class Attendant extends Model {
   public function getRealPhotoAttribute() {
     return $this->attributes['photo'];
   }
+
 }
