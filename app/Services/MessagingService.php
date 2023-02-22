@@ -9,6 +9,7 @@ use Twilio\Rest\Client;
 class MessagingService {
 
   public const WELCOME = "welcome";
+  public const NEW_USER = "new_user";
 
   protected $sid;
   protected $token;
@@ -21,7 +22,7 @@ class MessagingService {
   }
 
   public function sendSMS($cellphone, $params) {
-    Log::info("sendSMS");
+
     $client = new Client($this->sid, $this->token);
     $validation = $this->validatePhoneNumber($cellphone);
 
@@ -47,6 +48,11 @@ class MessagingService {
   private function getMessage($params) {
     if ($params['type'] == self::WELCOME) {
       $template = "{{name}}, bienvenido a la Fe Escobedo. Dios te bendiga y te haga prosperar en todo.";
+      $message = replace_tags($template, $params);
+    }
+
+    if ($params['type'] == self::NEW_USER) {
+      $template = "{{name}} {{last_name}}, tu contraseña temporal es {{password}}";
       $message = replace_tags($template, $params);
     }
     return $message;

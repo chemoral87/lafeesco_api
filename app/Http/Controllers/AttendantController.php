@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DataSetResource;
 use App\Models\Attendant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class AttendantController extends Controller {
   const PATH_S3 = "attendant/";
 
   public function index(Request $request) {
+    $filter = $request->get("filter");
     $query = queryServerSide($request, Attendant::query());
+    if ($filter) {
+      $query->where(DB::raw("CONCAT(name, ' ', paternal_surname)"), "like", "%" . $filter . "%");
+    }
     $attendants = $query->paginate($request->get('itemsPerPage'));
     return new DataSetResource($attendants);
   }
@@ -40,7 +45,7 @@ class AttendantController extends Controller {
 
     if ($request->has('image')) {
       try {
-        deleteS3($attendant->photo);
+        deleteS3($attendant->real_photo);
       } catch (Exception $e) {
         Log::error(sprintf("%s - func %s - line %d - ", __CLASS__, __FUNCTION__, __LINE__) . $e->getMessage());
       }

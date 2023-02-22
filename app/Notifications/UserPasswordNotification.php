@@ -47,10 +47,16 @@ class UserPasswordNotification extends Notification implements ShouldQueue {
   }
 
   public function toTwilio($notifiable) {
-    Log::info('In sendTwilio method');
     $name = $this->data["name"];
+    $last_name = $this->data["last_name"];
+    $password = $this->data["password"];
     $cellphone = $this->data["cellphone"];
-    $this->messagingService->sendSMS($cellphone, ['type' => MessagingService::WELCOME, 'name' => $name]);
+    $this->messagingService->sendSMS($cellphone,
+      ['type' => MessagingService::NEW_USER,
+        'name' => $name,
+        'last_name' => $last_name,
+        'password' => $password,
+      ]);
   }
 
   /**
