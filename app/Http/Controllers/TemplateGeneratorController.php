@@ -11,7 +11,7 @@ class TemplateGeneratorController extends Controller {
     $table_filter = $request->get("table_filter");
     $schema_filter = $request->get("schema_filter");
     $tables = DB::table('information_schema.tables')
-      ->select("TABLE_NAME", "TABLE_SCHEMA")
+      ->select("table_name", "table_schema")
       ->where("table_type", "BASE TABLE")
       ->where("table_name", "LIKE", "%" . $table_filter . "%")
       ->where("TABLE_SCHEMA", "LIKE", "%" . $schema_filter . "%")
@@ -28,9 +28,9 @@ class TemplateGeneratorController extends Controller {
       $table_name = Str::lower($data["table_name"]);
       $table_schema = $data["table_schema"];
       $definition = DB::table('information_schema.COLUMNS')
-        ->select("COLUMN_KEY", "TABLE_NAME", "COLUMN_NAME", "ORDINAL_POSITION", "IS_NULLABLE", "DATA_TYPE", "CHARACTER_MAXIMUM_LENGTH", "NUMERIC_PRECISION", "NUMERIC_SCALE")
+        ->select("column_key", "table_name", "column_name", "ordinal_position", "is_nullable", "data_type", "character_maximum_length", "numeric_precision", "numeric_scale")
         ->where("TABLE_NAME", "LIKE", $table_name)
-        ->where("TABLE_SCHEMA", "LIKE", $table_schema)->first();
+        ->where("TABLE_SCHEMA", "LIKE", $table_schema)->get();
 
       $table_definitions[$table_name] = $definition;
     }
