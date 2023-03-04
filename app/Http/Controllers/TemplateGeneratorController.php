@@ -34,7 +34,9 @@ class TemplateGeneratorController extends Controller {
 
       $table_definitions[$table_name] = $definition;
     }
-    return $table_definitions;
+    return $definition;
+
+    // return $table_definitions;
   }
 
 }

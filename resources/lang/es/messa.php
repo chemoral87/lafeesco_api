@@ -24,6 +24,10 @@ return [
   'member_update' => 'Miembro guardado',
   'member_delete' => 'Miembro eliminado',
 
+  'ministry_create' => 'Ministerio creado',
+  'ministry_update' => 'Ministerio guardado',
+  'ministry_delete' => 'Ministerio eliminado',
+
   'member_address_create' => 'Dirección de Miembro(s) creada',
   'member_call_create' => 'LLamada seguimiento creada',
   'member_call_update' => 'LLamada seguimiento guardado',

@@ -29,7 +29,7 @@ class MessagingService {
     $message = $this->getMessage($params);
 
     if ($validation->valid) {
-      Log::info("validation PHONE");
+
       try {
         $client->messages->create(
           // the number you'd like to send the message to
@@ -39,6 +39,14 @@ class MessagingService {
             "body" => $message,
           )
         );
+
+        // $client->messages
+        //   ->create("whatsapp:" . $validation->cellphone, // to
+        //     [
+        //       "from" => "whatsapp:+14155238886",
+        //       "body" => "Hello there!",
+        //     ]
+        //   );
       } catch (Exception $e) {}
     } else {
       Log::info("invalidation PHONE");

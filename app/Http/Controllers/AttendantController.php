@@ -53,15 +53,6 @@ class AttendantController extends Controller {
       $attendant->photo = $photo;
     }
 
-    // $attendant = Attendant::where("id", $id)->update([
-    //   'name' => $request->get('name'),
-    //   'paternal_surname' => $request->get('paternal_surname'),
-    //   'maternal_surname' => $request->get('maternal_surname'),
-    //   'cellphone' => $request->get('cellphone'),
-    //   //   'photo' => $request->get('photo'),
-    //   'email' => $request->get('email'),
-    //   'birthdate' => $request->get('birthdate'),pl
-    // ]);
     $attendant->name = $request->get('name');
     $attendant->paternal_surname = $request->get('paternal_surname');
     $attendant->maternal_surname = $request->get('maternal_surname');
