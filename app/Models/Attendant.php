@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Ministry;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +23,6 @@ class Attendant extends Model {
 
   public function getPhotoAttribute($value) {
     if ($value) {
-
       return Storage::disk('s3')->temporaryUrl($value, Carbon::now()->addMinutes(20));
     }
 
@@ -31,6 +31,10 @@ class Attendant extends Model {
 
   public function getRealPhotoAttribute() {
     return $this->attributes['photo'];
+  }
+
+  public function ministries() {
+    return $this->belongsToMany(Ministry::class, 'attendant_ministries', 'attendant_id', 'ministry_id');
   }
 
 }

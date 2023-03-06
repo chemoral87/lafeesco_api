@@ -17,7 +17,7 @@ class AttendantController extends Controller {
     if ($filter) {
       $query->where(DB::raw("CONCAT(name, ' ', paternal_surname)"), "like", "%" . $filter . "%");
     }
-    $attendants = $query->paginate($request->get('itemsPerPage'));
+    $attendants = $query->with("ministries")->paginate($request->get('itemsPerPage'));
     return new DataSetResource($attendants);
   }
 
@@ -36,6 +36,7 @@ class AttendantController extends Controller {
       'email' => $request->get('email'),
       'birthdate' => $request->get('birthdate'),
     ]);
+    $attendant->ministries()->sync($request->get('ministry_ids'));
 
     return ['success' => __('messa.attendant_create')];
   }
@@ -59,6 +60,7 @@ class AttendantController extends Controller {
     $attendant->cellphone = $request->get('cellphone');
     $attendant->email = $request->get('email');
     $attendant->birthdate = $request->get('birthdate');
+    $attendant->ministries()->sync($request->get('ministry_ids'));
 
     $attendant->save();
 
@@ -78,7 +80,7 @@ class AttendantController extends Controller {
   }
 
   public function show(Request $request, $id) {
-    $attendant = Attendant::where("id", $id)->first();
+    $attendant = Attendant::with("ministries")->where("id", $id)->first();
 
     if ($attendant == null) {
       abort(405, 'Attendant not found');

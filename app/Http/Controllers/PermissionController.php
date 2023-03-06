@@ -42,7 +42,7 @@ class PermissionController extends Controller {
     ]);
 
     $role = Permission::create(['name' => $request->input('name')]);
-    // $role->syncPermissions($request->permissions);
+
 
     return [
       'success' => __('messa.permission_create'),

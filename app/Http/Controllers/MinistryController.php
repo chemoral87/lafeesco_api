@@ -17,6 +17,16 @@ class MinistryController extends Controller {
     return new DataSetResource($ministries);
   }
 
+  public function filter(Request $request) {
+    $filter = $request->queryText;
+    $ids = isset($request->ids) ? $request->ids : [];
+    $ministries = Ministry::select("name", "id")
+      ->whereNotIn("id", $ids)
+      ->where("name", "like", "%" . $filter . "%")
+      ->orderBy("name")->paginate(7);
+    return $ministries->items();
+  }
+
   public function show($id) {
     $ministry = Ministry::where("id", $id)->first();
     if ($ministry == null) {
@@ -37,6 +47,7 @@ class MinistryController extends Controller {
     $ministry = Ministry::find($id);
     $ministry->name = $request->get('name');
     $ministry->order = $request->get('order');
+
     $ministry->save();
     return ['success' => __('messa.ministry_update')];
   }
