@@ -19,6 +19,7 @@ Route::group(["middleware" => ['jwt.verify']], function () {
   Route::group(["prefix" => "users"], function () {
     $controller = "UserController";
     Route::get("/", "{$controller}@index");
+    Route::get("/filter", "{$controller}@filter");
     Route::get("/{id}", "{$controller}@show");
     Route::post("/", "{$controller}@create");
     Route::put("/{id}", "{$controller}@update");

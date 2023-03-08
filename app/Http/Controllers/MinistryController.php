@@ -13,7 +13,12 @@ class MinistryController extends Controller {
     if ($filter) {
       $query->where("name", "like", "%" . $filter . "%");
     }
-    $ministries = $query->paginate($request->get('itemsPerPage'));
+    $ministries = $query
+    // ->with("leaders")
+      ->with(['leaders' => function ($query) {
+        $query->select('name', 'last_name', 'email');
+      }])
+      ->paginate($request->get('itemsPerPage'));
     return new DataSetResource($ministries);
   }
 
@@ -28,7 +33,9 @@ class MinistryController extends Controller {
   }
 
   public function show($id) {
-    $ministry = Ministry::where("id", $id)->first();
+    $ministry = Ministry::with(['leaders' => function ($query) {
+      $query->select('users.id', 'name', 'last_name', 'email');
+    }])->where("id", $id)->first();
     if ($ministry == null) {
       abort(405, 'Ministry not found');
     }
@@ -47,6 +54,10 @@ class MinistryController extends Controller {
     $ministry = Ministry::find($id);
     $ministry->name = $request->get('name');
     $ministry->order = $request->get('order');
+
+    $ministry->leaders()->sync(collect($request->get('leaders'))->pluck('id'));
+
+    // Log::info($request->get("leaders"));
 
     $ministry->save();
     return ['success' => __('messa.ministry_update')];

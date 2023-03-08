@@ -76,6 +76,16 @@ class UserController extends Controller {
     return ['success' => __('messa.user_update')];
   }
 
+  public function filter(Request $request) {
+    $filter = $request->queryText;
+    $ids = isset($request->ids) ? $request->ids : [];
+    $users = User::select("name", "last_name", "email", "id")
+      ->whereNotIn("id", $ids)
+      ->where(DB::raw("CONCAT_WS(' ',name, last_name, second_last_name)"), "like", "%" . $filter . "%")
+      ->orderBy("name")->paginate(7);
+    return $users->items();
+  }
+
   public function children(Request $request, $id) {
     $user = User::find($id);
     if ($user) {
