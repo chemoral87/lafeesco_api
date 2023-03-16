@@ -12,6 +12,7 @@ class Ministry extends Model {
   protected $fillable = [
     'name',
     'order',
+    'color',
   ];
 
   public function leaders() {

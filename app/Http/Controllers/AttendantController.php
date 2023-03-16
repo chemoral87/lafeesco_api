@@ -17,7 +17,12 @@ class AttendantController extends Controller {
     if ($filter) {
       $query->where(DB::raw("CONCAT(name, ' ', paternal_surname)"), "like", "%" . $filter . "%");
     }
-    $attendants = $query->with("ministries")->paginate($request->get('itemsPerPage'));
+    $attendants = $query
+    // ->with("ministries")
+      ->with(['ministries' => function ($query) {
+        $query->select('name');
+      }])
+      ->paginate($request->get('itemsPerPage'));
     return new DataSetResource($attendants);
   }
 

@@ -54,6 +54,7 @@ class MinistryController extends Controller {
     $ministry = Ministry::find($id);
     $ministry->name = $request->get('name');
     $ministry->order = $request->get('order');
+    $ministry->color = $request->get('color');
 
     $ministry->leaders()->sync(collect($request->get('leaders'))->pluck('id'));
 
