@@ -46,6 +46,7 @@ class MinistryController extends Controller {
     $ministry = Ministry::create([
       'name' => $request->get('name'),
       'order' => $request->get('order'),
+      'color' => $request->get('color'),
     ]);
     return ['success' => __('messa.ministry_create')];
   }

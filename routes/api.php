@@ -124,6 +124,11 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::delete("/{id}", "{$controller}@delete");
   });
 
+  Route::group(["prefix" => "bible"], function () {
+    $controller = "BibleController";
+    Route::get("/", "{$controller}@index");
+  });
+
 }); // ["middleware" => ['jwt.verify']
 
 // public

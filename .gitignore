@@ -15,3 +15,5 @@ yarn-error.log
 composer.lock
 /.idea
 
+database/migrations/2023_03_16_205006_create_bibles_table.php
+database/migrations/2023_03_19_061914_create_bible_books_table.php
