@@ -19,10 +19,6 @@ class BibleService {
     $verseTo = "";
     // $patron_1 = "/^(\d+\s*)?(\w+)\s(\d+)\.(\d+)-(\d+)/";
     $patron_1 = "/^(\d+\s*)?(\w+)\s(\d+)\.(\d+)?(?:-(\d+))?$/i";
-    $patron_3 = "/^(\d+\s*)?(\w+)\s(\d+)\.(\d+)/";
-
-    // $patron_1 = "/^(\d*)?(\w+)\s(\d+)\.(\d+)-(\d+)/";
-    // $patron_3 = "/^(\d*)?(\w+)\s(\d+)\.(\d+)/";
 
     // ex 1 jn 1.1-3
     if (preg_match($patron_1, $prompt, $match)) {
@@ -39,7 +35,7 @@ class BibleService {
       return "no " . $prompt;
     }
     // Log::info($book);
-    $bible_book = BibleBook::where("name", "like", $book . "%")->orderBy("name", "asc")->first();
+    $bible_book = BibleBook::where("name", "like", trim($book) . "%")->orderBy("name", "asc")->first();
 
     $query = Bible::query();
     $query->where("book", $bible_book->id)
