@@ -9,6 +9,7 @@ use App\Notifications\UserPasswordNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Notification;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -53,7 +54,7 @@ class UserController extends Controller {
     // notify password
     Notification::route("mail", $request->get("email"))
       ->notify(new UserPasswordNotification($req + ['password' => $random_password, 'cellphone' => $request->get("cellphone")]));
-
+    Log::info($random_password);
     return ['success' => __('messa.user_create')];
   }
 

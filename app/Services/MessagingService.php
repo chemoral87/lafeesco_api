@@ -29,7 +29,7 @@ class MessagingService {
     $message = $this->getMessage($params);
 
     if ($validation->valid) {
-
+      Log::info($validation->cellphone);
       try {
         $client->messages->create(
           // the number you'd like to send the message to
