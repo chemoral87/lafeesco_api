@@ -9,7 +9,10 @@ class BibleService {
   public function getVersicles($search) {
     $prompts = explode(";", $search);
     foreach ($prompts as $prompt) {
-      $data[] = $this->getComponents($prompt);
+      if (isset($prompt) && $prompt != "") {
+        $data[] = $this->getComponents($prompt);
+      }
+
     }
     return $data;
   }
@@ -32,10 +35,16 @@ class BibleService {
     }
 
     if (!isset($book)) {
-      return "no " . $prompt;
+      return [
+        'prompt' => $prompt];
     }
     // Log::info($book);
     $bible_book = BibleBook::where("name", "like", trim($book) . "%")->orderBy("name", "asc")->first();
+
+    if (!isset($bible_book->id)) {
+      return [
+        'prompt' => $prompt];
+    }
 
     $query = Bible::query();
     $query->where("book", $bible_book->id)
