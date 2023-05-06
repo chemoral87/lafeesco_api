@@ -39,7 +39,11 @@ class BibleService {
         'prompt' => $prompt];
     }
     // Log::info($book);
-    $bible_book = BibleBook::where("name", "like", trim($book) . "%")->orderBy("name", "asc")->first();
+    $bible_book = BibleBook::where("abreviation", "like", trim($book))->first();
+
+    if (!isset($bible_book)) {
+      $bible_book = BibleBook::where("name", "like", trim($book) . "%")->orderBy("name", "asc")->first();
+    }
 
     if (!isset($bible_book->id)) {
       return [
@@ -49,13 +53,17 @@ class BibleService {
     $query = Bible::query();
     $query->where("book", $bible_book->id)
       ->where("chapter", $chapter)
-    //   ->whereBetween("verse", [$verse, $verseTo])
       ->orderBy("verse", "asc");
 
     if ($verseTo == "") {
       $query->where("verse", $verse);
     } else {
-      $query->whereBetween("verse", [$verse, $verseTo]);
+      if ($verse > $verseTo) {
+        $query->whereBetween("verse", [$verseTo, $verse]);
+      } else {
+        $query->whereBetween("verse", [$verse, $verseTo]);
+      }
+
     }
 
     $versicles = $query->get();
