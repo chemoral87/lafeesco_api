@@ -10,7 +10,7 @@ class BibleService {
     $prompts = explode(";", $search);
     foreach ($prompts as $prompt) {
       if (isset($prompt) && $prompt != "") {
-        $data[] = $this->getComponents($prompt);
+        $data[] = $this->getComponents(trim($prompt));
       }
 
     }
