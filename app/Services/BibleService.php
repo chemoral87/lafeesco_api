@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Bible;
 use App\Models\BibleBook;
+use Illuminate\Support\Facades\Log;
 
 class BibleService {
 
@@ -21,7 +22,7 @@ class BibleService {
 
     $verseTo = "";
     // $patron_1 = "/^(\d+\s*)?(\w+)\s(\d+)\.(\d+)-(\d+)/";
-    $patron_1 = "/^(\d+\s*)?(\w+)\s(\d+)\.(\d+)?(?:-(\d+))?$/i";
+    $patron_1 = "/^(\d+\s*)?(\w+)\s(\d+)[.:](\d+)?(?:-(\d+))?$/i";
 
     // ex 1 jn 1.1-3
     if (preg_match($patron_1, $prompt, $match)) {
@@ -29,6 +30,7 @@ class BibleService {
       //   Log::info($match);
       $num = $match[1];
       $book = trim($match[1]) . " " . $match[2];
+      Log::info($book);
       $chapter = $match[3];
       $verse = $match[4];
       $verseTo = isset($match[5]) ? $match[5] : "";
