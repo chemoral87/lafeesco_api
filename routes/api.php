@@ -124,6 +124,16 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::delete("/{id}", "{$controller}@delete");
   });
 
+  Route::group(["prefix" => "church-service"], function () {
+    $controller = "ChurchServiceController";
+    Route::get("/", "{$controller}@index");
+    Route::get("/filter", "{$controller}@filter");
+    Route::get("/{id}", "{$controller}@show");
+    Route::post("/", "{$controller}@create");
+    Route::put("/{id}", "{$controller}@update");
+    Route::delete("/{id}", "{$controller}@delete");
+  });
+
 }); // ["middleware" => ['jwt.verify']
 
 // public

@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ChurchService extends Model
-{
-    use HasFactory;
+class ChurchService extends Model {
+  use HasFactory;
+  protected $fillable = [
+    "event_date",
+  ];
 }

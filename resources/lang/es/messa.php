@@ -48,4 +48,8 @@ return [
   'attendant_update' => 'Servidor guardado',
   'attendant_delete' => 'Servidor eliminado',
 
+  'church_service_create' => 'Servicio General creado',
+  'church_service_update' => 'Servicio General guardado',
+  'church_service_delete' => 'Servicio General eliminado',
+
 ];

@@ -3,7 +3,6 @@ namespace App\Services;
 
 use App\Models\Bible;
 use App\Models\BibleBook;
-use Illuminate\Support\Facades\Log;
 
 class BibleService {
 
@@ -18,8 +17,12 @@ class BibleService {
     return $data;
   }
 
-  public function getComponents($prompt) {
+  public function stripAccents($str) {
+    return strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+  }
 
+  public function getComponents($prompt) {
+    $prompt = $this->stripAccents($prompt);
     $verseTo = "";
     // $patron_1 = "/^(\d+\s*)?(\w+)\s(\d+)\.(\d+)-(\d+)/";
     $patron_1 = "/^(\d+\s*)?(\w+)\s(\d+)[.:](\d+)?(?:-(\d+))?$/i";
@@ -30,7 +33,7 @@ class BibleService {
       //   Log::info($match);
       $num = $match[1];
       $book = trim($match[1]) . " " . $match[2];
-      Log::info($book);
+
       $chapter = $match[3];
       $verse = $match[4];
       $verseTo = isset($match[5]) ? $match[5] : "";
@@ -40,7 +43,7 @@ class BibleService {
       return [
         'prompt' => $prompt];
     }
-    // Log::info($book);
+
     $bible_book = BibleBook::where("abreviation", "like", trim($book))->first();
 
     if (!isset($bible_book)) {
