@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\ChurchService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ChurchServiceController extends Controller {
   public function index() {
@@ -22,43 +21,40 @@ class ChurchServiceController extends Controller {
     $churchService = ChurchService::with('church_service_attendant.ministry', 'church_service_attendant.attendant')
       ->find($id);
 
-    $ministries = collect([]); // Create an empty collection to hold the ministries
+    $ministries = $churchService->church_service_attendant
+      ->groupBy(function ($item, $key) {
+        return $item['ministry']['id'];
+      })
+      ->map(function ($item, $ministryId) {
+        $sortedAttendants = $item->map(function ($item, $key) {
+          return [
+            'name' => $item['attendant']['name'],
+            'paternal_surname' => $item['attendant']['paternal_surname'],
+            'seq' => $item['seq'],
+          ];
+        })
+          ->sortBy('seq');
 
-    foreach ($churchService->church_service_attendant as $church_service_attendant) {
-
-      // check if ministry and attendant are not null
-      if ($church_service_attendant->ministry && $church_service_attendant->attendant) {
-
-        // find if this ministry already exists in the collection
-        // $ministry = $ministries->firstWhere('name', $church_service_attendant->ministry->name);
-        $existingMinistryKey = $ministries->search(function ($ministry) use ($church_service_attendant) {
-          return $ministry['name'] == $church_service_attendant->ministry->name;
-        });
-
-        // prepare the attendant data
-        $attendant = [
-          'name' => $church_service_attendant->attendant->name,
-          'seq' => $church_service_attendant->seq,
+        return [
+          'ministry_id' => $ministryId,
+          'name' => $item[0]['ministry']['name'],
+          'order' => $item[0]['ministry']['order'],
+          'attendants' => array_values($sortedAttendants->toArray()),
         ];
-
-        if ($existingMinistryKey !== false) { // if the ministry already exists in the collection
-          // push the attendant into the existing ministry's attendants array
-          Log::info("cis");
-          Log::info($attendant);
-          $currentMinistry = $ministries->get($existingMinistryKey);
-          $currentMinistry['attendants'][] = $attendant;
-          $ministries->put($existingMinistryKey, $currentMinistry);
-          //   $ministry['attendants'][] = $attendant;
-          //   $ministries[$existingMinistryKey]['attendants'][] = $attendant;
-        } else { // if the ministry doesn't exist in the collection
-          // push the ministry into the collection
-          $ministries->push([
-            'name' => $church_service_attendant->ministry->name,
-            'attendants' => [$attendant], // put the attendant inside an array
-          ]);
-        }
-      }
-    }
+        // return [
+        //   'name' => $key,
+        //   'attendants' => $item->transform(function ($item, $key) {
+        //     return [
+        //       'name' => $item['attendant']['name'],
+        //       'paternal_surname' => $item['attendant']['paternal_surname'],
+        //       'seq' => $item['seq'],
+        //     ];
+        //   })
+        //     ->toArray(),
+        // ];
+      })
+      ->sortBy('order')
+      ->values();
 
     $result = [
       'church_service_id' => $churchService->id,
