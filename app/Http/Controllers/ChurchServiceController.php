@@ -30,6 +30,7 @@ class ChurchServiceController extends Controller {
           return [
             'name' => $item['attendant']['name'],
             'paternal_surname' => $item['attendant']['paternal_surname'],
+            'photo' => $item['attendant']['photo'],
             'seq' => $item['seq'],
           ];
         })
