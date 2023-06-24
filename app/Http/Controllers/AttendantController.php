@@ -7,6 +7,7 @@ use App\Models\Attendant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AttendantController extends Controller {
   const PATH_S3 = "attendant/";
@@ -33,9 +34,9 @@ class AttendantController extends Controller {
     }
 
     $attendant = Attendant::create([
-      'name' => $request->get('name'),
-      'paternal_surname' => $request->get('paternal_surname'),
-      'maternal_surname' => $request->get('maternal_surname'),
+      'name' => Str::title($request->get('name')),
+      'paternal_surname' => Str::title($request->get('paternal_surname')),
+      'maternal_surname' => Str::title($request->get('maternal_surname')),
       'cellphone' => $request->get('cellphone'),
       'photo' => $photo,
       'email' => $request->get('email'),
@@ -59,9 +60,9 @@ class AttendantController extends Controller {
       $attendant->photo = $photo;
     }
 
-    $attendant->name = $request->get('name');
-    $attendant->paternal_surname = $request->get('paternal_surname');
-    $attendant->maternal_surname = $request->get('maternal_surname');
+    $attendant->name = Str::title($request->get('name'));
+    $attendant->paternal_surname = Str::title($request->get('paternal_surname'));
+    $attendant->maternal_surname = Str::title($request->get('maternal_surname'));
     $attendant->cellphone = $request->get('cellphone');
     $attendant->email = $request->get('email');
     $attendant->birthdate = $request->get('birthdate');
