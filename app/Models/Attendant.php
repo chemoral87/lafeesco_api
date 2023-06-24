@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\ChurchService;
+use App\Models\ChurchServiceMinistryAttendant;
 use App\Models\Ministry;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,8 +42,20 @@ class Attendant extends Model {
     return $this->attributes['photo'];
   }
 
+//   public function ministries() {
+//     return $this->belongsToMany(Ministry::class, 'attendant_ministries', 'attendant_id', 'ministry_id');
+//   }
+
   public function ministries() {
-    return $this->belongsToMany(Ministry::class, 'attendant_ministries', 'attendant_id', 'ministry_id');
+    return $this->belongsToMany(Ministry::class, 'church_service_attendant')
+      ->using(ChurchServiceMinistryAttendant::class)
+      ->withPivot('church_service_id', 'seq');
+  }
+
+  public function churchServices() {
+    return $this->belongsToMany(ChurchService::class, 'church_service_attendant')
+      ->using(ChurchServiceMinistryAttendant::class)
+      ->withPivot('ministry_id', 'seq');
   }
 
 }
