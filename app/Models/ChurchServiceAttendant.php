@@ -6,7 +6,7 @@ use App\Models\Attendant;
 use App\Models\Ministry;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ChurchServiceMinistryAttendant extends Pivot {
+class ChurchServiceAttendant extends Pivot {
   protected $table = 'church_service_attendant';
 
   public function ministry() {

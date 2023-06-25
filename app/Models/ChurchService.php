@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\ChurchServiceMinistryAttendant;
+use App\Models\ChurchServiceAttendant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,28 +23,28 @@ class ChurchService extends Model {
 //   public function ministries() {
 //     return $this->belongsToMany(Ministry::class, 'church_service_attendant')
 //       ->withPivot('attendant_id', 'order')
-//       ->using(ChurchServiceMinistryAttendant::class);
+//       ->using(ChurchServiceAttendant::class);
 //   }
 
 //   public function ministries() {
 //     return $this->belongsToMany(Ministry::class, 'church_service_attendant')
-//       ->using(ChurchServiceMinistryAttendant::class)
+//       ->using(ChurchServiceAttendant::class)
 //       ->withPivot('attendant_id', 'seq');
 //   }
 
   public function ministries() {
     return $this->belongsToMany(Ministry::class, 'church_service_attendant')
-      ->using(ChurchServiceMinistryAttendant::class)
+      ->using(ChurchServiceAttendant::class)
       ->withPivot('attendant_id', 'seq');
   }
 
 //   public function attendants() {
 //     return $this->belongsToMany(Attendant::class, 'church_service_attendant')
-//       ->using(ChurchServiceMinistryAttendant::class)
+//       ->using(ChurchServiceAttendant::class)
 //       ->withPivot('ministry_id', 'seq');
 //   }
 
   public function church_service_attendant() {
-    return $this->hasMany(ChurchServiceMinistryAttendant::class);
+    return $this->hasMany(ChurchServiceAttendant::class);
   }
 }

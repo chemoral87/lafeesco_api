@@ -19,7 +19,7 @@ return new class extends Migration {
       $table->foreign('attendant_id')->references('id')->on('attendants')->onDelete('cascade');
       $table->bigInteger('ministry_id')->unsigned();
       $table->foreign('ministry_id')->references('id')->on('ministries')->onDelete('cascade');
-      $table->tinyInteger('seq');
+      $table->tinyInteger('seq')->nullable();
       $table->timestamps();
     });
   }

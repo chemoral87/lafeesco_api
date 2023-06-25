@@ -52,4 +52,6 @@ return [
   'church_service_update' => 'Servicio General guardado',
   'church_service_delete' => 'Servicio General eliminado',
 
+  'church_service_attendant_create' => 'Asignación completada',
+
 ];

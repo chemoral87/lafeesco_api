@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\ChurchService;
-use App\Models\ChurchServiceMinistryAttendant;
+use App\Models\ChurchServiceAttendant;
 use App\Models\Ministry;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -49,13 +49,13 @@ class Attendant extends Model {
 
 //   public function ministries() {
 //     return $this->belongsToMany(Ministry::class, 'church_service_attendant')
-//       ->using(ChurchServiceMinistryAttendant::class)
+//       ->using(ChurchServiceAttendant::class)
 //       ->withPivot('church_service_id', 'seq');
 //   }
 
   public function churchServices() {
     return $this->belongsToMany(ChurchService::class, 'church_service_attendant')
-      ->using(ChurchServiceMinistryAttendant::class)
+      ->using(ChurchServiceAttendant::class)
       ->withPivot('ministry_id', 'seq');
   }
 
