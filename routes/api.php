@@ -102,10 +102,16 @@ Route::group(["middleware" => ['jwt.verify']], function () {
   Route::group(["prefix" => "attendant"], function () {
     $controller = "AttendantController";
     Route::get("/", "{$controller}@index");
+
     Route::get("/{id}", "{$controller}@show");
     Route::post("/", "{$controller}@create");
     Route::put("/{id}", "{$controller}@update");
     Route::delete("/{id}", "{$controller}@delete");
+  });
+
+  Route::group(["prefix" => "attendant-ministry"], function () {
+    $controller = "AttendantMinistryController";
+    Route::get("/filter", "{$controller}@filter");
   });
 
   Route::group(["prefix" => "template-generator"], function () {

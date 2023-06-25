@@ -28,6 +28,7 @@ class ChurchServiceController extends Controller {
       ->map(function ($item, $ministryId) {
         $sortedAttendants = $item->map(function ($item, $key) {
           return [
+            'id' => $item['attendant']['id'],
             'name' => $item['attendant']['name'],
             'paternal_surname' => $item['attendant']['paternal_surname'],
             'photo' => $item['attendant']['photo'],
