@@ -14,7 +14,6 @@ class ChurchServiceAttendantController extends Controller {
 
     $attendants = ChurchServiceAttendant::where('church_service_id', $church_service_id)
       ->where('ministry_id', $ministry_id)
-    // ->whereNotIn("attendant_id", $attendant_ids)
       ->get();
 
     $attendants_assined = $attendants->pluck("attendant_id")->all();
@@ -29,7 +28,7 @@ class ChurchServiceAttendantController extends Controller {
         'church_service_id' => $church_service_id,
         'ministry_id' => $ministry_id,
         'attendant_id' => $attendant_id,
-        "seq" => array_search($attendant_id, $attendant_ids),
+        "seq" => array_search($attendant_id, $attendant_ids) + 1,
       ];
     }
     ChurchServiceAttendant::insert($newMembers);
@@ -45,7 +44,7 @@ class ChurchServiceAttendantController extends Controller {
       ChurchServiceAttendant::where("attendant_id", $attendant_id)
         ->where("ministry_id", $ministry_id)
         ->where("church_service_id", $church_service_id)
-        ->update(["seq" => array_search($attendant_id, $attendant_ids)]);
+        ->update(["seq" => array_search($attendant_id, $attendant_ids) + 1]);
     }
 
     return [

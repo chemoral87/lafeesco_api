@@ -47,12 +47,6 @@ class Attendant extends Model {
     return $this->belongsToMany(Ministry::class, 'attendant_ministries', 'attendant_id', 'ministry_id');
   }
 
-//   public function ministries() {
-//     return $this->belongsToMany(Ministry::class, 'church_service_attendant')
-//       ->using(ChurchServiceAttendant::class)
-//       ->withPivot('church_service_id', 'seq');
-//   }
-
   public function churchServices() {
     return $this->belongsToMany(ChurchService::class, 'church_service_attendant')
       ->using(ChurchServiceAttendant::class)
