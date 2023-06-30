@@ -4,13 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Models\ChurchServiceAttendant;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ChurchServiceAttendantController extends Controller {
   public function update(Request $request) {
+
     $attendant_ids = $request->get("attendant_ids");
     $church_service_id = $request->get("church_service_id");
     $ministry_id = $request->get("ministry_id");
+
     // VALIDATION
+    $other_ministry_attendants = ChurchServiceAttendant::with(["attendant" => function ($query) {
+      $query->select("id", "name", "paternal_surname");
+    }, 'ministry' => function ($query) {
+      $query->select("id", "name");
+    }])
+      ->whereIn("attendant_id", $attendant_ids)
+      ->where("church_service_id", $church_service_id)
+      ->whereNotIn("ministry_id", [$ministry_id])
+      ->get();
+
+    if ($other_ministry_attendants->count() > 0) {
+      return response()->json([
+        'message' => "Uno o más servidores ya están asignados.",
+        'errors' => $other_ministry_attendants,
+      ], Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
 
     $attendants = ChurchServiceAttendant::where('church_service_id', $church_service_id)
       ->where('ministry_id', $ministry_id)

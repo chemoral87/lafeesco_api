@@ -14,9 +14,11 @@ class ChurchServiceController extends Controller {
     // ];
 
     $payload = [];
-    $churchServices = ChurchService::with('church_service_attendant.ministry', 'church_service_attendant.attendant')->get();
-    foreach ($churchServices as $churchService) {
+    $churchServices = ChurchService::with('church_service_attendant.ministry', 'church_service_attendant.attendant')
+      ->orderBy('event_date')
+      ->get();
 
+    foreach ($churchServices as $churchService) {
       $ministries = $churchService->church_service_attendant
         ->groupBy(function ($item, $key) {
           return $item['ministry']['id'];
