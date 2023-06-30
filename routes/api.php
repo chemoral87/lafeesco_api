@@ -154,6 +154,14 @@ Route::group(["middleware" => ['jwt.verify']], function () {
 }); // ["middleware" => ['jwt.verify']
 
 // public
+Route::group(["prefix" => "church-service"], function () {
+  $controller = "ChurchServiceController";
+  Route::get("/", "{$controller}@index");
+});
+Route::group(["prefix" => "ministry"], function () {
+  $controller = "MinistryController";
+  Route::get("/", "{$controller}@index");
+});
 
 Route::group(["prefix" => "bible"], function () {
   $controller = "BibleController";
