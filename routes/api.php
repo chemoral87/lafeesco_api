@@ -22,6 +22,7 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::get("/filter", "{$controller}@filter");
     Route::get("/{id}", "{$controller}@show");
     Route::post("/", "{$controller}@create");
+    Route::post("/register", "{$controller}@register");
     Route::put("/{id}", "{$controller}@update");
     Route::put("/{id}/children", "{$controller}@children");
     Route::delete("/{id}", "{$controller}@delete");

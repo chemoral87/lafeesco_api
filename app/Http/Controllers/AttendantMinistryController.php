@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AttendantMinistry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AttendantMinistryController extends Controller {
 
@@ -18,17 +19,14 @@ class AttendantMinistryController extends Controller {
       ->whereNotIn("attendant_id", $attendant_ids)
       ->where('ministry_id', $ministry_id)
       ->whereHas('attendant', function ($query) use ($filter) {
-        $query->where("name", "like", "%" . $filter . "%");
+        $query->where(DB::raw("CONCAT(name, ' ', paternal_surname)"), "like", "%" . $filter . "%");
+        // $query->where("name", "like", "%" . $filter . "%");
       })
       ->get()
       ->pluck('attendant')
       ->toArray();
     return $attendants;
-    //   ->whereNotIn("id", $ids)
-    //   ->where("name", "like", "%" . $filter . "%")
-    //   ->orderBy("name")->paginate(7);
 
-    // return $attendants->items();
   }
 
 }

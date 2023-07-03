@@ -9,7 +9,6 @@ use App\Notifications\UserPasswordNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Notification;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -54,7 +53,7 @@ class UserController extends Controller {
     // notify password
     Notification::route("mail", $request->get("email"))
       ->notify(new UserPasswordNotification($req + ['password' => $random_password, 'cellphone' => $request->get("cellphone")]));
-    Log::info($random_password);
+
     return ['success' => __('messa.user_create')];
   }
 
@@ -120,6 +119,29 @@ class UserController extends Controller {
       return ['success' => __('messa.user_change')];
     }
 
+  }
+
+  public function register(Request $request) {
+    $validatedData = $request->validate([
+      'name' => 'required|string',
+      'last_name' => 'required|string',
+      'email' => 'required|email|unique:users',
+      'password' => 'required|min:8|confirmed',
+    ]);
+
+    $user = User::create([
+      'name' => $validatedData['name'],
+      'last_name' => $validatedData['last_name'],
+      'second_last_name' => $request->get('second_last_name'),
+      'email' => $validatedData['email'],
+      'password' => bcrypt($validatedData['password']),
+    ]);
+
+    // notify password
+    Notification::route("mail", $request->get("email"))
+      ->notify(new UserPasswordNotification($request->all()));
+
+    return ['success' => __('messa.user_registration')];
   }
 
 }

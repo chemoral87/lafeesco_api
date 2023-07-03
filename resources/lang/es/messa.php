@@ -11,6 +11,7 @@ return [
   'user_roles_update' => 'Roles y permisos de Usuario guardados',
   'user_delete' => 'Usuario eliminado',
   'user_change' => 'Contraseña actualizada. Favor de volver a iniciar Sesión.',
+  'user_registration' => 'Registro Completado',
 
   'permission_create' => 'Permiso creado',
   'permission_update' => 'Permiso guardado',
