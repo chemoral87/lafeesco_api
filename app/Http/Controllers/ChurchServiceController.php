@@ -3,19 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChurchService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ChurchServiceController extends Controller {
-  public function index() {
+  public function index(Request $request) {
 
     // $church_services = ChurchService::with('attendants')->get();
     // return [
     //   'church_services' => $church_services,
     // ];
+    $start_date = $request->get("start_date") ? $request->get("start_date") : Carbon::now()->subDays(2)->format('Y-m-d');
+
+    $end_date = Carbon::parse($start_date)->addMonths(3)->format('Y-m-d');
 
     $payload = [];
     $churchServices = ChurchService::with('church_service_attendant.ministry', 'church_service_attendant.attendant')
       ->orderBy('event_date')
+      ->whereBetween('event_date', [$start_date, $end_date])
       ->get();
 
     foreach ($churchServices as $churchService) {
