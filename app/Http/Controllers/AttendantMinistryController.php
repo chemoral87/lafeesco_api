@@ -22,7 +22,7 @@ class AttendantMinistryController extends Controller {
         $query->where(DB::raw("CONCAT(name, ' ', paternal_surname)"), "like", "%" . $filter . "%");
         // $query->where("name", "like", "%" . $filter . "%");
       })
-      ->get()
+      ->paginate(4)
       ->pluck('attendant')
       ->toArray();
     return $attendants;
