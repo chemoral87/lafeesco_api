@@ -13,17 +13,17 @@ class ChurchService extends Model {
     "event_date",
   ];
 
-
   public function ministries() {
     return $this->belongsToMany(Ministry::class, 'church_service_attendant')
-      ->using(ChurchServiceAttendant::class)
-      ->withPivot('attendant_id', 'seq');
+      ->using(ChurchServiceAttendant::class);
+    //   ->withPivot('attendant_id', 'seq');
   }
 
   public function attendants() {
     return $this->belongsToMany(Attendant::class, 'church_service_attendant')
-      ->using(ChurchServiceAttendant::class)
-      ->withPivot('attendant_id', 'seq');
+      ->using(ChurchServiceAttendant::class);
+
+    //   ->withPivot('attendant_id', 'seq');
   }
 
 //   public function attendants() {

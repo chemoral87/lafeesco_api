@@ -9,16 +9,17 @@ use Illuminate\Http\Request;
 class ChurchServiceController extends Controller {
   public function index(Request $request) {
 
-    // $church_services = ChurchService::with('attendants')->get();
-    // return [
-    //   'church_services' => $church_services,
-    // ];
     $start_date = $request->get("start_date") ? $request->get("start_date") : Carbon::now()->subDays(2)->format('Y-m-d');
 
     $end_date = Carbon::parse($start_date)->addMonths(3)->format('Y-m-d');
 
     $payload = [];
-    $churchServices = ChurchService::with('church_service_attendant.ministry', 'church_service_attendant.attendant')
+    $churchServices = ChurchService::with(['church_service_attendant.ministry' => function ($query) {
+      $query->select("id", "name");
+    }], ['church_service_attendant.attendant' => function ($query) {
+      $query->select("id", "name", "paternal_surname");
+    }])
+      ->select("id", "event_date")
       ->orderBy('event_date')
       ->whereBetween('event_date', [$start_date, $end_date])
       ->get();
@@ -54,6 +55,7 @@ class ChurchServiceController extends Controller {
         'church_service_id' => $churchService->id,
         'event_date' => $churchService->event_date,
         'ministries' => $ministries,
+        'x' => $churchServices,
       ];
     }
 
@@ -62,7 +64,11 @@ class ChurchServiceController extends Controller {
   }
 
   public function show(Request $request, $id) {
-    $churchService = ChurchService::with('church_service_attendant.ministry', 'church_service_attendant.attendant')
+    $churchService = ChurchService::with(['church_service_attendant.attendant' => function ($query) {
+      $query->select("id", "name", "paternal_surname", "photo");
+    }], ['church_service_attendant.ministry' => function ($query) {
+      $query->select("id", "name");
+    }])
       ->find($id);
 
     $ministries = $churchService->church_service_attendant

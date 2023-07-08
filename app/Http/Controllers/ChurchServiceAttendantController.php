@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\ChurchServiceController;
 use App\Models\ChurchServiceAttendant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
 
 class ChurchServiceAttendantController extends Controller {
@@ -66,8 +68,12 @@ class ChurchServiceAttendantController extends Controller {
         ->update(["seq" => array_search($attendant_id, $attendant_ids) + 1]);
     }
 
+    $churchServiceController = new ChurchServiceController;
+    $response = App::call([$churchServiceController, 'show'], ['id' => $church_service_id]);
+
     return [
       'success' => __('messa.church_service_attendant_create'),
+      'church_service' => $response->getOriginalContent(),
     ];
   }
 }
