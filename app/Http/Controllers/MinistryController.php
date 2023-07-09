@@ -58,9 +58,6 @@ class MinistryController extends Controller {
     $ministry->color = $request->get('color');
 
     $ministry->leaders()->sync(collect($request->get('leaders'))->pluck('id'));
-
-    // Log::info($request->get("leaders"));
-
     $ministry->save();
     return ['success' => __('messa.ministry_update')];
   }

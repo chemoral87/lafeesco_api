@@ -88,8 +88,7 @@ function queryServerSide($request, $query) {
     foreach ($sortBy as $key => $value) {
       $sortBy_ = $sortBy[$key];
       $sortDesc_ = $sortDesc[$key] == 'true' ? 'desc' : 'asc';
-      //   Log::info($sortDesc_);
-      //   Log::info($sortBy_);
+
       $query->orderBy($sortBy_, $sortDesc_);
     }
   }

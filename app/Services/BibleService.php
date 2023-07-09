@@ -29,8 +29,7 @@ class BibleService {
 
     // ex 1 jn 1.1-3
     if (preg_match($patron_1, $prompt, $match)) {
-      //   Log::info("patron_1");
-      //   Log::info($match);
+
       $num = $match[1];
       $book = trim($match[1]) . " " . $match[2];
 
