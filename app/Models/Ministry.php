@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Attendant;
-use App\Models\ChurchServiceAttendant;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,10 +20,5 @@ class Ministry extends Model {
   }
 
   // AQUI
-  public function attendants() {
-    return $this->belongsToMany(Attendant::class, 'church_service_attendant')
-      ->withPivot('church_service_id', 'seq')
-      ->using(ChurchServiceAttendant::class);
-  }
 
 }
