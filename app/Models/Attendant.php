@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Models\Ministry;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Attendant extends Model {
-  use HasFactory;
+class Attendant extends Model implements AuditableContract {
+  use HasFactory, Auditable;
 
   protected $fillable = [
     "name",

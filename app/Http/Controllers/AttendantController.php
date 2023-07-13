@@ -80,7 +80,7 @@ class AttendantController extends Controller {
     if ($attendant->real_photo) {
       deleteS3($attendant->real_photo);
     }
-    $attendant->delete();
+    // $attendant->delete();
 
     return ['success' => __('messa.attendant_delete')];
   }
