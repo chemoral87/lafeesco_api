@@ -21,7 +21,7 @@ class AttendantController extends Controller {
     $attendants = $query
     // ->with("ministries")
       ->with(['ministries' => function ($query) {
-        $query->select('name');
+        $query->select('name', 'color');
       }])
       ->paginate($request->get('itemsPerPage'));
     return new DataSetResource($attendants);
