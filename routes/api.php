@@ -15,9 +15,14 @@ Route::group(["prefix" => "auth", "middleware" => ["api"]], function ($router) {
 
 });
 
+// Route::post('/forgot-password/send-code', [ForgotPasswordController::class, 'sendResetCode']);
+// Route::post('/forgot-password/reset-password', [ForgotPasswordController::class, 'resetPassword']);
+
 Route::group(["prefix" => "users"], function () {
   $controller = "UserController";
   Route::post("/register", "{$controller}@register");
+  Route::post("/send-code", "{$controller}@sendResetCode");
+  Route::post("/reset-password", "{$controller}@resetPassword");
 });
 
 Route::group(["middleware" => ['jwt.verify']], function () {

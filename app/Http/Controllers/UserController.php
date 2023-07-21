@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DataSetResource;
 use App\Http\Resources\UserShowResource;
 use App\Models\User;
+use App\Notifications\ResetCodeNotification;
 use App\Notifications\UserPasswordNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -143,6 +144,60 @@ class UserController extends Controller {
       ->notify(new UserPasswordNotification($request->all()));
 
     return ['success' => __('messa.user_registration')];
+  }
+
+  public function sendResetCode(Request $request) {
+    $request->validate([
+      'email' => 'required|email|exists:users,email',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    // Generate a unique reset code
+    $resetCode = strtoupper(Str::random(5));
+    $user->reset_code = $resetCode;
+    $user->save();
+
+    // Send reset code to user's email
+    $user->notify(new ResetCodeNotification($resetCode));
+    // Mail::send('emails.reset_code', ['resetCode' => $resetCode], function ($message) use ($user) {
+    //   $message->to($user->email)->subject('Código Cambio Contraseña');
+    // });
+
+    return response()->json(['success' => 'El código ha sido enviado a su correo, favor de revisar.'], 200);
+  }
+
+  /**
+   * Reset user's password using the reset code.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function resetPassword(Request $request) {
+    $request->validate([
+      'email' => 'required|email|exists:users,email',
+      'reset_code' => 'required|string',
+      'password' => 'required|string|min:8',
+      //   'password' => 'required|string|min:8|confirmed',
+    ]);
+
+    $user = User::where('email', $request->email)
+      ->where('reset_code', $request->reset_code)
+      ->whereNotNull('reset_code') // Add this condition to check if reset_code is not null
+      ->where(DB::raw('TRIM(reset_code)'), '<>', '') // Add this condition to check if reset_code is not blank
+
+      ->first();
+
+    if (!$user) {
+      return response()->json(['message' => 'Código inválido.'], 422);
+    }
+
+    // Update the password and reset code
+    $user->password = Hash::make($request->password);
+    $user->reset_code = null;
+    $user->save();
+
+    return response()->json(['success' => 'Se ha restablecido la contraseña.'], 200);
   }
 
 }
