@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\ChurchService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class ChurchServiceController extends Controller {
   public function index(Request $request) {
@@ -131,55 +130,7 @@ class ChurchServiceController extends Controller {
     // Batch insert the church services
     ChurchService::insert($churchServicesToCreate);
 
-    Log::info("Created " . count($churchServicesToCreate) . " church services");
+    // Log::info("Created " . count($churchServicesToCreate) . " church services");
   }
-
-//   public function generate() {
-//     $today = Carbon::today()->toDateString();
-
-//     $startDate = Carbon::today();
-//     $endDate = $startDate->copy()->addMonths(3);
-//     $churchServices = ChurchService::where('event_date', '>', $today)->get();
-
-//     $wednesday = Carbon::WEDNESDAY;
-//     $sunday = Carbon::SUNDAY;
-
-//     while ($startDate <= $endDate) {
-//       // Check if it's Wednesday and there is no church service at 19:30
-//       if ($startDate->dayOfWeek === $wednesday && !$this->eventExists($churchServices, $startDate, '19:30')) {
-//         $this->createChurchService($startDate, '19:30');
-//       }
-
-//       // Check if it's Sunday and there are no church services at 9:00, 11:30, and 18:00
-//       if ($startDate->dayOfWeek === $sunday) {
-//         foreach (['09:00', '11:30', '18:00'] as $time) {
-//           if (!$this->eventExists($churchServices, $startDate, $time)) {
-//             $this->createChurchService($startDate, $time);
-//           }
-//         }
-//       }
-
-//       // Move to the next day
-//       $startDate->addDay();
-//     }
-//   }
-
-//   private function eventExists($churchServices, $date, $time) {
-//     // Check if there is a church service at the given date and time
-//     return $churchServices->contains(function ($churchService) use ($date, $time) {
-//       return Carbon::parse($churchService->event_date)->toDateString() === $date->toDateString() &&
-//       Carbon::parse($churchService->event_date)->format('H:i') === $time;
-//     });
-//   }
-
-//   private function createChurchService($date, $time) {
-//     $eventDateTime = $date->format('Y-m-d') . ' ' . $time;
-
-//     // Create a new church service
-//     ChurchService::create([
-//       'event_date' => $eventDateTime,
-//       // Add any other fields as needed
-//     ]);
-//   }
 
 }
