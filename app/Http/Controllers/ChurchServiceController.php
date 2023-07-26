@@ -7,13 +7,57 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ChurchServiceController extends Controller {
+
   public function index(Request $request) {
 
-    $start_date = $request->get("start_date") ? $request->get("start_date") : Carbon::now()->subDays(2)->format('Y-m-d');
-
-    $end_date = Carbon::parse($start_date)->addMonths(3)->format('Y-m-d');
-
     $payload = [];
+
+    // if $request has start_date to the query
+    // if ($request->has("start_date") || $request->get("range_display") == 'today') {
+    //   $start_date = $request->get("start_date") ? $request->get("start_date") : Carbon::now()->subDays(2)->format('Y-m-d');
+    //   $end_date = Carbon::parse($start_date)->addMonths(3)->format('Y-m-d');
+    //   $churchServices = ChurchService::with('ministries', 'attendants')
+    //     ->whereBetween('event_date', [$start_date, $end_date])
+    //     ->select("id", "event_date")
+    //     ->get();
+    // } else if ($request->has("range_display")) {
+    //   $range_display = $request->get("range_display");
+
+    //   if (strpos($range_display, '-') !== false) {
+    //     $start_date = $range_display . '-01';
+    //     $end_date = Carbon::parse($start_date)->addMonths(1)->format('Y-m-d');
+    //   } else {
+    //     $start_date = Carbon::now()->subDays(2)->format('Y-m-d');
+    //     $end_date = Carbon::parse($start_date)->addMonths(3)->format('Y-m-d');
+    //   }
+    //   $churchServices = ChurchService::with('ministries', 'attendants')
+    //     ->whereBetween('event_date', [$start_date, $end_date])
+    //     ->select("id", "event_date")
+    //     ->get();
+    // }
+
+    // $churchServices = ChurchService::with('ministries', 'attendants')
+    //   ->whereBetween('event_date', [$start_date, $end_date])
+    //   ->select("id", "event_date")
+    //   ->get();
+
+    $start_date = $request->get("start_date");
+    $range_display = $request->get("range_display");
+
+    if (!$start_date) {
+      if ($range_display && strpos($range_display, '-') !== false) {
+        $start_date = $range_display . '-01';
+
+        $end_date = Carbon::parse($start_date)->endOfMonth()->format('Y-m-d');
+
+      } else {
+        $start_date = Carbon::now()->subDays(2)->format('Y-m-d');
+        $end_date = Carbon::parse($start_date)->addMonths(2)->format('Y-m-d');
+      }
+    } else {
+      $end_date = Carbon::parse($start_date)->addMonths(2)->format('Y-m-d');
+    }
+
     $churchServices = ChurchService::with('ministries', 'attendants')
       ->whereBetween('event_date', [$start_date, $end_date])
       ->select("id", "event_date")
