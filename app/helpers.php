@@ -42,7 +42,7 @@ function temporaryUrlS3($path) {
     //   return Cache::get($cacheKey);
     // }
     //   return Storage::disk('s3')->temporaryUrl($path, Carbon::now()->addMinutes(cacheTtl));
-    $temporaryUrl = Storage::disk('s3')->temporaryUrl($path, Carbon::now()->addMinutes($cacheTtl));
+    $temporaryUrl = Storage::disk('s3')->temporaryUrl($path, now()->addMinutes(5));
     // Cache::put($cacheKey, $temporaryUrl, $cacheTtl);
     return $temporaryUrl;
   }
