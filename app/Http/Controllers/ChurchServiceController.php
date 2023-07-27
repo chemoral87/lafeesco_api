@@ -65,7 +65,8 @@ class ChurchServiceController extends Controller {
 
     $churchServices->transform(function ($churchService) {
       $churchService->ministries->map(function ($ministry) use ($churchService) {
-        $ministry->attendants = $churchService->attendants->where('pivot.ministry_id', $ministry->id)->map(function ($attendant) {
+        $attendants = [];
+        $ministryAttendants = $churchService->attendants->where('pivot.ministry_id', $ministry->id)->map(function ($attendant) {
           return [
             'id' => $attendant->id,
             'name' => $attendant->name,
@@ -73,7 +74,8 @@ class ChurchServiceController extends Controller {
             'photo' => $attendant->photo,
             'seq' => $attendant->pivot->seq, // Assuming 'seq' is a field in the pivot table
           ];
-        });
+        })->all();
+        $ministry->attendants = array_merge($ministryAttendants, $attendants);
         return $ministry;
       });
       // Remove the 'attendants' attribute from the 'churchService' level
@@ -85,12 +87,6 @@ class ChurchServiceController extends Controller {
   }
 
   public function show(Request $request, $id) {
-    // $churchService = ChurchService::with(['church_service_attendant.attendant' => function ($query) {
-    //   $query->select("id", "name", "paternal_surname", "photo");
-    // }], ['church_service_attendant.ministry' => function ($query) {
-    //   $query->select("id", "name");
-    // }])
-    //   ->find($id);
 
     $churchService = ChurchService::with('ministries', 'attendants')
       ->select("id", "event_date")
