@@ -1,7 +1,6 @@
 <?php
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -39,12 +38,12 @@ function temporaryUrlS3($path) {
     $cacheKey = 'temp-url-' . $path;
     $cacheTtl = 2; // in minutes
     // Check if the temporary URL is already cached
-    if (Cache::has($cacheKey)) {
-      return Cache::get($cacheKey);
-    }
+    // if (Cache::has($cacheKey)) {
+    //   return Cache::get($cacheKey);
+    // }
     //   return Storage::disk('s3')->temporaryUrl($path, Carbon::now()->addMinutes(cacheTtl));
     $temporaryUrl = Storage::disk('s3')->temporaryUrl($path, Carbon::now()->addMinutes($cacheTtl));
-    Cache::put($cacheKey, $temporaryUrl, $cacheTtl);
+    // Cache::put($cacheKey, $temporaryUrl, $cacheTtl);
     return $temporaryUrl;
   }
   return "https://source.unsplash.com/96x96/daily";
