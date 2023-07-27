@@ -36,8 +36,8 @@ function saveS3Blob($blob, $path, $file_to_delete = null) {
 
 function temporaryUrlS3($path) {
   if ($path) {
-    $cacheKey = 'temporary-url-' . $path;
-    $cacheTtl = 120; // in minutes
+    $cacheKey = 'temp-url-' . $path;
+    $cacheTtl = 2; // in minutes
     // Check if the temporary URL is already cached
     if (Cache::has($cacheKey)) {
       return Cache::get($cacheKey);
