@@ -35,15 +35,16 @@ function saveS3Blob($blob, $path, $file_to_delete = null) {
 
 function temporaryUrlS3($path) {
   if ($path) {
+
     $cacheKey = 'temp-url-' . $path;
-    $cacheTtl = 2; // in minutes
+    $cacheTtl = 5; // in minutes
     // Check if the temporary URL is already cached
-    // if (Cache::has($cacheKey)) {
-    //   return Cache::get($cacheKey);
-    // }
+    if (Cache::has($cacheKey)) {
+      return Cache::get($cacheKey);
+    }
     //   return Storage::disk('s3')->temporaryUrl($path, Carbon::now()->addMinutes(cacheTtl));
     $temporaryUrl = Storage::disk('s3')->temporaryUrl($path, now()->addMinutes(5));
-    // Cache::put($cacheKey, $temporaryUrl, $cacheTtl);
+    Cache::put($cacheKey, $temporaryUrl, $cacheTtl);
     return $temporaryUrl;
   }
   return "https://source.unsplash.com/96x96/daily";
