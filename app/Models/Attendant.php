@@ -22,7 +22,8 @@ class Attendant extends Model implements AuditableContract {
   ];
 
   public function getPhotoAttribute($value) {
-    return temporaryUrlS3($value);
+    return awsUrlS3($value);
+    // return temporaryUrlS3($value);
   }
 
   public function getRealPhotoAttribute() {

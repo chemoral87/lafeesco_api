@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -33,7 +34,28 @@ function saveS3Blob($blob, $path, $file_to_delete = null) {
   return $name;
 }
 
+function awsUrlS3($path) {
+
+  if ($path) {
+
+    $cacheKey = 'aws-url-' . $path;
+    $cacheTtl = 60 * 12 * 7; // in minutes
+    // Check if the temporary URL is already cached
+    if (Cache::has($cacheKey)) {
+      //   Log::info("Cache::get($cacheKey)");
+      return Cache::get($cacheKey);
+    }
+    //   return Storage::disk('s3')->temporaryUrl($path, Carbon::now()->addMinutes(cacheTtl));
+    $temporaryUrl = Storage::disk('s3')->url($path);
+    Cache::put($cacheKey, $temporaryUrl, $cacheTtl);
+    return $temporaryUrl;
+  }
+  return "https://source.unsplash.com/96x96/daily";
+
+}
+
 function temporaryUrlS3($path) {
+  Log::info($path);
   if ($path) {
 
     $cacheKey = 'temp-url-' . $path;
