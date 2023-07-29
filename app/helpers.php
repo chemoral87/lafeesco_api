@@ -1,7 +1,6 @@
 <?php
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -55,7 +54,7 @@ function awsUrlS3($path) {
 }
 
 function temporaryUrlS3($path) {
-  Log::info($path);
+
   if ($path) {
 
     $cacheKey = 'temp-url-' . $path;
