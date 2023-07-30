@@ -38,7 +38,7 @@ function awsUrlS3($path) {
   if ($path) {
 
     $cacheKey = 'aws-url-' . $path;
-    $cacheTtl = 60 * 12 * 7; // in minutes
+    $cacheTtl = 1; //60 * 12 * 7; // in minutes
     // Check if the temporary URL is already cached
     if (Cache::has($cacheKey)) {
       //   Log::info("Cache::get($cacheKey)");
