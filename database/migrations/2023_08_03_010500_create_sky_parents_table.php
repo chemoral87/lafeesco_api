@@ -17,6 +17,7 @@ return new class extends Migration {
       $table->string("paternal_surname");
       $table->string("maternal_surname")->nullable();
       $table->string("cellphone", 13)->nullable();
+      $table->string("email")->nullable();
       $table->string("photo")->nullable();
       $table->timestamps();
     });

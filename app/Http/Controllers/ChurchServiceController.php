@@ -51,9 +51,9 @@ class ChurchServiceController extends Controller {
         $end_date = Carbon::parse($start_date)->endOfMonth()->format('Y-m-d');
 
       } else {
-        $start_date = Carbon::now()->subDays(2)->format('Y-m-d');
+        $start_date = Carbon::now()->subDays(1)->format('Y-m-d');
         if ($range_display == "week") {
-          $end_date = Carbon::parse($start_date)->addWeeks(1)->format('Y-m-d');
+          $end_date = Carbon::parse($start_date)->addDays(1)->format('Y-m-d');
         } else {
           $end_date = Carbon::parse($start_date)->addMonths(1)->format('Y-m-d');
         }

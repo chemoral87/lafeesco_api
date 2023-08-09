@@ -18,6 +18,8 @@ return new class extends Migration {
       $table->string("maternal_surname")->nullable();
 
       $table->string("birthdate")->nullable();
+      $table->string("allergies")->nullable();
+      $table->string("notes")->nullable();
       $table->string("room");
       $table->timestamps();
     });
