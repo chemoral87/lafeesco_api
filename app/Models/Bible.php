@@ -9,3 +9,5 @@ class Bible extends Model {
   use HasFactory;
   protected $table = 'bible';
 }
+
+// testo
