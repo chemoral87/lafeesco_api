@@ -163,6 +163,12 @@ Route::group(["middleware" => ['jwt.verify']], function () {
 
   });
 
+  Route::group(["prefix" => "sky-registration"], function () {
+    $controller = "SkyRegistrationController";
+    Route::post("/", "{$controller}@create");
+
+  });
+
 }); // ["middleware" => ['jwt.verify']
 
 // public

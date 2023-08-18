@@ -13,6 +13,7 @@ return new class extends Migration {
   public function up() {
     Schema::create('sky_parents', function (Blueprint $table) {
       $table->id();
+      $table->foreignId("sky_registration_id")->constrained();
       $table->string("name");
       $table->string("paternal_surname");
       $table->string("maternal_surname")->nullable();
