@@ -55,4 +55,6 @@ return [
 
   'church_service_attendant_create' => 'Asignación completada',
 
+  'sky_registration_create' => 'Registro Creado',
+
 ];

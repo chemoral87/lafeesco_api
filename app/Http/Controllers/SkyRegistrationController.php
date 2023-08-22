@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\SkyKid;
 use App\Models\SkyParent;
 use App\Models\SkyRegistration;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Ramsey\Uuid\Uuid;
 
 class SkyRegistrationController extends Controller {
+
+  const PATH_S3 = "skykids/";
   //
   public function create(Request $request) {
     $kids = $request->input("kids");
@@ -25,10 +29,25 @@ class SkyRegistrationController extends Controller {
 
     // create qr code
 
+    $qrCode = QrCode::create($shortened)
+      ->setSize(300)
+      ->setMargin(10);
+
+// Create a writer instance
+    $writer = new PngWriter();
+
+// Get QR code as string
+    $qrCodeString = $writer->write($qrCode)->getString();
+
+// Store the QR code string to S3
+    // $path = 'qrcodes/qr-code.png'; // Modify this path as per your needs
+    // Storage::disk('s3')->put($path, $qrCodeString, 'public');
+    $qr_image = saveS3Blob($qrCodeString, self::PATH_S3);
+
     // create skyRegistration
     $registration = SkyRegistration::create([
       "uuid" => $uuid,
-      "qr_path" => $shortened,
+      "qr_path" => $qr_image,
     ]);
 
 // Prepare data for skyParents
@@ -64,5 +83,9 @@ class SkyRegistrationController extends Controller {
     // Create skyParents in a single batch
     SkyKid::insert($kidData->toArray());
 
+    return [
+      'success' => __('messa.sky_registration_create'),
+      'qr_url' => awsUrlS3($qr_image),
+    ];
   }
 }
