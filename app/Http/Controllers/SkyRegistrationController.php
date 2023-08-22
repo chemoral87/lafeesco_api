@@ -31,38 +31,46 @@ class SkyRegistrationController extends Controller {
       "qr_path" => $shortened,
     ]);
 
-// Prepare data for skyParents
-    $parentData = collect($parents)->map(function ($parent, $index) use ($registration) {
-      return [
-        'sky_registration_id' => $registration->id,
-        'name' => $parent['name'],
-        'paternal_surname' => $parent['paternal_surname'],
-        'maternal_surname' => $parent['maternal_surname'],
-        'cellphone' => $parent['cellphone'],
-        'email' => $parent['email'],
-        'photo' => $parent['photo'],
-      ];
-    });
+    // Prepare parent and kid data
+    $parentData = [];
+    $kidData = [];
 
-    // Create skyParents in a single batch
-    SkyParent::insert($parentData->toArray());
+    foreach ($parents as $parent) {
+      $parentData[] = $this->prepareParentData($registration->id, $parent);
+    }
 
-    $kidData = collect($kids)->map(function ($kid, $index) use ($registration) {
-      return [
-        'sky_registration_id' => $registration->id,
-        'name' => $kid['name'],
-        'paternal_surname' => $kid['paternal_surname'],
-        'maternal_surname' => $kid['maternal_surname'],
-        'birthdate' => $kid['birthdate'],
-        'allergies' => $kid['allergies'],
-        'notes' => $kid['notes'],
-        'room' => $kid['room'],
-      ];
+    foreach ($kids as $kid) {
+      $kidData[] = $this->prepareKidData($registration->id, $kid);
+    }
 
-    });
+    // Insert parent and kid data in a single batch
+    SkyParent::insert($parentData);
+    SkyKid::insert($kidData);
 
-    // Create skyParents in a single batch
-    SkyKid::insert($kidData->toArray());
+  }
 
+  private function prepareParentData($registrationId, $parent) {
+    return [
+      'sky_registration_id' => $registrationId,
+      'name' => $parent['name'],
+      'paternal_surname' => $parent['paternal_surname'],
+      'maternal_surname' => $parent['maternal_surname'],
+      'cellphone' => $parent['cellphone'],
+      'email' => $parent['email'],
+      'photo' => $parent['photo'],
+    ];
+  }
+
+  private function prepareKidData($registrationId, $kid) {
+    return [
+      'sky_registration_id' => $registrationId,
+      'name' => $kid['name'],
+      'paternal_surname' => $kid['paternal_surname'],
+      'maternal_surname' => $kid['maternal_surname'],
+      'birthdate' => $kid['birthdate'],
+      'allergies' => $kid['allergies'],
+      'notes' => $kid['notes'],
+      'room' => $kid['room'],
+    ];
   }
 }
