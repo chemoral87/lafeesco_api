@@ -15,6 +15,27 @@ function createVerificationCode($length = 10) {
   return $randomString;
 }
 
+function saveBlob($blob, $path, $file_to_delete = null) {
+  $d = app()->environment();
+  $folder = Carbon::now()->format("Ymd") . "/";
+  $name = $d . "/" . $path . $folder . Str::uuid()->getHex()->toString() . '.jpg';
+  $intervention = Image::make($blob)->encode('webp');
+  // storage in public storage
+  $result = Storage::disk('public')->put($name, $intervention);
+  // $result = Storage::disk('s3')->put($name, $intervention);
+  // https://www.positronx.io/laravel-image-resize-upload-with-intervention-image-package/
+  // https://laracasts.com/discuss/channels/laravel/resize-an-image-before-upload-to-s3
+
+  if ($file_to_delete != null) {
+    try {
+      // save in public storage
+
+    } catch (Exception $e) {
+    }
+  }
+  return $name;
+}
+
 function saveS3Blob($blob, $path, $file_to_delete = null) {
   $d = app()->environment();
   $folder = Carbon::now()->format("Ymd") . "/";

@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\SkyKid;
 use App\Models\SkyParent;
 use App\Models\SkyRegistration;
+use Endroid\QrCode\Logo\Logo;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use Intervention\Image\Facades\Image;
 use Ramsey\Uuid\Uuid;
 
 class SkyRegistrationController extends Controller {
@@ -19,30 +20,57 @@ class SkyRegistrationController extends Controller {
     $kids = $request->input("kids");
     $parents = $request->input("parents");
 
-    Log::info($kids);
-    Log::info($parents);
+    $legal_parent = strtoupper(substr($parents[0]['name'] . ' ' . $parents[0]['paternal_surname'], 0, 30));
 
     $uuid = Uuid::uuid4()->toString();
     $shortened = base64_encode(hex2bin(str_replace('-', '', $uuid)));
 
-    Log::info($shortened);
-
-    // create qr code
-
     $qrCode = QrCode::create($shortened)
       ->setSize(300)
-      ->setMargin(10);
+      ->setMargin(20);
+
+    $logo = Logo::create(public_path('images/logo.jpg'))
+      ->setResizeToWidth(40)
+      ->setPunchoutBackground(true);
 
 // Create a writer instance
     $writer = new PngWriter();
 
 // Get QR code as string
-    $qrCodeString = $writer->write($qrCode)->getString();
+    $qrCodeString = $writer->write($qrCode, $logo)->getString();
 
-// Store the QR code string to S3
-    // $path = 'qrcodes/qr-code.png'; // Modify this path as per your needs
-    // Storage::disk('s3')->put($path, $qrCodeString, 'public');
-    $qr_image = saveS3Blob($qrCodeString, self::PATH_S3);
+    // ADD additional label
+
+    $image = Image::make($qrCodeString);
+
+// Add a label on top with red letters
+    $labelText = 'SKY KIDS  La Fe Escobedo';
+    $image->text($labelText, $image->width() / 2, 2, function ($font) {
+      $font->file(public_path('fonts/Roboto-Regular.ttf')); // Path to a TTF font file
+      $font->size(18); // Font size
+      // color blue
+      $font->color('#0000ff'); // Blue color
+
+      $font->align('center'); // Horizontal alignment
+      $font->valign('top'); // Vertical alignment
+    });
+
+    $image->text($legal_parent, $image->width() / 2, 324, function ($font) {
+      $font->file(public_path('fonts/Roboto-Regular.ttf')); // Path to a TTF font file
+      $font->size(16); // Font size
+      // color blue
+      $font->color('#0000ff'); // Blue color
+
+      $font->align('center'); // Horizontal alignment
+      $font->valign('top'); // Vertical alignment
+    });
+
+// Convert image back to string
+    $modifiedQrCodeString = (string) $image->encode('png');
+
+    // DEBUG only
+    // $qr_image = saveBlob($modifiedQrCodeString, self::PATH_S3);
+    $qr_image = saveS3Blob($modifiedQrCodeString, self::PATH_S3);
 
     // create skyRegistration
     $registration = SkyRegistration::create([
