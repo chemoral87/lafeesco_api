@@ -17,6 +17,8 @@ return new class extends Migration {
       $table->string('room');
       $table->datetime('exits')->nullable();
       $table->string('ticket');
+      $table->bigInteger('created_by')->unsigned();
+      $table->bigInteger('updated_by')->unsigned();
       $table->timestamps();
     });
   }
