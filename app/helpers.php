@@ -15,6 +15,23 @@ function createVerificationCode($length = 10) {
   return $randomString;
 }
 
+function encodeUUID($uuid) {
+  return base64_encode(hex2bin(str_replace('-', '', $uuid)));
+}
+
+function decodeUUID($shortened) {
+  // Step 1: Decode the base64 encoded string
+  $binaryData = base64_decode($shortened);
+
+  // Step 2: Convert the binary data to hexadecimal format
+  $hexadecimal = bin2hex($binaryData);
+
+  // Step 3: Insert dashes to reconstruct the UUID
+  $uuid = substr($hexadecimal, 0, 8) . '-' . substr($hexadecimal, 8, 4) . '-' . substr($hexadecimal, 12, 4) . '-' . substr($hexadecimal, 16, 4) . '-' . substr($hexadecimal, 20);
+
+  return $uuid;
+}
+
 function saveBlob($blob, $path, $file_to_delete = null) {
   $d = app()->environment();
   $folder = Carbon::now()->format("Ymd") . "/";
@@ -45,9 +62,9 @@ function saveS3Blob($blob, $path, $file_to_delete = null) {
   // https://www.positronx.io/laravel-image-resize-upload-with-intervention-image-package/
   // https://laracasts.com/discuss/channels/laravel/resize-an-image-before-upload-to-s3
 
-  if ($file_to_delete != null) {
+  if ($file_to_delete) {
     try {
-      Storage::disk('s3')->delete($old_file);
+      Storage::disk('s3')->delete($file_to_delete);
     } catch (Exception $e) {
     }
   }

@@ -15,6 +15,14 @@ use Ramsey\Uuid\Uuid;
 class SkyRegistrationController extends Controller {
 
   const PATH_S3 = "skykids/";
+
+  public function show(Request $request, $id) {
+    $shortened_uuid = $id;
+    $sky_uuid = decodeUUID($shortened_uuid);
+
+    $registration = SkyRegistration::with('kids', 'parents')->where('uuid', $sky_uuid)->first();
+    return $registration;
+  }
   //
   public function create(Request $request) {
     $kids = $request->input("kids");
@@ -23,7 +31,7 @@ class SkyRegistrationController extends Controller {
     $legal_parent = strtoupper(substr($parents[0]['name'] . ' ' . $parents[0]['paternal_surname'], 0, 30));
 
     $uuid = Uuid::uuid4()->toString();
-    $shortened = base64_encode(hex2bin(str_replace('-', '', $uuid)));
+    $shortened = encodeUUID($uuid);
 
     $qrCode = QrCode::create($shortened)
       ->setSize(300)
