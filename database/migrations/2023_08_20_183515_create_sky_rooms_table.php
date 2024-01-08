@@ -16,6 +16,9 @@ return new class extends Migration {
       $table->string('name');
       $table->tinyInteger('min_age');
       $table->tinyInteger('max_age');
+      // active, inactive boolean default true  (active)
+      $table->boolean('active')->default(true);
+
       $table->timestamps();
     });
   }

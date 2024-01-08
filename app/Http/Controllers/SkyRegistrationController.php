@@ -20,7 +20,9 @@ class SkyRegistrationController extends Controller {
     $shortened_uuid = $id;
     $sky_uuid = decodeUUID($shortened_uuid);
 
-    $registration = SkyRegistration::with('kids', 'parents')->where('uuid', $sky_uuid)->first();
+    $registration = SkyRegistration::with('kids', 'parents')
+    // ->select("uuid")
+      ->where('uuid', $sky_uuid)->first();
     return $registration;
   }
   //

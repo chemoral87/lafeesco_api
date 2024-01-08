@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Throwable;
 
 class AttendantController extends Controller {
   const PATH_S3 = "attendant/";
@@ -53,7 +54,7 @@ class AttendantController extends Controller {
     if ($request->has('image')) {
       try {
         deleteS3($attendant->real_photo);
-      } catch (Exception $e) {
+      } catch (Throwable $e) {
         Log::error(sprintf("%s - func %s - line %d - ", __CLASS__, __FUNCTION__, __LINE__) . $e->getMessage());
       }
       $photo = saveS3Blob($request->file('image'), self::PATH_S3);
