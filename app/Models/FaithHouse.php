@@ -28,7 +28,7 @@ class FaithHouse extends Model {
   }
 
   public function getExhibitorPhotoAttribute($value) {
-    return awsUrlS3($value);
+    return awsUrlS3($value, false);
     // return temporaryUrlS3($value);
   }
 

@@ -12,7 +12,7 @@ return new class extends Migration {
    */
   public function up() {
     Schema::table('faith_houses', function (Blueprint $table) {
-      $table->string('schedule');
+      $table->string('schedule')->nullable();
     });
   }
 

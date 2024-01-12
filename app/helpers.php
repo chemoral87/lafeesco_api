@@ -71,7 +71,7 @@ function saveS3Blob($blob, $path, $file_to_delete = null) {
   return $name;
 }
 
-function awsUrlS3($path) {
+function awsUrlS3($path, $random = true) {
 
   if ($path) {
 
@@ -86,7 +86,12 @@ function awsUrlS3($path) {
     Cache::put($cacheKey, $temporaryUrl, $cacheTtl);
     return $temporaryUrl;
   }
-  return "https://source.unsplash.com/96x96/daily";
+
+  if ($random) {
+    return "https://source.unsplash.com/96x96/daily";
+  } else {
+    return "";
+  }
 
 }
 
