@@ -22,9 +22,15 @@ class FaithHouseController extends Controller {
       // $query->where("end_date", $active_faith_house);
     }
     if ($filter) {
-      $query->where("exhibitor", "like", "%" . $filter . "%")
-        ->orWhere("name", "like", "%" . $filter . "%")
-        ->orWhere("host", "like", "%" . $filter . "%");
+      // $query->where("exhibitor", "like", "%" . $filter . "%")
+      //   ->orWhere("name", "like", "%" . $filter . "%")
+      //   ->orWhere("host", "like", "%" . $filter . "%");
+
+      $query->where(function ($query) use ($filter) {
+        $query->where("exhibitor", "like", "%" . $filter . "%")
+          ->orWhere("name", "like", "%" . $filter . "%")
+          ->orWhere("host", "like", "%" . $filter . "%");
+      });
       // orWhere("host", "like", "%" . $filter . "%");
       // $query->where(DB::raw("CONCAT(name, ' ', paternal_surname)"), "like", "%" . $filter . "%");
     }
