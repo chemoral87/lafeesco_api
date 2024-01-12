@@ -18,6 +18,7 @@ class FaithHouse extends Model {
     "exhibitor_photo",
     "address",
     "schedule",
+    "end_date",
     "lat",
     "lng",
   ];
