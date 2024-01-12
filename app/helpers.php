@@ -73,7 +73,7 @@ function saveS3Blob($blob, $path, $file_to_delete = null) {
 
 function awsUrlS3($path, $random = true) {
 
-  if ($path) {
+  if (!empty($path)) {
 
     $cacheKey = 'aws-url-' . $path;
     $cacheTtl = 5; //60 * 12 * 7; // in minutes
