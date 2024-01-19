@@ -37,9 +37,11 @@ return [
 
   'credit_amortization_table' => 'Tabla de Amortización',
 
-  'house_faith_create' => 'Casa de Fe creada',
-  'house_faith_update' => 'Casa de Fe guardada',
-  'house_faith_delete' => 'Casa de Fe eliminada',
+  'faith_house_create' => 'Casa de Fe creada',
+  'faith_house_update' => 'Casa de Fe guardada',
+  'faith_house_delete' => 'Casa de Fe eliminada',
+
+  'faith_house_membership_create' => 'Solicitud enviada',
 
   'agro_event_create' => 'Agro Evento creado',
   'agro_event_update' => 'Agro Evento guardado',

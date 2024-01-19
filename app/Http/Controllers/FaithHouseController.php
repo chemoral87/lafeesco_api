@@ -50,13 +50,13 @@ class FaithHouseController extends Controller {
   }
 
   public function create(Request $request) {
-    // $house_faith = FaithHouse::create($request->all());
+    // $faith_house = FaithHouse::create($request->all());
 
     $host_photo = $request->hasFile('host_photo') ? saveS3Blob($request->file('host_photo'), self::PATH_S3) : null;
 
     $exhibitor_photo = $request->hasFile('exhibitor_photo') ? saveS3Blob($request->file('exhibitor_photo'), self::PATH_S3) : null;
 
-    $house_faith = FaithHouse::create(
+    $faith_house = FaithHouse::create(
       [
         'name' => $request->get('name'),
         'host' => $request->get('host'),
@@ -72,33 +72,33 @@ class FaithHouseController extends Controller {
         'end_date' => $request->get('end_date'),
       ]
     );
-    return ['success' => __('messa.house_faith_create')];
+    return ['success' => __('messa.faith_house_create')];
   }
 
   public function update(Request $request, $id) {
 
-    $house_faith = FaithHouse::find($id);
+    $faith_house = FaithHouse::find($id);
     if ($request->has('host_photo')) {
       try {
-        deleteS3($house_faith->real_host_photo);
+        deleteS3($faith_house->real_host_photo);
       } catch (Throwable $e) {
         Log::error(sprintf("%s - func %s - line %d - ", __CLASS__, __FUNCTION__, __LINE__) . $e->getMessage());
       }
       $host_photo = saveS3Blob($request->file('host_photo'), self::PATH_S3);
-      $house_faith->host_photo = $host_photo;
+      $faith_house->host_photo = $host_photo;
     }
 
     if ($request->has('exhibitor_photo')) {
       try {
-        deleteS3($house_faith->real_exhibitor_photo);
+        deleteS3($faith_house->real_exhibitor_photo);
       } catch (Throwable $e) {
         Log::error(sprintf("%s - func %s - line %d - ", __CLASS__, __FUNCTION__, __LINE__) . $e->getMessage());
       }
       $exhibitor_photo = saveS3Blob($request->file('exhibitor_photo'), self::PATH_S3);
-      $house_faith->exhibitor_photo = $exhibitor_photo;
+      $faith_house->exhibitor_photo = $exhibitor_photo;
     }
 
-    $house_faith->update([
+    $faith_house->update([
       'name' => $request->get('name'),
       'host' => $request->get('host'),
       'host_phone' => $request->get('host_phone'),
@@ -111,12 +111,12 @@ class FaithHouseController extends Controller {
       'end_date' => $request->get('end_date'),
     ]);
     return [
-      'success' => __('messa.house_faith_update'),
+      'success' => __('messa.faith_house_update'),
     ];
   }
 
   public function delete($id) {
     FaithHouse::find($id)->delete();
-    return ['success' => __('messa.house_faith_delete')];
+    return ['success' => __('messa.faith_house_delete')];
   }
 }
