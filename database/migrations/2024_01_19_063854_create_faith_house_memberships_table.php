@@ -20,6 +20,8 @@ return new class extends Migration {
       $table->string('house_number')->nullable();
       $table->string('neighborhood')->nullable();
       $table->string('municipality')->nullable();
+      $table->decimal('lat', 10, 8)->nullable();
+      $table->decimal('lng', 11, 8)->nullable();
       $table->timestamps();
     });
   }

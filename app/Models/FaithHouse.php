@@ -19,9 +19,14 @@ class FaithHouse extends Model {
     "address",
     "schedule",
     "end_date",
+    "allow_matching",
     "lat",
     "lng",
   ];
+
+  // protected $casts = [
+  //   'allow_matching' => 'integer',
+  // ];
 
   public function getHostPhotoAttribute($value) {
     return awsUrlS3($value, false);

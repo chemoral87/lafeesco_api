@@ -172,7 +172,13 @@ Route::group(["middleware" => ['jwt.verify']], function () {
 }); // ["middleware" => ['jwt.verify']
 
 // public
+// Registro de personas a casas de fe
+Route::group(["prefix" => "faith-house-membership"], function () {
+  $controller = "FaithHouseMembershipController";
+  Route::post("/", "{$controller}@create");
+});
 
+// registro de niños y QR
 Route::group(["prefix" => "sky-registration"], function () {
   $controller = "SkyRegistrationController";
   Route::post("/", "{$controller}@create");
