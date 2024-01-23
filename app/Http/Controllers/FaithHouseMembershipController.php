@@ -24,6 +24,8 @@ class FaithHouseMembershipController extends Controller {
     )
       ->having('distance', '<', 20)
       ->whereNull('end_date')
+    // where allow_new_members is true
+      ->where('allow_matching', 1)
     // where end_date is null or end_date is greater than today
     // ->where(function ($query) {
     //   $query->whereNull('end_date')
