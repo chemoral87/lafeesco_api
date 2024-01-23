@@ -17,5 +17,6 @@ class FaithHouseMembership extends Model {
     'municipality',
     'lat',
     'lng',
+    'ip_address',
   ];
 }

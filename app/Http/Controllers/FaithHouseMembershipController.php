@@ -12,6 +12,8 @@ class FaithHouseMembershipController extends Controller {
 
     $lat = $request->get('lat');
     $lng = $request->get('lng');
+    // save ip address in a variable
+    $ip_address = $request->ip();
 
     // get the 2 nearest faith house
     $faithHouses = FaithHouse::selectRaw(
@@ -46,6 +48,7 @@ class FaithHouseMembershipController extends Controller {
         'municipality' => $request->get('municipality'),
         'lat' => $lat,
         'lng' => $lng,
+        'ip_address' => $ip_address,
       ]
     );
 

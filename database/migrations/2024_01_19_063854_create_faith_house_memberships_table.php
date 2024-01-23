@@ -11,6 +11,7 @@ return new class extends Migration {
    * @return void
    */
   public function up() {
+
     Schema::create('faith_house_memberships', function (Blueprint $table) {
       $table->id();
       $table->string('name');
@@ -22,6 +23,7 @@ return new class extends Migration {
       $table->string('municipality')->nullable();
       $table->decimal('lat', 10, 8)->nullable();
       $table->decimal('lng', 11, 8)->nullable();
+      $table->string('ip_address')->nullable();
       $table->timestamps();
     });
   }
