@@ -10,6 +10,7 @@ class FaithHouse extends Model {
 
   protected $appends = [
     'neighborhood',
+    'municipality',
   ];
   protected $fillable = [
     "name",
@@ -59,4 +60,16 @@ class FaithHouse extends Model {
     }
 
   }
+
+  public function getMunicipalityAttribute() {
+
+    $address = explode(',', $this->address);
+    if (count($address) > 2) {
+      return trim($address[2]);
+    } else {
+      return "";
+    }
+
+  }
+
 }
