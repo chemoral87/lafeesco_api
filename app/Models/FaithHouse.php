@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class FaithHouse extends Model {
   use HasFactory;
 
+  protected $appends = [
+    'neighborhood',
+  ];
   protected $fillable = [
     "name",
     "host",
@@ -44,5 +47,16 @@ class FaithHouse extends Model {
 
   public function getRealExhibitorPhotoAttribute() {
     return $this->attributes['exhibitor_photo'];
+  }
+
+  public function getNeighborhoodAttribute() {
+
+    $address = explode(',', $this->address);
+    if (count($address) > 1) {
+      return trim($address[1]);
+    } else {
+      return "";
+    }
+
   }
 }

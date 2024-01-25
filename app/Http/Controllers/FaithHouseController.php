@@ -15,6 +15,7 @@ class FaithHouseController extends Controller {
     // DB::enableQueryLog();<
     $query = queryServerSide($request, FaithHouse::query());
     $active_faith_house = $request->get('active_faith_house');
+
     $filter = $request->get("filter");
     if ($active_faith_house == 'true') {
       // end_date is null
@@ -22,18 +23,14 @@ class FaithHouseController extends Controller {
       // $query->where("end_date", $active_faith_house);
     }
     if ($filter) {
-      // $query->where("exhibitor", "like", "%" . $filter . "%")
-      //   ->orWhere("name", "like", "%" . $filter . "%")
-      //   ->orWhere("host", "like", "%" . $filter . "%");
-
       $query->where(function ($query) use ($filter) {
         $query->where("exhibitor", "like", "%" . $filter . "%")
           ->orWhere("name", "like", "%" . $filter . "%")
           ->orWhere("host", "like", "%" . $filter . "%");
       });
-      // orWhere("host", "like", "%" . $filter . "%");
-      // $query->where(DB::raw("CONCAT(name, ' ', paternal_surname)"), "like", "%" . $filter . "%");
+
     }
+
     $faith_houses = $query->paginate($request->get('itemsPerPage'));
 
     return new DataSetResource($faith_houses);

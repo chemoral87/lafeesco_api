@@ -169,6 +169,12 @@ Route::group(["middleware" => ['jwt.verify']], function () {
 
   });
 
+  Route::group(["prefix" => "texting"], function () {
+    $controller = "TextingController";
+    Route::post("/", "{$controller}@create");
+
+  });
+
 }); // ["middleware" => ['jwt.verify']
 
 // public
