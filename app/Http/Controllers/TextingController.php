@@ -6,28 +6,34 @@ use Illuminate\Http\Request;
 use Twilio\Rest\Client;
 
 class TextingController extends Controller {
-  public function insert(Request $request) {
-// receive text and number to send a text in twilio
-    $request->validate([
-      'text' => 'required',
-      'number' => 'required',
-    ]);
+  public function create(Request $request) {
+    $contacts = $request->input('contacts');
 
-    $text = $request->input('text');
+    $template = $request->input('text');
     $number = $request->input('number');
 
-    $sid = env('TWILIO_ACCOUNT_SID');
-    $token = env('TWILIO_AUTH_TOKEN');
+    $sid = env('TWILIO_SID');
+    $token = env('TWILIO_TOKEN');
     $twilio = new Client($sid, $token);
 
-    $message = $twilio->messages
-      ->create($number, // to
-        array(
-          "from" => env('TWILIO_NUMBER'),
-          "body" => $text,
-        )
-      );
+    // for each contacts send a message
+    foreach ($contacts as $contact) {
+      $number = $contact['phone_number'];
+      $name = $contact['name'];
+      $text = str_replace('{{name}}', $name, $template);
+      $message = $twilio->messages
+        ->create('+52' . $number, // to
+          array(
+            "from" => env('TWILIO_PHONE_NUMBER'),
+            "body" => $text,
+          )
+        );
+    }
 
-    return $message->sid;
+    return [
+      'success' => "Notificaciones enviadas",
+
+    ];
+    // return $message->sid;
   }
 }
