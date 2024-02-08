@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\FaithHouseMembership;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -62,14 +63,16 @@ class FaithHouse extends Model {
   }
 
   public function getMunicipalityAttribute() {
-
     $address = explode(',', $this->address);
     if (count($address) > 2) {
       return trim($address[2]);
     } else {
       return "";
     }
+  }
 
+  public function faithMemberships() {
+    return $this->belongsToMany(FaithHouseMembership::class, 'faith_house_membership_house', 'faith_house_id', 'faith_house_membership_id');
   }
 
 }

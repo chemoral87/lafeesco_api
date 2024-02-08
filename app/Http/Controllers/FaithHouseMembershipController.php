@@ -37,20 +37,21 @@ class FaithHouseMembershipController extends Controller {
       ->limit(2)
       ->get();
 
-    $membership = FaithHouseMembership::create(
-      [
-        'name' => $request->get('name'),
-        'age' => $request->get('age'),
-        'phone' => $request->get('phone'),
-        'street_address' => $request->get('street_address'),
-        'house_number' => $request->get('house_number'),
-        'neighborhood' => $request->get('neighborhood'),
-        'municipality' => $request->get('municipality'),
-        'lat' => $lat,
-        'lng' => $lng,
-        'ip_address' => $ip_address,
-      ]
-    );
+    $membership = FaithHouseMembership::create([
+      'name' => $request->get('name'),
+      'age' => $request->get('age'),
+      'phone' => $request->get('phone'),
+      'street_address' => $request->get('street_address'),
+      'house_number' => $request->get('house_number'),
+      'neighborhood' => $request->get('neighborhood'),
+      'municipality' => $request->get('municipality'),
+      'lat' => $lat,
+      'lng' => $lng,
+      'ip_address' => $ip_address,
+    ]);
+
+    // insert $faithHouses into faith_house_membership_house table
+    $membership->faithHouses()->attach($faithHouses->pluck('id'));
 
     return ['success' => __('messa.faith_house_membership_create'), 'match' => $faithHouses];
   }
