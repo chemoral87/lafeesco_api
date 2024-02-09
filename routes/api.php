@@ -101,6 +101,11 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::delete("/{id}", "{$controller}@delete");
   });
 
+  Route::group(["prefix" => "faith-house-membership"], function () {
+    $controller = "FaithHouseMembershipController";
+    Route::get("/", "{$controller}@index");
+  });
+
   Route::group(["prefix" => "agro-event"], function () {
     $controller = "AgroEventController";
     Route::get("/", "{$controller}@index");

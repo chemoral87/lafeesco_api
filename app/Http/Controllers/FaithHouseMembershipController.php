@@ -2,11 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DataSetResource;
 use App\Models\FaithHouse;
 use App\Models\FaithHouseMembership;
 use Illuminate\Http\Request;
 
 class FaithHouseMembershipController extends Controller {
+
+  public function index(Request $request) {
+    // with faith_houses
+    // $query = FaithHouseMembership::with('faithHouses');
+
+    $query = queryServerSide($request, FaithHouseMembership::with('faithHouses'));
+
+    $filter = $request->get("filter");
+    if ($filter) {
+      $query->where(function ($query) use ($filter) {
+        $query->where("name", "like", "%" . $filter . "%");
+        // ->orWhere("name", "like", "%" . $filter . "%")
+        // ->orWhere("host", "like", "%" . $filter . "%");
+      });
+
+    }
+
+    $faith_house_memberships = $query->paginate($request->get('itemsPerPage'));
+
+    return new DataSetResource($faith_house_memberships);
+  }
 
   public function create(Request $request) {
 
