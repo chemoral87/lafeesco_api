@@ -68,6 +68,7 @@ class FaithHouseController extends Controller {
         'lat' => $request->get('lat'),
         'lng' => $request->get('lng'),
         'end_date' => $request->get('end_date'),
+        'order' => $request->get('order'),
       ]
     );
     return ['success' => __('messa.faith_house_create')];
@@ -108,6 +109,7 @@ class FaithHouseController extends Controller {
       'lat' => $request->get('lat'),
       'lng' => $request->get('lng'),
       'end_date' => $request->get('end_date'),
+      'order' => $request->get('order'),
     ]);
     return [
       'success' => __('messa.faith_house_update'),

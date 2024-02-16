@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\FaithHouseContact;
 use App\Models\FaithHouseMembership;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +28,7 @@ class FaithHouse extends Model {
     "allow_matching",
     "lat",
     "lng",
+    "order",
   ];
 
   // protected $casts = [
@@ -35,7 +37,6 @@ class FaithHouse extends Model {
 
   public function getHostPhotoAttribute($value) {
     return awsUrlS3($value, false);
-    // return temporaryUrlS3($value);
   }
 
   public function getExhibitorPhotoAttribute($value) {
@@ -73,6 +74,10 @@ class FaithHouse extends Model {
 
   public function faithMemberships() {
     return $this->belongsToMany(FaithHouseMembership::class, 'faith_house_membership_house', 'faith_house_id', 'faith_house_membership_id');
+  }
+
+  public function contacts() {
+    return $this->hasMany(FaithHouseContact::class);
   }
 
 }
