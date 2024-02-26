@@ -84,4 +84,12 @@ class FaithHouseMembershipController extends Controller {
 
     return ['success' => __('messa.faith_house_membership_create'), 'match' => $faithHouses];
   }
+
+  public function delete(Request $request, $id) {
+    ;
+    $faithHouseMembership = FaithHouseMembership::find($id);
+    $faithHouseMembership->faithHouses()->detach();
+    $faithHouseMembership->delete();
+    return ['success' => __('messa.faith_house_membership_delete')];
+  }
 }

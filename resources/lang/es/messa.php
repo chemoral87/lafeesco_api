@@ -42,6 +42,7 @@ return [
   'faith_house_delete' => 'Casa de Fe eliminada',
 
   'faith_house_membership_create' => 'Solicitud enviada',
+  'faith_house_membership_delete' => 'Membresía eliminada',
 
   'agro_event_create' => 'Agro Evento creado',
   'agro_event_update' => 'Agro Evento guardado',
