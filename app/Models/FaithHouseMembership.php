@@ -13,6 +13,7 @@ class FaithHouseMembership extends Model {
     'age',
     'phone',
     'marital_status',
+    'source',
     'street_address',
     'house_number',
     'neighborhood',

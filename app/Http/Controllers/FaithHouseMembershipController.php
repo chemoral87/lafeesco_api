@@ -68,6 +68,8 @@ class FaithHouseMembershipController extends Controller {
       'age' => $request->get('age'),
       'phone' => $request->get('phone'),
       'marital_status' => $request->get('marital_status'),
+      'source' => $request->get('source'),
+
       'street_address' => $request->get('street_address'),
       'house_number' => $request->get('house_number'),
       'neighborhood' => $request->get('neighborhood'),
