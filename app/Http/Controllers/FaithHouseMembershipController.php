@@ -38,7 +38,7 @@ class FaithHouseMembershipController extends Controller {
     $ip_address = $request->ip();
 
     // get the 2 nearest faith house  where distance is less than 20 meters
-    $faithHouses = FaithHouse::selectRaw(
+    $faithHouses = FaithHouse::with('contacts')->selectRaw(
       '*, ( 3959 * acos( cos( radians(?) ) *
       cos( radians( lat ) )
       * cos( radians( lng ) - radians(?)
@@ -59,9 +59,14 @@ class FaithHouseMembershipController extends Controller {
       ->get();
 
     // hide  from  $faithHouses
-    $faithHouses->makeHidden('exhibitor_phone');
-    $faithHouses->makeHidden('host_phone');
-    $faithHouses->makeHidden('address');
+    // $faithHouses->makeHidden('exhibitor_phone');
+    // $faithHouses->makeHidden('host_phone');
+    // $faithHouses->makeHidden('address');
+
+    // hide  from  $faithHouses contact phone
+    $faithHouses->each(function ($faithHouse) {
+      $faithHouse->contacts->makeHidden('phone');
+    });
 
     $membership = FaithHouseMembership::create([
       'name' => $request->get('name'),

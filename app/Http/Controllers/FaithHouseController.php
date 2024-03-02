@@ -13,6 +13,11 @@ class FaithHouseController extends Controller {
     // DB::enableQueryLog();<
     $query = queryServerSide($request, FaithHouse::query());
     $active_faith_house = $request->get('active_faith_house');
+    $with_contacts = $request->get('with_contacts');
+
+    if ($with_contacts == 1) {
+      $query->with('contacts');
+    }
 
     $filter = $request->get("filter");
     if ($active_faith_house == 'true') {

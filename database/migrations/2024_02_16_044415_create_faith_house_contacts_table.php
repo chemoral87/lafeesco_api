@@ -18,10 +18,10 @@ return new class extends Migration {
       $table->string('name');
       $table->string('paternal_surname');
       $table->string('maternal_surname')->nullable();
-      $table->string('phone');
+      $table->string('phone')->nullable();
       $table->string('photo')->nullable();
       $table->string('email')->nullable();
-      $table->string('role')->nullable();
+      $table->string('role');
 
       $table->tinyInteger('order')->default(1);
       $table->timestamps();

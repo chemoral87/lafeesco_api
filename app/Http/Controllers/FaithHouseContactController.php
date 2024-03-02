@@ -21,6 +21,8 @@ class FaithHouseContactController extends Controller {
     $faith_house = FaithHouse::find($faith_house_id);
     $data = $request->all();
 
+    $data = $this->formatData($data);
+
     $photo = $request->hasFile('photo_blob') ? saveS3Blob($request->file('photo_blob'), self::PATH_S3) : null;
     $data['photo'] = $photo;
 
@@ -32,6 +34,8 @@ class FaithHouseContactController extends Controller {
     $faith_house = FaithHouse::find($faith_house_id);
     $contact = $faith_house->contacts()->find($id);
     $data = $request->all();
+
+    $data = $this->formatData($data);
 
     if ($request->hasFile('photo_blob')) {
       if ($contact->photo) {
@@ -56,5 +60,25 @@ class FaithHouseContactController extends Controller {
 
     $contact->delete();
     return ['success' => __('messa.faith_house_contact_delete')];
+  }
+
+  public function formatData($data) {
+    if (array_key_exists('role', $data)) {
+      $data['role'] = mb_strtoupper($data['role']);
+    }
+
+    if (array_key_exists('name', $data)) {
+      $data['name'] = ucwords($data['name']);
+    }
+
+    if (array_key_exists('paternal_surname', $data)) {
+      $data['paternal_surname'] = ucwords($data['paternal_surname']);
+    }
+
+    if (array_key_exists('maternal_surname', $data)) {
+      $data['maternal_surname'] = ucwords($data['maternal_surname']);
+    }
+
+    return $data;
   }
 }
