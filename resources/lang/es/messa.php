@@ -41,6 +41,10 @@ return [
   'faith_house_update' => 'Casa de Fe guardada',
   'faith_house_delete' => 'Casa de Fe eliminada',
 
+  'faith_house_contact_create' => 'Contacto creado',
+  'faith_house_contact_delete' => 'Contacto eliminado',
+  'faith_house_contact_update' => 'Contacto guardado',
+
   'faith_house_membership_create' => 'Solicitud enviada',
   'faith_house_membership_delete' => 'Membresía eliminada',
 

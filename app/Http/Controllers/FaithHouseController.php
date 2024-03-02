@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DataSetResource;
 use App\Models\FaithHouse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Throwable;
 
 class FaithHouseController extends Controller {
   const PATH_S3 = "faith_house/";
@@ -37,7 +35,7 @@ class FaithHouseController extends Controller {
   }
 
   public function show(Request $request, $id) {
-    $faith_house = FaithHouse::find($id);
+    $faith_house = FaithHouse::with('contacts')->find($id);
 
     if ($faith_house == null) {
       abort(405, 'Faith House not found');
@@ -56,12 +54,12 @@ class FaithHouseController extends Controller {
     $faith_house = FaithHouse::create(
       [
         'name' => $request->get('name'),
-        'host' => $request->get('host'),
-        'host_phone' => $request->get('host_phone'),
-        'host_photo' => $host_photo,
-        'exhibitor' => $request->get('exhibitor'),
-        'exhibitor_phone' => $request->get('exhibitor_phone'),
-        'exhibitor_photo' => $exhibitor_photo,
+        // 'host' => $request->get('host'),
+        // 'host_phone' => $request->get('host_phone'),
+        // 'host_photo' => $host_photo,
+        // 'exhibitor' => $request->get('exhibitor'),
+        // 'exhibitor_phone' => $request->get('exhibitor_phone'),
+        // 'exhibitor_photo' => $exhibitor_photo,
         'address' => $request->get('address'),
         'schedule' => $request->get('schedule'),
         'allow_matching' => $request->get('allow_matching'),
@@ -77,32 +75,32 @@ class FaithHouseController extends Controller {
   public function update(Request $request, $id) {
 
     $faith_house = FaithHouse::find($id);
-    if ($request->has('host_photo')) {
-      try {
-        deleteS3($faith_house->real_host_photo);
-      } catch (Throwable $e) {
-        Log::error(sprintf("%s - func %s - line %d - ", __CLASS__, __FUNCTION__, __LINE__) . $e->getMessage());
-      }
-      $host_photo = saveS3Blob($request->file('host_photo'), self::PATH_S3);
-      $faith_house->host_photo = $host_photo;
-    }
+    // if ($request->has('host_photo')) {
+    //   try {
+    //     deleteS3($faith_house->real_host_photo);
+    //   } catch (Throwable $e) {
+    //     Log::error(sprintf("%s - func %s - line %d - ", __CLASS__, __FUNCTION__, __LINE__) . $e->getMessage());
+    //   }
+    //   $host_photo = saveS3Blob($request->file('host_photo'), self::PATH_S3);
+    //   $faith_house->host_photo = $host_photo;
+    // }
 
-    if ($request->has('exhibitor_photo')) {
-      try {
-        deleteS3($faith_house->real_exhibitor_photo);
-      } catch (Throwable $e) {
-        Log::error(sprintf("%s - func %s - line %d - ", __CLASS__, __FUNCTION__, __LINE__) . $e->getMessage());
-      }
-      $exhibitor_photo = saveS3Blob($request->file('exhibitor_photo'), self::PATH_S3);
-      $faith_house->exhibitor_photo = $exhibitor_photo;
-    }
+    // if ($request->has('exhibitor_photo')) {
+    //   try {
+    //     deleteS3($faith_house->real_exhibitor_photo);
+    //   } catch (Throwable $e) {
+    //     Log::error(sprintf("%s - func %s - line %d - ", __CLASS__, __FUNCTION__, __LINE__) . $e->getMessage());
+    //   }
+    //   $exhibitor_photo = saveS3Blob($request->file('exhibitor_photo'), self::PATH_S3);
+    //   $faith_house->exhibitor_photo = $exhibitor_photo;
+    // }
 
     $faith_house->update([
       'name' => $request->get('name'),
-      'host' => $request->get('host'),
-      'host_phone' => $request->get('host_phone'),
-      'exhibitor' => $request->get('exhibitor'),
-      'exhibitor_phone' => $request->get('exhibitor_phone'),
+      // 'host' => $request->get('host'),
+      // 'host_phone' => $request->get('host_phone'),
+      // 'exhibitor' => $request->get('exhibitor'),
+      // 'exhibitor_phone' => $request->get('exhibitor_phone'),
       'address' => $request->get('address'),
       'schedule' => $request->get('schedule'),
       'allow_matching' => $request->get('allow_matching'),
@@ -120,4 +118,5 @@ class FaithHouseController extends Controller {
     FaithHouse::find($id)->delete();
     return ['success' => __('messa.faith_house_delete')];
   }
+
 }

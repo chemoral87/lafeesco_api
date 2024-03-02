@@ -79,8 +79,9 @@ class FaithHouseMembershipController extends Controller {
       'ip_address' => $ip_address,
     ]);
 
-    // insert $faithHouses into faith_house_membership_house table
-    $membership->faithHouses()->attach($faithHouses->pluck('id'));
+    // insert $faithHouses into faith_house_membership_house  table
+
+    // $membership->faithHouses()->attach($faithHouses->pluck('id'));
 
     return ['success' => __('messa.faith_house_membership_create'), 'match' => $faithHouses];
   }

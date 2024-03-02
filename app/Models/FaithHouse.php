@@ -77,7 +77,9 @@ class FaithHouse extends Model {
   }
 
   public function contacts() {
-    return $this->hasMany(FaithHouseContact::class);
+    // order by order column in ascending order
+    return $this->hasMany(FaithHouseContact::class)->orderBy('order');
+    // return $this->hasMany(FaithHouseContact::class);
   }
 
 }

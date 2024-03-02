@@ -101,6 +101,15 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::delete("/{id}", "{$controller}@delete");
   });
 
+  Route::group(["prefix" => "faith-house-contact"], function () {
+    $controller = "FaithHouseContactController";
+
+    Route::get("/{faith_house_id}", "{$controller}@index");
+    Route::post("/{faith_house_id}", "{$controller}@create");
+    Route::put("/{faith_house_id}/{id}", "{$controller}@update");
+    Route::delete("/{faith_house_id}/{id}", "{$controller}@delete");
+  });
+
   Route::group(["prefix" => "faith-house-membership"], function () {
     $controller = "FaithHouseMembershipController";
     Route::get("/", "{$controller}@index");
