@@ -13,7 +13,9 @@ class FaithHouseMembershipController extends Controller {
     // with faith_houses
     // $query = FaithHouseMembership::with('faithHouses');
 
-    $query = queryServerSide($request, FaithHouseMembership::with('faithHouses'));
+    // faith_houses with contacts
+
+    $query = queryServerSide($request, FaithHouseMembership::with('faithHouses.contacts'));
 
     $filter = $request->get("filter");
     if ($filter) {
