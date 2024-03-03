@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DataSetResource;
 use App\Models\FaithHouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FaithHouseController extends Controller {
   const PATH_S3 = "faith_house/";
@@ -15,9 +16,10 @@ class FaithHouseController extends Controller {
     $active_faith_house = $request->get('active_faith_house');
     $with_contacts = $request->get('with_contacts');
 
-    if ($with_contacts == 1) {
-      $query->with('contacts');
-    }
+    $query->with('contacts');
+    // if ($with_contacts == 1) {
+    // $query->with('contacts');
+    // }
 
     $filter = $request->get("filter");
     if ($active_faith_house == 'true') {
@@ -26,12 +28,21 @@ class FaithHouseController extends Controller {
       // $query->where("end_date", $active_faith_house);
     }
     if ($filter) {
-      $query->where(function ($query) use ($filter) {
-        $query->where("exhibitor", "like", "%" . $filter . "%")
-          ->orWhere("name", "like", "%" . $filter . "%")
-          ->orWhere("host", "like", "%" . $filter . "%");
-      });
+      // $query->where(function ($query) use ($filter) {
+      //   $query->where("exhibitor", "like", "%" . $filter . "%")
+      //     ->orWhere("name", "like", "%" . $filter . "%")
+      //     ->orWhere("host", "like", "%" . $filter . "%");
+      // });
+      $query->where("name", "like", "%" . $filter . "%");
 
+      // filter by contacts
+      if ($with_contacts == 1) {
+        $query->orWhereHas('contacts', function ($query) use ($filter) {
+          // concat name and paternal_surname
+          $query->where(DB::raw("CONCAT(name,' ',paternal_surname)"), "like", "%" . $filter . "%");
+          // $query->where("name", "like", "%" . $filter . "%");
+        });
+      }
     }
 
     $faith_houses = $query->paginate($request->get('itemsPerPage'));

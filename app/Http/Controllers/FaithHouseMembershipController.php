@@ -82,11 +82,22 @@ class FaithHouseMembershipController extends Controller {
       'lat' => $lat,
       'lng' => $lng,
       'ip_address' => $ip_address,
+
     ]);
 
-    // insert $faithHouses into faith_house_membership_house  table
+    $faithHousesData = $faithHouses->pluck('distance', 'id')->map(function ($distance) {
+      return ['distance' => $distance];
+    })->toArray();
 
-    // $membership->faithHouses()->attach($faithHouses->pluck('id'));
+    // Log::info($faithHousesData);
+
+    // $faithHousesData = $faithHouses->mapWithKeys(function ($faithHouse) {
+    //   return [$faithHouse->id => ['distance' => $faithHouse->distance]];
+    // })->toArray();
+
+    // Log::info($faithHousesData);
+
+    $membership->faithHouses()->sync($faithHousesData);
 
     return ['success' => __('messa.faith_house_membership_create'), 'match' => $faithHouses];
   }

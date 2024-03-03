@@ -12,7 +12,8 @@ return new class extends Migration {
    */
   public function up() {
     Schema::table('faith_house_membership_house', function (Blueprint $table) {
-      $table->float('distance')->nullable()->after('faith_house_id');
+// set distance as decimal
+      $table->decimal('distance', 10, 5)->nullable()->after('faith_house_id');
     });
   }
 

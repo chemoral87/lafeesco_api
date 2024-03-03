@@ -24,6 +24,7 @@ class FaithHouseMembership extends Model {
   ];
 
   public function faithHouses() {
-    return $this->belongsToMany(FaithHouse::class, 'faith_house_membership_house', 'faith_house_membership_id', 'faith_house_id');
+    return $this->belongsToMany(FaithHouse::class, 'faith_house_membership_house', 'faith_house_membership_id', 'faith_house_id')
+      ->withPivot('distance');
   }
 }
