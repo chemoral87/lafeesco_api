@@ -38,7 +38,7 @@ class PermissionController extends Controller {
   public function create(Request $request) {
     $this->validate($request, [
       'name' => 'required|unique:permissions,name',
-      // 'permissions' => 'required',
+      
     ]);
 
     $role = Permission::create(['name' => $request->input('name')]);
@@ -52,7 +52,7 @@ class PermissionController extends Controller {
   public function update(Request $request, $id) {
     $this->validate($request, [
       'name' => 'required',
-      // 'permissions' => 'required',
+      
     ]);
 
     $role = Permission::find($id);

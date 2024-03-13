@@ -48,7 +48,7 @@ class AuthController extends Controller {
   }
 
   public function me() {
-    // return new UserResource(auth()->user());
+
     return response()->json(
       new UserResource(auth()->user())
     );

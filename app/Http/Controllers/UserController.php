@@ -34,7 +34,8 @@ class UserController extends Controller {
   }
 
   public function show(Request $request, $id) {
-    $userResource = new UserShowResource(User::find($id));
+    $user = User::find($id);
+    $userResource = new UserShowResource($user);
     return response()->json($userResource);
   }
 

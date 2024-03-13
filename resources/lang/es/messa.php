@@ -13,6 +13,10 @@ return [
   'user_change' => 'Contraseña actualizada. Favor de volver a iniciar Sesión.',
   'user_registration' => 'Registro Completado',
 
+  'profile_create' => 'Perfil creado',
+  'profile_update' => 'Perfil guardado',
+  'profile_delete' => 'Perfil eliminado',
+
   'permission_create' => 'Permiso creado',
   'permission_update' => 'Permiso guardado',
   'permission_delete' => 'Permiso eliminado',
@@ -51,6 +55,10 @@ return [
   'agro_event_create' => 'Agro Evento creado',
   'agro_event_update' => 'Agro Evento guardado',
   'agro_event_delete' => 'Agro Evento eliminado',
+
+  'organization_create' => 'Organización creada',
+  'organization_update' => 'Organización guardada',
+  'organization_delete' => 'Organización eliminada',
 
   'attendant_create' => 'Servidor creado',
   'attendant_update' => 'Servidor guardado',

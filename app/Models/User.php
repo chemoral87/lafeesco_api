@@ -42,4 +42,9 @@ class User extends Authenticatable implements JWTSubject, AuditableContract {
   public function getJWTCustomClaims() {
     return [];
   }
+
+// user has many profiles
+  public function profiles() {
+    return $this->hasMany(Profile::class);
+  }
 }
