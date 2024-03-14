@@ -16,12 +16,7 @@ class FaithHouse extends Model {
   ];
   protected $fillable = [
     "name",
-    // "host",
-    // "host_phone",
-    // "host_photo",
-    // "exhibitor",
-    // "exhibitor_phone",
-    // "exhibitor_photo",
+
     "address",
     "schedule",
     "end_date",
@@ -30,27 +25,6 @@ class FaithHouse extends Model {
     "lng",
     "order",
   ];
-
-  // protected $casts = [
-  //   'allow_matching' => 'integer',
-  // ];
-
-  // public function getHostPhotoAttribute($value) {
-  //   return awsUrlS3($value, false);
-  // }
-
-  // public function getExhibitorPhotoAttribute($value) {
-  //   return awsUrlS3($value, false);
-
-  // }
-
-  // public function getRealHostPhotoAttribute() {
-  //   return $this->attributes['host_photo'];
-  // }
-
-  // public function getRealExhibitorPhotoAttribute() {
-  //   return $this->attributes['exhibitor_photo'];
-  // }
 
   public function getNeighborhoodAttribute() {
 

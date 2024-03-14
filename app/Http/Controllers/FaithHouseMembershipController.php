@@ -88,16 +88,10 @@ class FaithHouseMembershipController extends Controller {
     ]);
 
     $faithHousesData = $faithHouses->pluck('distance', 'id')->map(function ($distance) {
-      return ['distance' => $distance];
+      // add create_at and update_at
+
+      return ['distance' => $distance, 'created_at' => now(), 'updated_at' => now()];
     })->toArray();
-
-    // Log::info($faithHousesData);
-
-    // $faithHousesData = $faithHouses->mapWithKeys(function ($faithHouse) {
-    //   return [$faithHouse->id => ['distance' => $faithHouse->distance]];
-    // })->toArray();
-
-    // Log::info($faithHousesData);
 
     $membership->faithHouses()->sync($faithHousesData);
 
