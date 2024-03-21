@@ -10,38 +10,17 @@ use Illuminate\Support\Facades\Auth;
 // use Tymon\JWTAuth\JWTAuth;
 
 class AuthController extends Controller {
-  /* public function register(UserRegisterRequest $request) {
-
-  $user = User::create([
-  'email' => $request->email,
-  'name' => $request->name,
-  'password' => bcrypt($request->password),
-  ]);
-
-  if (!$token = auth()->attempt($request->only(['email', 'password']))) {
-  return abort(401);
-  }
-
-  return (new UserResource($request->user()))->additional([
-  'meta' => [
-  'access_token' => $token,
-  'expires_in' => auth()->factory()->getTTL() * 60,
-  'token_type' => 'bearer',
-  ],
-  ]);
-  } */
 
   public function login() {
     // https://medium.com/mesan-digital/tutorial-5-how-to-build-a-laravel-5-4-jwt-authentication-api-with-e-mail-verification-61d3f356f823
     $credentials = request(['email', 'password']);
 
     if (!$token = auth()->attempt($credentials)) {
-      // if (!$token = JWTAuth::attempt($credentials)) {
-      // trans('auth.failed');
+
       return response()->json(['errors' => [
         'password' => trans('auth.failed'),
       ]], 401);
-      // return response()->json(['error' => 'Unauthorized'], 401);
+
     }
 
     return $this->respondWithToken($token);

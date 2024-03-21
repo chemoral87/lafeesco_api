@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DataSetResource;
 use App\Models\FaithHouse;
 use App\Models\FaithHouseMembership;
+use App\Models\OrganizationConfig;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class FaithHouseMembershipController extends Controller {
 
@@ -36,6 +38,18 @@ class FaithHouseMembershipController extends Controller {
 
     $lat = $request->get('lat');
     $lng = $request->get('lng');
+    $org_id = $request->get('org_id');
+
+    // get organiztion_config faith_house.radio
+    $faithHouseRadio = OrganizationConfig::where('org_id', $org_id)
+      ->whereHas('config', function ($query) {
+        $query->where('key', 'faith_house.match_radio');
+      })
+      ->first()->value;
+    if (!$faithHouseRadio) {
+      $faithHouseRadio = 2.5;
+    }
+    Log::info('faithHouseRadio: ' . $faithHouseRadio);
     // save ip address in a variable
     $ip_address = $request->ip();
 
@@ -48,9 +62,10 @@ class FaithHouseMembershipController extends Controller {
       sin( radians( lat ) ) )
       ) AS distance', [$lat, $lng, $lat]
     )
-      ->having('distance', '<', 3.5) // 4 kilometers
+      ->having('distance', '<', $faithHouseRadio) // 4 kilometers
       ->whereNull('end_date')
       ->where('allow_matching', 1)
+      ->where('org_id', $org_id)
     // where end_date is null or end_date is greater than today
     // ->where(function ($query) {
     //   $query->whereNull('end_date')

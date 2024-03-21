@@ -60,6 +60,8 @@ return [
   'organization_update' => 'Organización guardada',
   'organization_delete' => 'Organización eliminada',
 
+  'organization_config_create' => 'Configuración guardada',
+
   'attendant_create' => 'Servidor creado',
   'attendant_update' => 'Servidor guardado',
   'attendant_delete' => 'Servidor eliminado',

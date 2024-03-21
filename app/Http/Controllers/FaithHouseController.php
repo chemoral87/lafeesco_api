@@ -13,6 +13,10 @@ class FaithHouseController extends Controller {
   public function index(Request $request) {
     // DB::enableQueryLog();<
     $query = queryServerSide($request, FaithHouse::query());
+// filter by my orgs
+    $orgs = auth()->user()->profiles->pluck('org_id');
+    $query->whereIn('org_id', $orgs);
+
     $active_faith_house = $request->get('active_faith_house');
     $with_contacts = $request->get('with_contacts');
 
@@ -20,7 +24,6 @@ class FaithHouseController extends Controller {
     // if ($with_contacts == 1) {
     // $query->with('contacts');
     // }
-
     $filter = $request->get("filter");
     if ($active_faith_house == 'true') {
       // end_date is null
@@ -51,10 +54,17 @@ class FaithHouseController extends Controller {
   }
 
   public function show(Request $request, $id) {
-    $faith_house = FaithHouse::with('contacts')->find($id);
+
+// filter by my orgs
+    $orgs = auth()->user()->profiles->pluck('org_id');
+
+    $faith_house = FaithHouse::with('contacts')
+      ->whereIn('org_id', $orgs)
+      ->find($id);
 
     if ($faith_house == null) {
-      abort(405, 'Faith House not found');
+      abort(404, 'Faith House not found');
+
     }
 
     return response()->json($faith_house);
@@ -63,9 +73,9 @@ class FaithHouseController extends Controller {
   public function create(Request $request) {
     // $faith_house = FaithHouse::create($request->all());
 
-    $host_photo = $request->hasFile('host_photo') ? saveS3Blob($request->file('host_photo'), self::PATH_S3) : null;
+    // $host_photo = $request->hasFile('host_photo') ? saveS3Blob($request->file('host_photo'), self::PATH_S3) : null;
 
-    $exhibitor_photo = $request->hasFile('exhibitor_photo') ? saveS3Blob($request->file('exhibitor_photo'), self::PATH_S3) : null;
+    // $exhibitor_photo = $request->hasFile('exhibitor_photo') ? saveS3Blob($request->file('exhibitor_photo'), self::PATH_S3) : null;
 
     $faith_house = FaithHouse::create(
       [
@@ -83,6 +93,7 @@ class FaithHouseController extends Controller {
         'lng' => $request->get('lng'),
         'end_date' => $request->get('end_date'),
         'order' => $request->get('order'),
+        'org_id' => $request->get('org_id'),
       ]
     );
     return ['success' => __('messa.faith_house_create')];

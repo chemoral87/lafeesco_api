@@ -11,15 +11,13 @@ return new class extends Migration {
    * @return void
    */
   public function up() {
-    Schema::create('organization_configs', function (Blueprint $table) {
+    Schema::create('configs', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('org_id')->constrained("organizations")->onDelete('cascade');
-      $table->foreignId('config_id')->constrained("configs")->onDelete('cascade');
 
-      $table->string('value');
-      // description
-
-      $table->unique(['org_id', 'config_id']);
+      $table->string('key');
+      $table->string('type')->nullable();
+      $table->string('description')->nullable();
+      $table->unique('key');
       $table->timestamps();
     });
   }
@@ -30,6 +28,6 @@ return new class extends Migration {
    * @return void
    */
   public function down() {
-    Schema::dropIfExists('organization_configs');
+    Schema::dropIfExists('configs');
   }
 };

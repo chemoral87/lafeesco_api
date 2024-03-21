@@ -13,42 +13,6 @@ class UserShowResource extends JsonResource {
    */
   public function toArray($request) {
 
-//     $profilesRolesPermissions = [];
-
-//     foreach ($this->profiles as $profile) {
-//       foreach ($profile->roles as $role) {
-//         foreach ($role->permissions as $permission) {
-//           $profilesRolesPermissions[] = [
-//             'org_id' => $profile->org_id,
-//             'org_code' => $profile->organization->short_code,
-//             'role_name' => $role->name,
-//             'permission_name' => $permission->name,
-//           ];
-//         }
-//       }
-//       foreach ($profile->permissions as $permission) {
-//         $profilesRolesPermissions[] = [
-//           'org_id' => $profile->org_id,
-//           'org_code' => $profile->organization->short_code,
-//           'role_name' => null,
-//           'permission_name' => $permission->name,
-//         ];
-//       }
-//     }
-
-//     // get 'permission_name' : [org_id1, org_id2, ...]
-//     $permissions_orgs = [];
-//     foreach ($profilesRolesPermissions as $profileRolePermission) {
-//       if (!array_key_exists($profileRolePermission['permission_name'], $permissions_orgs)) {
-//         $permissions_orgs[$profileRolePermission['permission_name']] = [];
-//       }
-// //prevent agro-event-delete [4, 4, 5]
-//       if (!in_array($profileRolePermission['org_id'], $permissions_orgs[$profileRolePermission['permission_name']])) {
-//         $permissions_orgs[$profileRolePermission['permission_name']][] = $profileRolePermission['org_id'];
-//       }
-
-//     }
-
     $permissions_orgs = [];
     $profilesRolesPermissions = [];
 
@@ -100,7 +64,7 @@ class UserShowResource extends JsonResource {
       'email' => $this->email,
       // 'created_at' => $this->created_at,
       'roles' => $this->roles,
-      'direct_permissions' => $this->getDirectPermissions(),
+      // 'direct_permissions' => $this->getDirectPermissions(),
       // 'profiles_permission' => $profilesRolesPermissions,
       'permissions_org' => $permissions_orgs,
 

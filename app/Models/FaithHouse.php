@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\FaithHouseContact;
 use App\Models\FaithHouseMembership;
+use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,7 @@ class FaithHouse extends Model {
   protected $appends = [
     'neighborhood',
     'municipality',
+    'org_name',
   ];
   protected $fillable = [
     "name",
@@ -24,6 +26,7 @@ class FaithHouse extends Model {
     "lat",
     "lng",
     "order",
+    'org_id',
   ];
 
   public function getNeighborhoodAttribute() {
@@ -35,6 +38,10 @@ class FaithHouse extends Model {
       return "";
     }
 
+  }
+
+  public function getOrgNameAttribute() {
+    return $this->organization->short_code;
   }
 
   public function getMunicipalityAttribute() {
@@ -54,6 +61,11 @@ class FaithHouse extends Model {
     // order by order column in ascending order
     return $this->hasMany(FaithHouseContact::class)->orderBy('order');
     // return $this->hasMany(FaithHouseContact::class);
+  }
+
+  public function organization() {
+    return $this->belongsTo(Organization::class, 'org_id', 'id');
+
   }
 
 }

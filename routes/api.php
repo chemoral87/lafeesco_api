@@ -37,6 +37,15 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::delete("/{id}", "{$controller}@delete");
   });
 
+  Route::group(["prefix" => "organization-configs"], function () {
+    $controller = "OrganizationConfigController";
+    Route::get("/{org_id}", "{$controller}@index");
+
+    Route::post("/{org_id}", "{$controller}@create");
+    Route::put("/{org_id}", "{$controller}@update");
+    // Route::delete("/{id}", "{$controller}@delete");
+  });
+
   Route::group(["prefix" => "profiles"], function () {
     $controller = "ProfileController";
     Route::get("/{user_id}", "{$controller}@index");
@@ -47,6 +56,11 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::delete("/{user_id}/{id}", "{$controller}@delete");
   });
 
+  Route::group(["prefix" => "configs"], function () {
+    $controller = "ConfigController";
+    Route::get("/", "{$controller}@index");
+  });
+
   Route::group(["prefix" => "users"], function () {
     $controller = "UserController";
     Route::get("/", "{$controller}@index");
@@ -55,7 +69,7 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::post("/", "{$controller}@create");
     // Route::post("/register", "{$controller}@register");
     Route::put("/{id}", "{$controller}@update");
-    Route::put("/{id}/children", "{$controller}@children"); // TODO: remove 
+    Route::put("/{id}/children", "{$controller}@children"); // TODO: remove
     Route::delete("/{id}", "{$controller}@delete");
     Route::post("/change", "{$controller}@changePassword");
   });

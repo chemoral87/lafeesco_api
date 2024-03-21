@@ -16,6 +16,12 @@ class UserResource extends JsonResource {
       // Get organization short code
       $orgCode = $profile->organization->short_code;
 
+      $orgs[] = [
+        'id' => $profile->org_id,
+        'name' => $profile->organization->name,
+        'short_code' => $orgCode,
+      ];
+
       // Loop through roles associated with the profile
       foreach ($profile->roles as $role) {
         // Loop through permissions associated with the role
@@ -59,9 +65,10 @@ class UserResource extends JsonResource {
       'email' => $this->email,
       'email_verified' => isset($this->email_verified_at) ? 1 : 0,
       // 'created_at' => $this->created_at,
-      'permissions' => $this->getAllPermissions()->pluck('name'),
+      // 'permissions' => $this->getAllPermissions()->pluck('name'),
       'permissions_org' => $permissions_orgs,
+      'orgs' => $orgs,
     ];
-    // return parent::toArray($request);
+
   }
 }
