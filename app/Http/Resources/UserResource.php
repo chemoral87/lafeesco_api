@@ -57,6 +57,8 @@ class UserResource extends JsonResource {
       $orgIds = array_keys($orgIds);
     }
 
+    // if $orgs set []
+
     return [
       'id' => $this->id,
       'name' => $this->name,
@@ -67,7 +69,7 @@ class UserResource extends JsonResource {
       // 'created_at' => $this->created_at,
       // 'permissions' => $this->getAllPermissions()->pluck('name'),
       'permissions_org' => $permissions_orgs,
-      'orgs' => $orgs,
+      'orgs' => $orgs ?? [],
     ];
 
   }
