@@ -51,7 +51,9 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::get("/{user_id}", "{$controller}@index");
     // Route::get("/filter", "{$controller}@filter");
     Route::get("/{user_id}/{id}", "{$controller}@show");
+
     Route::post("/{user_id}", "{$controller}@create");
+    Route::post("/{user_id}/{id}/favorite", "{$controller}@favorite");
     Route::put("/{user_id}/{id}", "{$controller}@update");
     Route::delete("/{user_id}/{id}", "{$controller}@delete");
   });

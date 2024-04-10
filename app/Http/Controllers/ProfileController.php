@@ -87,4 +87,24 @@ class ProfileController extends Controller {
     return ['success' => __('messa.profile_delete')];
   }
 
+  public function favorite(Request $request, $user_id, $profile_id) {
+    $user = User::find($user_id);
+    if ($user == null) {
+      abort(405, 'User not found');
+    }
+
+//set all profiles as favorite false and then set the selected profile as favorite true
+    Profile::where('user_id', $user_id)->update(['favorite' => false]);
+    Profile::where('user_id', $user_id)->where('id', $profile_id)->update(['favorite' => true]);
+
+    // $profile = Profile::where('user_id', $user_id)->where('id', $profile_id)->first();
+    // if ($profile == null) {
+    //   abort(405, 'Profile not found');
+    // }
+    // $profile->favorite = !$profile->favorite;
+    // $profile->save();
+
+    return ['success' => __('messa.profile_favorite')];
+  }
+
 }

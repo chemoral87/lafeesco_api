@@ -11,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 class Profile extends Model {
   use HasFactory, HasRoles;
 
-  protected $fillable = ['user_id', 'org_id'];
+  protected $fillable = ['user_id', 'org_id', 'favorite'];
 // append organization name to profile
   protected $appends = ['organization_name', 'organization_short_code'];
 

@@ -16,6 +16,7 @@ return [
   'profile_create' => 'Perfil creado',
   'profile_update' => 'Perfil guardado',
   'profile_delete' => 'Perfil eliminado',
+  'profile_favorite' => 'Perfil favorito',
 
   'permission_create' => 'Permiso creado',
   'permission_update' => 'Permiso guardado',
