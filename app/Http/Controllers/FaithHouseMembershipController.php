@@ -7,7 +7,6 @@ use App\Models\FaithHouse;
 use App\Models\FaithHouseMembership;
 use App\Models\OrganizationConfig;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class FaithHouseMembershipController extends Controller {
 
@@ -41,15 +40,19 @@ class FaithHouseMembershipController extends Controller {
     $org_id = $request->get('org_id');
 
     // get organiztion_config faith_house.radio
-    $faithHouseRadio = OrganizationConfig::where('org_id', $org_id)
+    $OrganizationConfig = OrganizationConfig::where('org_id', $org_id)
       ->whereHas('config', function ($query) {
         $query->where('key', 'faith_house.match_radio');
       })
-      ->first()->value;
-    if (!$faithHouseRadio) {
+      ->first();
+
+    if (!$OrganizationConfig) {
       $faithHouseRadio = 2.5;
+    } else {
+      $faithHouseRadio = $OrganizationConfig->value;
     }
-    Log::info('faithHouseRadio: ' . $faithHouseRadio);
+
+    // Log::info('faithHouseRadio: ' . $faithHouseRadio);
     // save ip address in a variable
     $ip_address = $request->ip();
 
