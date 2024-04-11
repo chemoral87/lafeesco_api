@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DataSetResource;
 use App\Models\FaithHouse;
 use App\Models\FaithHouseMembership;
+use App\Models\Organization;
 use App\Models\OrganizationConfig;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,13 @@ class FaithHouseMembershipController extends Controller {
 
     $lat = $request->get('lat');
     $lng = $request->get('lng');
+
     $org_id = $request->get('org_id');
+
+    // if org_id is a number
+    if (!is_numeric($org_id)) {
+      $org_id = Organization::where("short_code", $org_id)->firstOrFail()->id;
+    }
 
     // get organiztion_config faith_house.radio
     $OrganizationConfig = OrganizationConfig::where('org_id', $org_id)
