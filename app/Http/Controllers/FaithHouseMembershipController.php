@@ -19,6 +19,9 @@ class FaithHouseMembershipController extends Controller {
     // faith_houses with contacts
 
     $query = queryServerSide($request, FaithHouseMembership::with('faithHouses.contacts'));
+    // filter by my orgs
+    $orgs = auth()->user()->profiles->pluck('org_id');
+    $query->whereIn('org_id', $orgs);
 
     $filter = $request->get("filter");
     if ($filter) {
