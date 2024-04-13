@@ -142,7 +142,7 @@ class ChurchServiceController extends Controller {
     $sundayTimes = ['09:00', '11:30', '18:00'];
     $wednesdayTime = '19:30';
     $churchServicesToCreate = [];
-    // Log::info($churchServices);
+    
 
     $startDate = Carbon::today();
 

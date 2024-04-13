@@ -7,6 +7,7 @@ use App\Models\FaithHouse;
 use App\Models\FaithHouseMembership;
 use App\Models\Organization;
 use App\Models\OrganizationConfig;
+use App\Notifications\FaithHouseMatchNotification;
 use Illuminate\Http\Request;
 
 class FaithHouseMembershipController extends Controller {
@@ -53,6 +54,12 @@ class FaithHouseMembershipController extends Controller {
       })
       ->first();
 
+    $canSendNotification = OrganizationConfig::where('org_id', $org_id)
+      ->whereHas('config', function ($query) {
+        $query->where('key', 'faith_house.match_whatsapp_notification');
+      })
+      ->first();
+
     if (!$OrganizationConfig) {
       $faithHouseRadio = 2.5;
     } else {
@@ -95,6 +102,8 @@ class FaithHouseMembershipController extends Controller {
       $faithHouse->contacts->makeHidden('phone');
     });
 
+    $canSendNotification = $canSendNotification ? $canSendNotification->value : 0;
+
     $membership = FaithHouseMembership::create([
       'name' => $request->get('name'),
       'age' => $request->get('age'),
@@ -111,6 +120,19 @@ class FaithHouseMembershipController extends Controller {
       'ip_address' => $ip_address,
 
     ]);
+
+    if ($canSendNotification == 1) {
+      // Log::info('Se envió notificación');
+      // send whatsapp notification
+      $faithHouses->each(function ($faithHouse) use ($membership) {
+        $contacts = $faithHouse->contacts;
+        $contacts->each(function ($contact) use ($membership) {
+          $contact->notify(new FaithHouseMatchNotification($membership));
+        });
+      });
+    } else {
+      // Log::info('No se envió notificación');
+    }
 
     $faithHousesData = $faithHouses->pluck('distance', 'id')->map(function ($distance) {
       // add create_at and update_at

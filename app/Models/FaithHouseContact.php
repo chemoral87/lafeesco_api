@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class FaithHouseContact extends Model {
-  use HasFactory;
+  use HasFactory, Notifiable;
 
   protected $fillable = [
     'faith_house_id',
@@ -26,5 +27,13 @@ class FaithHouseContact extends Model {
 
   public function getRealPhotoAttribute() {
     return $this->attributes['photo'];
+  }
+
+  public function routeNotificationForTwilio() {
+
+// remve hypens from phone number
+    $phone = str_replace('-', '', $this->phone);
+    // Log::info('phone: ' . $phone);
+    return $phone;
   }
 }
