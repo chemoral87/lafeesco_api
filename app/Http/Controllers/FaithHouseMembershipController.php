@@ -121,6 +121,7 @@ class FaithHouseMembershipController extends Controller {
       'lat' => $lat,
       'lng' => $lng,
       'ip_address' => $ip_address,
+      'org_id' => $org_id,
 
     ]);
 
