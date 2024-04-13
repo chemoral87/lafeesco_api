@@ -96,7 +96,7 @@ class FaithHouseController extends Controller {
         'org_id' => $request->get('org_id'),
       ]
     );
-    return ['success' => __('messa.faith_house_create')];
+    return ['success' => __('messa.faith_house_create'), 'id' => $faith_house->id];
   }
 
   public function update(Request $request, $id) {

@@ -21,13 +21,13 @@ class TextingController extends Controller {
       $number = $contact['phone_number'];
       $name = $contact['name'];
       $text = str_replace('{{name}}', $name, $template);
-      // $message = $twilio->messages
-      //   ->create('+52' . $number, // to
-      //     array(
-      //       "from" => env('TWILIO_PHONE_NUMBER'),
-      //       "body" => $text,
-      //     )
-      //   );
+      $message = $twilio->messages
+        ->create('+52' . $number, // to
+          array(
+            "from" => env('TWILIO_PHONE_NUMBER'),
+            "body" => $text,
+          )
+        );
 
       // $message = $twilio->messages
       //   ->create('whatsapp:+521' . $number, // to
