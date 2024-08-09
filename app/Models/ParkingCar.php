@@ -19,6 +19,19 @@ class ParkingCar extends Model {
 
   ];
 
+  // ALWAys save plate_number in uppercase
+  public function setPlateNumberAttribute($value) {
+    $this->attributes['plate_number'] = strtoupper($value);
+  }
+
+  public function setBrandAttribute($value) {
+    $this->attributes['brand'] = ucwords($value);
+  }
+
+  public function setModelAttribute($value) {
+    $this->attributes['model'] = ucwords($value);
+  }
+
   public function contacts() {
     return $this->hasMany(ParkingCarContact::class);
   }
