@@ -75,4 +75,8 @@ return [
 
   'sky_registration_create' => 'Registro Creado',
 
+  'parking_car_create' => 'Auto creado',
+  'parking_car_update' => 'Auto guardado',
+  'parking_car_delete' => 'Auto eliminado',
+
 ];
