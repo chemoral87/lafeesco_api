@@ -22,10 +22,13 @@ class ParkingCarController extends Controller {
   public function filter(Request $request) {
     $filter = $request->get("filter");
 
+    $org_ids = auth()->user()->getOrgsByPermission("parking-car-index");
+
     $query = ParkingCar::query();
 // search last plates
 // top 10  parking_cars
     $parking_cars = $query->where("plate_number", "like", "%" . $filter)
+      ->whereIn("org_id", $org_ids)
       ->orderBy("id", "desc")
       ->take(10)
       ->get();
@@ -34,9 +37,15 @@ class ParkingCarController extends Controller {
   }
 
   public function show($id) {
-    $parking_car = ParkingCar::where("id", $id)->first();
+    $org_ids = auth()->user()->getOrgsByPermission("parking-car-index");
+
+    $parking_car = ParkingCar::where("id", $id)
+      ->whereIn('org_id', $org_ids)
+      ->first();
+
     if ($parking_car == null) {
-      abort(405, 'ParkingCar not found');
+      // return response()->json(['message' => 'Auto no encontrado'], 404);
+      abort(404, __('messa.parking_car_not_found'));
     }
 // include contacts
     $parking_car->contacts;
@@ -45,6 +54,12 @@ class ParkingCarController extends Controller {
   }
 
   public function create(Request $request) {
+
+    $org_ids = auth()->user()->getOrgsByPermission("parking-car-insert");
+
+    if (!in_array($request->get('org_id'), $org_ids)) {
+      return response()->json(['message' => 'Permiso denegado'], 422);
+    }
 
     $parking_car = ParkingCar::create([
       'org_id' => $request->get('org_id'),
@@ -68,8 +83,14 @@ class ParkingCarController extends Controller {
   }
 
   public function update(Request $request, $id) {
+    $org_ids = auth()->user()->getOrgsByPermission("parking-car-update");
+
     $parking_car = ParkingCar::find($id);
-    $parking_car->org_id = $request->get('org_id');
+    if (!in_array($parking_car->org_id, $org_ids)) {
+      return response()->json(['message' => 'Permiso denegado'], 422);
+    }
+
+    // $parking_car->org_id = $request->get('org_id');
     $parking_car->plate_number = $request->get('plate_number');
     $parking_car->brand = $request->get('brand');
     $parking_car->model = $request->get('model');
@@ -114,6 +135,15 @@ class ParkingCarController extends Controller {
 
   public function delete($id) {
     $parking_car = ParkingCar::find($id);
+    $org_ids = auth()->user()->getOrgsByPermission("parking-car-delete");
+
+    if (!in_array($parking_car->org_id, $org_ids)) {
+      return response()->json(['message' => 'Permiso denegado'], 422);
+    }
+
+    // delete all contacts
+    $parking_car->contacts()->delete();
+
     $parking_car->delete();
     return ['success' => __('messa.parking_car_delete')];
   }

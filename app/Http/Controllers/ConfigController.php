@@ -11,7 +11,7 @@ class ConfigController extends Controller {
     // ['value_one', 'value_two']
     $settings = $request->get('settings');
 
-    // get org_id from user
+    // get org_ids from user
     $org_ids = auth()->user()->profiles->pluck('org_id');
     $organization_config = OrganizationConfig::with("config")->whereIn('org_id', $org_ids)
 // for each setting in settings, whereOr like name ->whereOr('name', 'like', '%' . $setting . '%'

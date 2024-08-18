@@ -47,4 +47,33 @@ class User extends Authenticatable implements JWTSubject, AuditableContract {
   public function profiles() {
     return $this->hasMany(Profile::class);
   }
+
+  public function getOrgsByPermission($permission) {
+    $permissions_orgs = [];
+
+    // Loop through each profile
+    foreach ($this->profiles as $profile) {
+      $orgCode = $profile->organization->short_code;
+
+      // Loop through roles associated with the profile
+      foreach ($profile->roles as $role) {
+        // Loop through permissions associated with the role
+        foreach ($role->permissions as $rolePermission) {
+          if ($rolePermission->name === $permission) {
+            $permissions_orgs[$profile->org_id] = $orgCode;
+          }
+        }
+      }
+
+      // Loop through direct permissions of the profile
+      foreach ($profile->permissions as $profilePermission) {
+        if ($profilePermission->name === $permission) {
+          $permissions_orgs[$profile->org_id] = $orgCode;
+        }
+      }
+    }
+
+    // Return the organization IDs where the permission is found
+    return array_keys($permissions_orgs);
+  }
 }

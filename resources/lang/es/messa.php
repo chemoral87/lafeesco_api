@@ -78,5 +78,6 @@ return [
   'parking_car_create' => 'Auto creado',
   'parking_car_update' => 'Auto guardado',
   'parking_car_delete' => 'Auto eliminado',
+  'parking_car_not_found' => 'Auto no encontrado',
 
 ];

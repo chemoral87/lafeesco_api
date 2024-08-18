@@ -14,8 +14,10 @@ class FaithHouseController extends Controller {
     // DB::enableQueryLog();<
     $query = queryServerSide($request, FaithHouse::query());
 // filter by my orgs
-    $orgs = auth()->user()->profiles->pluck('org_id');
-    $query->whereIn('org_id', $orgs);
+    // $orgs = auth()->user()->profiles->pluck('org_id');
+    $org_ids = auth()->user()->getOrgsByPermission("parking-car-index");
+
+    $query->whereIn('org_id', $org_ids);
 
     $active_faith_house = $request->get('active_faith_house');
     $with_contacts = $request->get('with_contacts');
@@ -31,13 +33,7 @@ class FaithHouseController extends Controller {
       // $query->where("end_date", $active_faith_house);
     }
     if ($filter) {
-      // $query->where(function ($query) use ($filter) {
-      //   $query->where("exhibitor", "like", "%" . $filter . "%")
-      //     ->orWhere("name", "like", "%" . $filter . "%")
-      //     ->orWhere("host", "like", "%" . $filter . "%");
-      // });
       $query->where("name", "like", "%" . $filter . "%");
-
       // filter by contacts
       if ($with_contacts == 1) {
         $query->orWhereHas('contacts', function ($query) use ($filter) {

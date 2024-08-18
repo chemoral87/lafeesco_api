@@ -6,9 +6,11 @@ use App\Models\ParkingCarAudit;
 use App\Models\ParkingCarContact;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Auditable;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class ParkingCar extends Model {
-  use HasFactory;
+class ParkingCar extends Model implements AuditableContract {
+  use HasFactory, Auditable;
 
   protected $fillable = [
     'org_id',
@@ -32,11 +34,15 @@ class ParkingCar extends Model {
     $this->attributes['model'] = ucwords($value);
   }
 
+  public function setColorAttribute($value) {
+    $this->attributes['color'] = ucwords($value);
+  }
+
   public function contacts() {
     return $this->hasMany(ParkingCarContact::class);
   }
 
-  public function audits() {
+  public function auditions() {
     return $this->hasMany(ParkingCarAudit::class);
   }
 }

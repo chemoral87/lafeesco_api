@@ -13,7 +13,7 @@ class ParkingCarContactController extends Controller {
     $contacts = $parking_car->contacts();
 
     // write parking car audit
-    $parking_car->audits()->create([
+    $parking_car->auditions()->create([
       'user_id' => $request->user()->id,
       'action' => 'view_contacts',
     ]);

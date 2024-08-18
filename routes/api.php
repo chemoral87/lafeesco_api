@@ -103,7 +103,7 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::get("/{id}", "{$controller}@show");
     Route::post("/", "{$controller}@create");
     Route::put("/{id}", "{$controller}@update");
-    // Route::delete("/{id}", "{$controller}@delete");
+    Route::delete("/{id}", "{$controller}@delete");
   });
 
   Route::group(["prefix" => "parking-car-contact"], function () {
@@ -112,7 +112,7 @@ Route::group(["middleware" => ['jwt.verify']], function () {
     Route::get("/{parking_car_id}", "{$controller}@index");
     // Route::post("/{faith_house_id}", "{$controller}@create");
     // Route::put("/{faith_house_id}/{id}", "{$controller}@update");
-    // Route::delete("/{faith_house_id}/{id}", "{$controller}@delete");
+    // Route::delete("/{parking_car_id}/{id}", "{$controller}@delete");
   });
 
   Route::group(["prefix" => "consolidation"], function () {
