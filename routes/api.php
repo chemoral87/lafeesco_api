@@ -234,11 +234,11 @@ Route::group(["middleware" => ['jwt.verify']], function () {
 
   });
 
-  Route::group(["prefix" => "sky-registration"], function () {
-    $controller = "SkyRegistrationController";
-    Route::get("/{id}", "{$controller}@show");
+  // Route::group(["prefix" => "sky-registration"], function () {
+  //   $controller = "SkyRegistrationController";
+  //   Route::get("/{id}", "{$controller}@show");
 
-  });
+  // });
 
   Route::group(["prefix" => "texting"], function () {
     $controller = "TextingController";
@@ -273,6 +273,11 @@ Route::group(["prefix" => "ministry"], function () {
 
 Route::group(["prefix" => "bible"], function () {
   $controller = "BibleController";
+  Route::get("/", "{$controller}@index");
+});
+
+Route::group(["prefix" => "bible-book"], function () {
+  $controller = "BibleBookController";
   Route::get("/", "{$controller}@index");
 });
 

@@ -18,4 +18,5 @@ class BibleController extends Controller {
     return $this->bibleService->getVersicles($request->prompt);
 
   }
+
 }

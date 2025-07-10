@@ -5,13 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BibleBook extends Model {
+class IntakeMeasures extends Model {
   use HasFactory;
 
-  protected $fillable = [
-    'name',
-    'abbreviation',
-    'testament',
-    'order',
-  ];
+  protected $fillable = ['name', 'abbreviation', 'description'];
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 
 class TemplateGeneratorController extends Controller {
   public function getTables(Request $request) {
+
     $table_filter = $request->get("table_filter");
     $schema_filter = $request->get("schema_filter");
     $tables = DB::table('information_schema.tables')
