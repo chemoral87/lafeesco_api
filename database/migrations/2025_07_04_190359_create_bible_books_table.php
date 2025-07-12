@@ -16,7 +16,7 @@ return new class extends Migration {
 
       $table->string('ver', 5);
       $table->string('name', 50);
-      $table->string('abreviation', 10);
+      $table->string('abbreviation', 10);
       $table->char('testament', 1); // A = Antiguo, N = Nuevo
       $table->string('genre', 45);
       $table->unsignedInteger('order'); // nuevo campo para el orden del libro
