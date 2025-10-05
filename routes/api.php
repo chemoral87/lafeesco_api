@@ -246,6 +246,26 @@ Route::group(["middleware" => ['jwt.verify']], function () {
 
   });
 
+  Route::group(["prefix" => "exercises"], function () {
+    $controller = "ExerciseController";
+    Route::get("/", "{$controller}@index");
+    Route::get("/filter", "{$controller}@filter");
+    // Route::get("/muscle/filter", "{$controller}@getByMuscle");
+    Route::get("/{id}", "{$controller}@show");
+    Route::post("/", "{$controller}@store");
+    Route::put("/{id}", "{$controller}@update");
+    Route::delete("/{id}", "{$controller}@destroy");
+  });
+
+  Route::group(["prefix" => "workouts"], function () {
+    $controller = "WorkoutController";
+    Route::get("/", "{$controller}@index");
+    Route::get("/{id}", "{$controller}@show");
+    Route::post("/", "{$controller}@store");
+    Route::put("/{id}", "{$controller}@update");
+    Route::delete("/{id}", "{$controller}@destroy");
+  });
+
 }); // ["middleware" => ['jwt.verify']
 
 // public
