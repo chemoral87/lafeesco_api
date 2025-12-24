@@ -20,15 +20,25 @@ class WorkoutController extends Controller {
     $query->with(['exercise', 'creator']);
 
     $filter = $request->get("filter");
+    $workout_date = $request->get("workout_date");
+
     if ($filter) {
       $query->whereHas('exercise', function ($q) use ($filter) {
         $q->where('name', 'like', '%' . $filter . '%');
       });
     }
 
-    $workouts = $query->orderBy('created_at', 'desc')->paginate($request->get('itemsPerPage'));
+    if ($workout_date) {
+      $query->whereDate('workout_date', $workout_date);
+    }
 
-    return new DataSetResource($workouts);
+    if (!$request->has('itemsPerPage')) {
+      $workouts = $query->orderBy('created_at', 'desc')->paginate($request->get('itemsPerPage'));
+      return new DataSetResource($workouts);
+    }
+
+    return $workouts = $query->orderBy('workout_date', 'asc')->get();
+
   }
 
   /**
